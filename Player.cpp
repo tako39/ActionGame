@@ -7,6 +7,7 @@ Player::Player(const Map& cMap) : map(cMap)
 	pos = firstPos[Game::nowStage];
 	direct = DIR_RIGHT; //始めは右向き
 	jump_Flag = false;
+	ver_Speed = 0.0f;
 }
 
 Player::~Player() {
@@ -15,7 +16,6 @@ Player::~Player() {
 
 void Player::Update() {
 	move = VGet(0.0f, 0.0f, 0.0f);  //移動量の初期化
-	ver_Speed = 0.0f;
 
 	if (GetKey(KEY_INPUT_RIGHT) > 0) {
 		move.x += Speed;
@@ -87,8 +87,8 @@ void Player::Move(float moveY, float moveX) {
 	//接地判定
 	{
 		//左下と右下に地面があるかどうか
-		if (map.GetMapChip(pos.y + CHIP_SIZE + EPS * 2, pos.x ) == GROUND ||
-			map.GetMapChip(pos.y + CHIP_SIZE + EPS * 2, pos.x + CHIP_SIZE) == GROUND) {
+		if (map.GetMapChip(pos.y + CHIP_SIZE + EPS * 2, pos.x + EPS) == GROUND ||
+			map.GetMapChip(pos.y + CHIP_SIZE + EPS * 2, pos.x + CHIP_SIZE - EPS) == GROUND) {
 			jump_Flag = false;
 		}
 		else {

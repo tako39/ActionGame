@@ -19,9 +19,9 @@ const int GROUND = 1;  //地面
 const int DIR_RIGHT =  1;  //右向き
 const int DIR_LEFT  = -1;  //左向き
 
-const float Gravity = 4.0f;    //重力
+const float Gravity = 0.3f;    //重力
 const float Speed = 5.0f;      //移動速度
-const float JumpPower = CHIP_SIZE * 3.0f;  //ジャンプ力
+const float JumpPower = 9.0f;  //ジャンプ力
 
 const float EPS = 1.0f;
 
