@@ -1,9 +1,8 @@
 #include "Player.h"
 
-Player::Player(const Map& cMap) : map(cMap) 
-{
-	player_Graphic_R = LoadGraph("image/player_r.png");
-	player_Graphic_L = LoadGraph("image/player_l.png");
+Player::Player(const Map& cMap) : map(cMap) {
+	graphic_R = LoadGraph("image/player_r.png");
+	graphic_L = LoadGraph("image/player_l.png");
 	pos = firstPos[Game::nowStage];
 	direct = DIR_RIGHT; //Žn‚ß‚Í‰EŒü‚«
 	jump_Flag = false;
@@ -39,10 +38,10 @@ void Player::Update() {
 
 void Player::Draw() {
 	if (direct == DIR_RIGHT) {
-		DrawGraph((int)pos.x, (int)pos.y, player_Graphic_R, FALSE);
+		DrawGraph((int)pos.x, (int)pos.y, graphic_R, FALSE);
 	}
 	else {
-		DrawGraph((int)pos.x, (int)pos.y, player_Graphic_L, FALSE);
+		DrawGraph((int)pos.x, (int)pos.y, graphic_L, FALSE);
 	}
 }
 

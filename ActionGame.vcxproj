@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ISceneChanger.cpp" />
@@ -171,15 +172,18 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ISceneChanger.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Print.h" />
     <ClInclude Include="SceneMgr.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Task.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

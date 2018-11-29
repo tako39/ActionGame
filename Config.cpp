@@ -1,6 +1,7 @@
 #include "Config.h"
 
 Config::Config(ISceneChanger* changer) : BaseScene(changer) {
+
 }
 
 //‰Šú‰»
