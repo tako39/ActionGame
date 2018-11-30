@@ -1,4 +1,6 @@
 #include "Frame.h"
+#include <math.h>
+#include "DxLib.h"
 
 Frame::Frame() {
 	startTime = 0;

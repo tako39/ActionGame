@@ -1,4 +1,8 @@
 #include "Map.h"
+#include "Define.h"
+#include "Game.h"
+#include "DxLib.h"
+#include "Stage.h"
 
 Map::Map() {
 	back_Graphic   = LoadGraph("image/back_Graphic.png");

@@ -2,10 +2,6 @@
 #define ___Class_Map
 
 #include "Task.h"
-#include "Define.h"
-#include "Game.h"
-#include "DxLib.h"
-#include "Stage.h"
 
 class Map : public Task {
 
@@ -22,7 +18,6 @@ public:
 
 	int GetMap(int y, int x) const;  //map[y][x]の値の取得
 	int GetMapChip(float y, float x) const;  //位置(x, y)に該当するマップチップの値の取得
-
 };
 
 #endif

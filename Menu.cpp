@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "DxLib.h"
 
 Menu::Menu(ISceneChanger* changer) : BaseScene(changer) {
 }

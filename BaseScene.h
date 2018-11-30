@@ -3,7 +3,6 @@
 
 #include "Task.h"
 #include "ISceneChanger.h"
-#include "DxLib.h"
 
 //シーンの基底クラス。
 class BaseScene : public Task {

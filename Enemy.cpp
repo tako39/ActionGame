@@ -1,6 +1,7 @@
 #include "Enemy.h"
+#include "Define.h"
 
-Enemy::Enemy(Map &cMap, VECTOR ePos) : map(cMap) {
+Enemy::Enemy(VECTOR ePos) {
 	pos = ePos;
 	graphic_R = LoadGraph("");
 	graphic_L = LoadGraph("");
@@ -18,9 +19,9 @@ void Enemy::Update() {
 
 void Enemy::Draw() {
 	if (direct == RIGHT) {
-		DrawGraph(pos.x, pos.y, graphic_R, FALSE);
+		DrawGraph((int)pos.x, (int)pos.y, graphic_R, FALSE);
 	}
 	else {
-		DrawGraph(pos.x, pos.y, graphic_L, FALSE);
+		DrawGraph((int)pos.x, (int)pos.y, graphic_L, FALSE);
 	}
 }

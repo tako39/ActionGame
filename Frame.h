@@ -1,9 +1,6 @@
 #ifndef ___Class_Frame
 #define ___Class_Frame
 
-#include <math.h>
-#include "DxLib.h"
-
 class Frame {
 private:
 	int startTime;  //‘ª’èŠJn

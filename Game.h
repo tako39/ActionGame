@@ -2,11 +2,6 @@
 #define ___Class_Game
 
 #include "BaseScene.h"
-#include "ISceneChanger.h"
-#include "Map.h"
-#include "Player.h"
-#include "Keyboard.h"
-#include "DxLib.h"
 
 class Map;
 class Player;

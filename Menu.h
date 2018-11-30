@@ -2,7 +2,6 @@
 #define ___Class_Menu
 
 #include "BaseScene.h"
-#include "DxLib.h"
 
 //メニュー画面クラス
 class Menu : public BaseScene {

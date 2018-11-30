@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "Map.h"
+#include "Player.h"
+#include "Keyboard.h"
 
 int Game::nowStage = 0; //現在のステージ
 
@@ -9,7 +12,7 @@ Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 //初期化
 void Game::Initialize() {
 	map = new Map();
-	player = new Player(*map);
+	player = new Player();
 }
 
 void Game::Finalize() {

@@ -1,4 +1,6 @@
 #include "Config.h"
+#include "DxLib.h"
+#include "Keyboard.h"
 
 Config::Config(ISceneChanger* changer) : BaseScene(changer) {
 

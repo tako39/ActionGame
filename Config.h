@@ -2,8 +2,6 @@
 #define ___Class_Config
 
 #include "BaseScene.h"
-#include "DxLib.h"
-#include "Keyboard.h"
 
 //İ’è‰æ–ÊƒNƒ‰ƒX
 class Config : public BaseScene {
