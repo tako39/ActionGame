@@ -16,21 +16,25 @@ Player::~Player() {
 void Player::Update() {
 	move = VGet(0.0f, 0.0f, 0.0f);  //移動量の初期化
 
+	//右への移動
 	if (GetKey(KEY_INPUT_RIGHT) > 0) {
-		move.x += Speed;
+		move.x += jump_Flag ? AirSpeed : Speed;
 		direct = DIR_RIGHT;
 	}
+
+	//左への移動
 	if (GetKey(KEY_INPUT_LEFT) > 0) {
-		move.x -= Speed;
+		move.x -= jump_Flag ? AirSpeed : Speed;
 		direct = DIR_LEFT;
 	}
 
-	if (!jump_Flag && GetKey(KEY_INPUT_SPACE) > 0) {
+	//ジャンプ
+	if (!jump_Flag && GetKey(KEY_INPUT_SPACE) == 1) {
 		ver_Speed = -JumpPower;
 		jump_Flag = true;
 	}
 
-	ver_Speed += Gravity;
+	ver_Speed += Gravity;  //重力を加える
 	move.y = ver_Speed;
 	
 	Move(move.y, move.x);  //移動

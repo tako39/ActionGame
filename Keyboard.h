@@ -3,6 +3,7 @@
 
 #include "Define.h"
 #include "DxLib.h"
+#include "climits"
 
 void UpdateKey(); //キーの入力情報の更新
 

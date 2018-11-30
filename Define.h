@@ -20,20 +20,23 @@ const int DIR_RIGHT =  1;  //右向き
 const int DIR_LEFT  = -1;  //左向き
 
 const float Gravity = 0.3f;    //重力
-const float Speed = 5.0f;      //移動速度
+const float Speed = 5.0f;      //横移動速度
+const float AirSpeed = 3.0f;   //空中での横移動速度
 const float JumpPower = 9.0f;  //ジャンプ力
 
 const float EPS = 1.0f;
 
 //方向
-const int NONE = -1; //なし
+const int NONE = -1;  //なし
 
-const int UP    = 0; //上
-const int DOWN  = 1; //下
-const int LEFT  = 2; //左
-const int RIGHT = 3; //右
+const int UP    = 0;  //上
+const int DOWN  = 1;  //下
+const int LEFT  = 2;  //左
+const int RIGHT = 3;  //右
 
 //キーボード
 const int KEY_NUM = 256; //入力
+
+//その他
 
 #endif
