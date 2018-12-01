@@ -75,9 +75,9 @@ void Object::Move(float moveY, float moveX) {
 
 //当たり判定
 int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
-	float Top_y, Bottom_y, Left_x, Right_x; //プレイヤーの当たり判定の位置
+	float Top_y, Bottom_y, Left_x, Right_x;  //プレイヤーの当たり判定の位置
 
-											//移動先
+	//移動先
 	float nextY = Y + moveY;
 	float nextX = X + moveX;
 
@@ -85,14 +85,14 @@ int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
 	if (GetMapChip(nextY, nextX) == GROUND) {
 
 		//壁について
-		Top_y = (float)((int)nextY / CHIP_SIZE)     * CHIP_SIZE;  // 上辺の Y 座標
+		Top_y = (float)((int)nextY / CHIP_SIZE)     * CHIP_SIZE;     // 上辺の Y 座標
 		Bottom_y = (float)((int)nextY / CHIP_SIZE + 1) * CHIP_SIZE;  // 下辺の Y 座標
-		Left_x = (float)((int)nextX / CHIP_SIZE)     * CHIP_SIZE;  // 左辺の X 座標
-		Right_x = (float)((int)nextX / CHIP_SIZE + 1) * CHIP_SIZE;  // 右辺の X 座標
+		Left_x = (float)((int)nextX / CHIP_SIZE)     * CHIP_SIZE;    // 左辺の X 座標
+		Right_x = (float)((int)nextX / CHIP_SIZE + 1) * CHIP_SIZE;   // 右辺の X 座標
 
-																	//当たっていたら壁から離す
+		//当たっていたら壁から離す
 
-																	//上辺に衝突
+		//上辺に衝突
 		if (moveY > 0.0f) {
 			moveY = Top_y - Y - EPS;
 			return UP;

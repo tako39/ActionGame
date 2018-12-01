@@ -10,8 +10,8 @@ class Player;
 class Game : public BaseScene {
 
 private:
+	Player * player;
 	Map *map;
-	Player *player;
 
 public:
 	Game::Game(ISceneChanger* changer);

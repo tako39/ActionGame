@@ -11,19 +11,19 @@ Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 
 //初期化
 void Game::Initialize() {
-	map = new Map();
 	player = new Player();
+	map = new Map();
 }
 
 void Game::Finalize() {
-	delete map;
 	delete player;
+	delete map;
 }
 
 //更新
 void Game::Update() {
-	map->Update();
 	player->Update();
+	map->Update(*player);
 	if (GetKey(KEY_INPUT_ESCAPE) != 0) { //Escキーが押されていたら
 		mSceneChanger->ChangeScene(eScene_Menu);//シーンをメニューに変更
 	}
@@ -31,8 +31,8 @@ void Game::Update() {
 
 //描画
 void Game::Draw() {
-	map->Draw();
 	player->Draw();
+	map->Draw();
 	//BaseScene::Draw();  //親クラスの描画メソッドを呼ぶ
 	//DrawString(0, 0, "ゲーム画面です。", GetColor(255, 255, 255));
 	//DrawString(0, 20, "Escキーを押すとメニュー画面に戻ります。", GetColor(255, 255, 255));

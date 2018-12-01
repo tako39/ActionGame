@@ -43,10 +43,30 @@ void Player::Update() {
 }
 
 void Player::Draw() {
+
+	int px = SCREEN_HALF_W;  //プレイヤーの位置
+	int py = SCREEN_HALF_H;  //プレイヤーの位置
+
+	if ((int)pos.x - SCREEN_HALF_W < 0) {
+		px = (int)pos.x;
+	}
+
+	if ((int)pos.x - SCREEN_HALF_W >= SCREEN_WIDTH) {
+		px = (int)pos.x - SCREEN_WIDTH;
+	}
+
+	if ((int)pos.y - SCREEN_HALF_H < 0) {
+		py = (int)pos.y;
+	}
+
+	if ((int)pos.y - SCREEN_HALF_H >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT) {
+		py = (int)pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+	}
+
 	if (direct == DIR_RIGHT) {
-		DrawGraph((int)pos.x, (int)pos.y, graphic_R, FALSE);
+		DrawGraph(px, py, graphic_R, FALSE);
 	}
 	else {
-		DrawGraph((int)pos.x, (int)pos.y, graphic_L, FALSE);
+		DrawGraph(px, py, graphic_L, FALSE);
 	}
 }
