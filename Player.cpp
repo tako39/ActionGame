@@ -44,8 +44,9 @@ void Player::Update() {
 
 void Player::Draw() {
 
-	int px = SCREEN_HALF_W;  //プレイヤーの位置
-	int py = SCREEN_HALF_H;  //プレイヤーの位置
+	//スクロール処理
+	int px = SCREEN_HALF_W;
+	int py = SCREEN_HALF_H;
 
 	if ((int)pos.x - SCREEN_HALF_W < 0) {
 		px = (int)pos.x;
@@ -59,14 +60,66 @@ void Player::Draw() {
 		py = (int)pos.y;
 	}
 
-	if ((int)pos.y - SCREEN_HALF_H >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT) {
+	if ((int)pos.y >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
 		py = (int)pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
+	//向きに応じて描画
 	if (direct == DIR_RIGHT) {
 		DrawGraph(px, py, graphic_R, FALSE);
 	}
 	else {
 		DrawGraph(px, py, graphic_L, FALSE);
+	}
+}
+
+//移動
+void Player::Move(float moveY, float moveX) {
+	float dummy = 0.0f;
+
+	//上下成分の移動
+	{
+		//左下
+		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, moveY, dummy) == UP) {
+			ver_Speed = 0.0f;
+		}
+		//右下
+		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == UP) {
+			ver_Speed = 0.0f;
+		}
+		//左上
+		if (MapCollision(pos.y + EPS, pos.x + EPS, moveY, dummy) == DOWN) {
+			ver_Speed *= -1.0f;
+		}
+		//右上
+		if (MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == DOWN) {
+			ver_Speed *= -1.0f;
+		}
+
+		pos.y += moveY;
+	}
+	//左右成分の移動
+	{
+		//左下
+		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, dummy, moveX);
+		//右下
+		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
+		//左上
+		MapCollision(pos.y + EPS, pos.x + EPS, dummy, moveX);
+		//右上
+		MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
+
+		pos.x += moveX;
+	}
+	//接地判定
+	{
+		//左下と右下に地面があるかどうか
+		if (GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS) == GROUND ||
+			GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS) == GROUND) {
+			jump_Flag = false;
+		}
+		else {
+			jump_Flag = true;
+		}
 	}
 }

@@ -23,7 +23,6 @@ public:
 	int GetMap(int y, int x) const;  //map[y][x]の値の取得
 	int GetMapChip(float y, float x) const;  //位置(x, y)に該当するマップチップの値の取得
 
-	void Move(float moveY, float moveX); //移動
 	int MapCollision(float Y, float X, float &moveY, float &moveX); //当たり判定
 };
 

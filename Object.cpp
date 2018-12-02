@@ -22,57 +22,6 @@ int Object::GetMapChip(float y, float x) const {
 	return GetMap(Y, X);
 }
 
-//移動
-void Object::Move(float moveY, float moveX) {
-	float dummy = 0.0f;
-
-	//上下成分の移動
-	{
-		//左下
-		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, moveY, dummy) == UP) {
-			ver_Speed = 0.0f;
-		}
-		//右下
-		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == UP) {
-			ver_Speed = 0.0f;
-		}
-		//左上
-		if (MapCollision(pos.y + EPS, pos.x + EPS, moveY, dummy) == DOWN) {
-			ver_Speed *= -1.0f;
-		}
-		//右上
-		if (MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == DOWN) {
-			ver_Speed *= -1.0f;
-		}
-
-		pos.y += moveY;
-	}
-	//左右成分の移動
-	{
-		//左下
-		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, dummy, moveX);
-		//右下
-		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
-		//左上
-		MapCollision(pos.y + EPS, pos.x + EPS, dummy, moveX);
-		//右上
-		MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
-
-		pos.x += moveX;
-	}
-	//接地判定
-	{
-		//左下と右下に地面があるかどうか
-		if (GetMapChip(pos.y + CHIP_SIZE + EPS * 2, pos.x + EPS) == GROUND ||
-			GetMapChip(pos.y + CHIP_SIZE + EPS * 2, pos.x + CHIP_SIZE - EPS) == GROUND) {
-			jump_Flag = false;
-		}
-		else {
-			jump_Flag = true;
-		}
-	}
-}
-
 //当たり判定
 int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
 	float Top_y, Bottom_y, Left_x, Right_x;  //プレイヤーの当たり判定の位置

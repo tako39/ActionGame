@@ -5,6 +5,7 @@
 
 class Map;
 class Player;
+class Enemy;
 
 //ƒQ[ƒ€‰æ–ÊƒNƒ‰ƒX
 class Game : public BaseScene {
@@ -12,6 +13,7 @@ class Game : public BaseScene {
 private:
 	Player * player;
 	Map *map;
+	Enemy * enemy;
 
 public:
 	Game::Game(ISceneChanger* changer);

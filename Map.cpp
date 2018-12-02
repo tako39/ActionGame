@@ -21,6 +21,7 @@ void Map::Update(const Player& player) {
 //描画
 void Map::Draw() {
 
+	//スクロール処理(上限と下限)
 	int scroll_x = (int)playerPos.x - SCREEN_HALF_W;
 	int scroll_y = (int)playerPos.y - SCREEN_HALF_H;
 
@@ -40,6 +41,7 @@ void Map::Draw() {
 		scroll_y = STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT;
 	}
 
+	//マップの描画
 	for (int y = 0; y < STAGE_HEIGHT[Game::nowStage]; y++) {
 		for (int x = 0; x < STAGE_WIDTH[Game::nowStage]; x++) {
 

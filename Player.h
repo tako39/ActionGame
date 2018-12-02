@@ -5,7 +5,7 @@
 #include "Define.h"
 #include "DxLib.h"
 
-class Player : public Object {
+class Player : virtual public Object {
 private:
 	//‰ŠúˆÊ’u
 	const VECTOR firstPos[1] =
@@ -19,6 +19,8 @@ public:
 
 	void Update();
 	void Draw();
+
+	void Move(float moveY, float moveX); //ˆÚ“®
 };
 
 #endif

@@ -27,7 +27,7 @@ const float Speed = 5.0f;      //横移動速度
 const float AirSpeed = 3.0f;   //空中での横移動速度
 const float JumpPower = 9.0f;  //ジャンプ力
 
-const float EPS = 0.1f;  //当たり判定はEPS分内側にある
+const float EPS = 1.0f;  //当たり判定はEPS分内側にある
 
 //方向
 const int NONE = -1;  //なし
