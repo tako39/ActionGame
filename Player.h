@@ -5,7 +5,7 @@
 #include "Define.h"
 #include "DxLib.h"
 
-class Player : virtual public Object {
+class Player : public Object {
 private:
 	//‰ŠúˆÊ’u
 	const VECTOR firstPos[1] =

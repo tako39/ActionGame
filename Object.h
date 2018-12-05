@@ -13,12 +13,19 @@ protected:
 	bool jump_Flag;   //trueならジャンプ中
 
 	VECTOR pos;   //位置
-	VECTOR move;  //移動
-
 	int direct;   //方向
+
+	VECTOR move;  //移動
 
 public:
 	VECTOR GetPos() const { return pos; }  //位置の取得
+
+	void SetPos(const VECTOR& sPos) {  //位置のセット
+		pos = sPos;
+	}
+	void SetDirect(const int& sDir) {  //向きのセット
+		direct = sDir;
+	}
 
 	int GetMap(int y, int x) const;  //map[y][x]の値の取得
 	int GetMapChip(float y, float x) const;  //位置(x, y)に該当するマップチップの値の取得

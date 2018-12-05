@@ -161,6 +161,7 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyMgr.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ISceneChanger.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyMgr.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ISceneChanger.h" />

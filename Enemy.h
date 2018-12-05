@@ -2,18 +2,18 @@
 #define ___Class_Enemy
 
 #include "Object.h"
+#include "Define.h"
 
 class Player;
 
-class Enemy : virtual public Object {
+class Enemy : public Object {
 private:
-	const int enemySpeed = 2.0f;
-	bool isGround;
+	bool isGround;  //Ú’n”»’è
 
 	VECTOR playerPos;
 
 public:
-	Enemy(VECTOR ePos, int dir);  //ˆÊ’u:ePos, Œü‚«:dir‚Åİ’u
+	Enemy();
 	~Enemy();
 
 	void Update() {};

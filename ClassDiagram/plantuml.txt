@@ -1,0 +1,41 @@
+@startuml
+abstract class Task
+
+class SceneMgr
+
+abstract class ISceneChanger
+abstract class BaseScene
+class Menu
+class Game
+class Config
+
+abstract class Object
+class Player
+class Enemy
+
+class Map
+
+Task<|--SceneMgr
+SceneMgr*--BaseScene
+
+BaseScene<|--Menu
+BaseScene<|--Game
+BaseScene<|--Config
+
+ISceneChanger<|..SceneMgr
+ISceneChanger<..Menu
+ISceneChanger<..Game
+ISceneChanger<..Config
+
+Task<|--Object
+Object<|--Player
+Object<|--Enemy
+Game<..Player
+
+Task<|--EnemyMgr
+EnemyMgr*--Enemy
+Game<..EnemyMgr
+
+Task<|--Map
+Game<..Map
+@enduml

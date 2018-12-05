@@ -5,7 +5,7 @@
 
 class Map;
 class Player;
-class Enemy;
+class EnemyMgr;
 
 //ƒQ[ƒ€‰æ–ÊƒNƒ‰ƒX
 class Game : public BaseScene {
@@ -13,7 +13,7 @@ class Game : public BaseScene {
 private:
 	Player * player;
 	Map *map;
-	Enemy * enemy;
+	EnemyMgr *enemyMgr;
 
 public:
 	Game::Game(ISceneChanger* changer);

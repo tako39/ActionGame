@@ -66,10 +66,10 @@ void Player::Draw() {
 
 	//Œü‚«‚É‰ž‚¶‚Ä•`‰æ
 	if (direct == DIR_RIGHT) {
-		DrawGraph(px, py, graphic_R, FALSE);
+		DrawGraph((int)px, (int)py, graphic_R, FALSE);
 	}
 	else {
-		DrawGraph(px, py, graphic_L, FALSE);
+		DrawGraph((int)px, (int)py, graphic_L, FALSE);
 	}
 }
 

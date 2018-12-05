@@ -29,6 +29,10 @@ const float JumpPower = 9.0f;  //ƒWƒƒƒ“ƒv—Í
 
 const float EPS = 1.0f;  //“–‚½‚è”»’è‚ÍEPS•ª“à‘¤‚É‚ ‚é
 
+//“G
+const float enemySpeed = 2.0f;  //“G‚Ì‰ŠúˆÚ“®‘¬“x
+const int ENEMY_NUM = 1;  //Å‘å‚Ì“G‚Ì”
+
 //•ûŒü
 const int NONE = -1;  //‚È‚µ
 

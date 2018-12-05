@@ -1,12 +1,9 @@
 #include "Enemy.h"
-#include "Define.h"
 #include "Game.h"
 #include "Player.h"
 #include "DxLib.h"
 
-Enemy::Enemy(VECTOR ePos, int dir) {
-	pos = ePos;
-	direct = dir;
+Enemy::Enemy() {
 	graphic_R = LoadGraph("image/enemy_r.png");
 	graphic_L = LoadGraph("image/enemy_l.png");
 	jump_Flag = false;
@@ -33,8 +30,8 @@ void Enemy::Update(const Player& cPlayer) {
 void Enemy::Draw() {
 
 	//ÉXÉNÉçÅ[Éãèàóù
-	int px = SCREEN_HALF_W + pos.x - playerPos.x;
-	int py = SCREEN_HALF_H + pos.y - playerPos.y;
+	int px = SCREEN_HALF_W + (int)pos.x - (int)playerPos.x;
+	int py = SCREEN_HALF_H + (int)pos.y - (int)playerPos.y;
 
 	if ((int)playerPos.x - SCREEN_HALF_W < 0) {
 		px = (int)pos.x;
