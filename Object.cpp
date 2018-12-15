@@ -63,7 +63,6 @@ int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
 			return RIGHT;
 		}
 
-		return DOWN;
 	}
 
 	return NONE; //“–‚½‚Á‚Ä‚¢‚È‚¢

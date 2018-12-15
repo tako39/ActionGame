@@ -22,10 +22,10 @@ const int GROUND = 1;  //地面
 const int DIR_RIGHT =  1;  //右向き
 const int DIR_LEFT  = -1;  //左向き
 
-const float Gravity = 0.3f;    //重力
+const float Gravity = 0.5f;    //重力
 const float Speed = 5.0f;      //横移動速度
 const float AirSpeed = 3.0f;   //空中での横移動速度
-const float JumpPower = 9.0f;  //ジャンプ力
+const float JumpPower = 12.0f;  //ジャンプ力
 
 const float EPS = 1.0f;  //当たり判定はEPS分内側にある
 
@@ -45,5 +45,6 @@ const int RIGHT = 3;  //右
 const int KEY_NUM = 256; //入力
 
 //その他
+const double PI = 3.14; //円周率
 
 #endif

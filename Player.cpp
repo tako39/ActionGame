@@ -1,14 +1,20 @@
 #include "Player.h"
 #include "Keyboard.h"
 #include "Game.h"
+#include <math.h>
 
 Player::Player() {
 	graphic_R = LoadGraph("image/player_r.png");
 	graphic_L = LoadGraph("image/player_l.png");
+	punchGraphic = LoadGraph("image/punch.png");
+
 	pos = firstPos[Game::nowStage];
 	direct = DIR_RIGHT; //Žn‚ß‚Í‰EŒü‚«
 	jump_Flag = false;
 	ver_Speed = 0.0f;
+
+	degree = 0.0f;
+	is_punch = false;
 }
 
 Player::~Player() {
@@ -40,6 +46,13 @@ void Player::Update() {
 	move.y = ver_Speed;
 	
 	Move(move.y, move.x);  //ˆÚ“®
+
+	//A‚ª‰Ÿ‚³‚ê‚½‚Æ‚«UŒ‚
+	if (GetKey(KEY_INPUT_A) == 1) {
+		is_punch = true;
+	}
+
+	if (is_punch) Attack();
 }
 
 void Player::Draw() {
@@ -71,6 +84,11 @@ void Player::Draw() {
 	else {
 		DrawGraph((int)px, (int)py, graphic_L, FALSE);
 	}
+
+	//ƒpƒ“ƒ`‚Ì•`‰æ
+	if (is_punch) {
+		DrawGraph(px + sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * direct, py, punchGraphic, FALSE);
+	}
 }
 
 //ˆÚ“®
@@ -78,7 +96,7 @@ void Player::Move(float moveY, float moveX) {
 	float dummy = 0.0f;
 
 	//ã‰º¬•ª‚ÌˆÚ“®
-	{
+	{		
 		//¶‰º
 		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, moveY, dummy) == UP) {
 			ver_Speed = 0.0f;
@@ -121,5 +139,14 @@ void Player::Move(float moveY, float moveX) {
 		else {
 			jump_Flag = true;
 		}
+	}
+}
+
+//UŒ‚
+void Player::Attack() {
+	degree += 10.0f;
+	if (degree >= 180.f) {
+		is_punch = false;
+		degree = 0.0f;
 	}
 }
