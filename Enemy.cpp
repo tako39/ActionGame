@@ -15,8 +15,8 @@ Enemy::~Enemy() {
 
 }
 
-void Enemy::Update(const Player& cPlayer) {
-	playerPos = cPlayer.GetPos();
+void Enemy::Update(const Player& player) {
+	playerPos = player.GetPos();
 	move = VGet(0.0f, 0.0f, 0.0f);  //‰Šú‰»
 	
 	if(isGround) move.x += enemySpeed * direct;  //‰¡•ûŒü‚ÌˆÚ“®
@@ -25,6 +25,8 @@ void Enemy::Update(const Player& cPlayer) {
 	move.y = ver_Speed;
 
 	Move(move.y, move.x);  //ˆÚ“®
+
+	Collision(player);  //“–‚½‚è”»’è
 }
 
 void Enemy::Draw() {
@@ -58,6 +60,7 @@ void Enemy::Draw() {
 	}
 }
 
+//ˆÚ“®
 void Enemy::Move(float moveY, float moveX) {
 	float dummy = 0.0f;
 	//ã‰º¬•ª‚ÌˆÚ“®
@@ -104,4 +107,9 @@ void Enemy::Move(float moveY, float moveX) {
 
 		pos.x += moveX;
 	}
+}
+
+//“–‚½‚è”»’è
+void Enemy::Collision(const Player& player) {
+	
 }

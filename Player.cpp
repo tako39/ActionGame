@@ -44,15 +44,18 @@ void Player::Update() {
 
 	ver_Speed += Gravity;  //重力を加える
 	move.y = ver_Speed;
-	
+
 	Move(move.y, move.x);  //移動
 
 	//Aが押されたとき攻撃
 	if (GetKey(KEY_INPUT_A) == 1) {
 		is_punch = true;
+		punchDir = direct; //ボタンを押した時の向きに攻撃
 	}
-
-	if (is_punch) Attack();
+	
+	if (is_punch) {
+		Attack();
+	}
 }
 
 void Player::Draw() {
@@ -85,9 +88,15 @@ void Player::Draw() {
 		DrawGraph((int)px, (int)py, graphic_L, FALSE);
 	}
 
+	punchPos = pos;
+	punchMove = VGet(sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * punchDir, 0.0f, 0.0f);  //パンチの移動量
+	SinkToWall();  //壁にめり込んだ時の処理
+
 	//パンチの描画
 	if (is_punch) {
-		DrawGraph(px + sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * direct, py, punchGraphic, FALSE);
+		//画面上のパンチの位置
+		VECTOR pPos = VGet(px + punchMove.x, py, 0.0f);
+		DrawGraph(pPos.x, pPos.y, punchGraphic, TRUE);
 	}
 }
 
@@ -96,15 +105,7 @@ void Player::Move(float moveY, float moveX) {
 	float dummy = 0.0f;
 
 	//上下成分の移動
-	{		
-		//左下
-		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, moveY, dummy) == UP) {
-			ver_Speed = 0.0f;
-		}
-		//右下
-		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == UP) {
-			ver_Speed = 0.0f;
-		}
+	{	
 		//左上
 		if (MapCollision(pos.y + EPS, pos.x + EPS, moveY, dummy) == DOWN) {
 			ver_Speed *= -1.0f;
@@ -113,19 +114,27 @@ void Player::Move(float moveY, float moveX) {
 		if (MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == DOWN) {
 			ver_Speed *= -1.0f;
 		}
+		//左下
+		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, moveY, dummy) == UP) {
+			ver_Speed = 0.0f;
+		}
+		//右下
+		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == UP) {
+			ver_Speed = 0.0f;
+		}
 
 		pos.y += moveY;
 	}
 	//左右成分の移動
 	{
-		//左下
-		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, dummy, moveX);
-		//右下
-		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
 		//左上
 		MapCollision(pos.y + EPS, pos.x + EPS, dummy, moveX);
 		//右上
 		MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
+		//左下
+		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, dummy, moveX);
+		//右下
+		MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + CHIP_SIZE - EPS, dummy, moveX);
 
 		pos.x += moveX;
 	}
@@ -146,6 +155,36 @@ void Player::Move(float moveY, float moveX) {
 void Player::Attack() {
 	degree += 10.0f;
 	if (degree >= 180.f) {
+		is_punch = false;
+		degree = 0.0f;
+	}
+}
+
+//壁にめり込んだ時の処理
+void Player::SinkToWall() {
+	float dummy = 0.0f;
+	bool tauch = false;  //壁に触れたか
+
+	//左上
+	if (MapCollision(punchPos.y + EPS, punchPos.x + EPS, dummy, punchMove.x) > 0) {
+		tauch = true;
+	}
+	//右上
+	if (MapCollision(punchPos.y + EPS, punchPos.x + CHIP_SIZE - EPS, dummy, punchMove.x) > 0) {
+		tauch = true;
+	}
+	//左下
+	if (MapCollision(punchPos.y + CHIP_SIZE - EPS, punchPos.x + EPS, dummy, punchMove.x) > 0) {
+		tauch = true;
+	}
+	//右下
+	if (MapCollision(punchPos.y + CHIP_SIZE - EPS, punchPos.x + CHIP_SIZE - EPS, dummy, punchMove.x) > 0) {
+		tauch = true;
+	}
+
+	punchPos.x += punchMove.x;
+
+	if (tauch) {
 		is_punch = false;
 		degree = 0.0f;
 	}

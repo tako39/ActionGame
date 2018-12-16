@@ -3,6 +3,14 @@
 #include "Stage.h"
 #include "Game.h"
 
+Object::Object() {
+	isExist = true;
+}
+
+Object::~Object() {
+
+}
+
 //map[y][x]‚Ì’l‚ÌŽæ“¾
 int Object::GetMap(int y, int x) const {
 	return map_stage[Game::nowStage][y][x];

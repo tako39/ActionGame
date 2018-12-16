@@ -9,8 +9,7 @@ class Player;
 class Enemy : public Object {
 private:
 	bool isGround;  //接地判定
-
-	VECTOR playerPos;
+	VECTOR playerPos;  //プレイヤーの位置
 
 public:
 	Enemy();
@@ -20,7 +19,8 @@ public:
 	void Update(const Player& cPlayer);
 	void Draw();
 
-	void Move(float moveY, float moveX); //移動
+	void Move(float moveY, float moveX);  //移動
+	void Collision(const Player& player);  //当たり判定
 };
 
 #endif

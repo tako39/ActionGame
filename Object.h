@@ -12,12 +12,19 @@ protected:
 	float ver_Speed;  //垂直方向の移動量
 	bool jump_Flag;   //trueならジャンプ中
 
+	bool isExist;  //生存しているか
+
 	VECTOR pos;   //位置
 	int direct;   //方向
 
 	VECTOR move;  //移動
 
 public:
+	Object();
+	~Object();
+
+	bool GetExist() const { return isExist; } //生存確認
+
 	VECTOR GetPos() const { return pos; }  //位置の取得
 
 	void SetPos(const VECTOR& sPos) {  //位置のセット

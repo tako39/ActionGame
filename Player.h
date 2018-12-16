@@ -13,9 +13,12 @@ private:
 		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
 	};
 
-	int punchGraphic;  //パンチの画像
-	double degree = 0.0f;  //パンチの周期
-	bool is_punch; //パンチしているか
+	int punchGraphic;		//画像
+	bool is_punch;			//パンチしているか
+	int punchDir;			//向き
+	double degree = 0.0f;	//周期
+	VECTOR punchPos;		//位置
+	VECTOR punchMove;		//移動量
 
 public:
 	Player();
@@ -26,6 +29,7 @@ public:
 
 	void Move(float moveY, float moveX);  //移動
 	void Attack();  //攻撃
+	void SinkToWall();  //壁へのめり込み
 };
 
 #endif
