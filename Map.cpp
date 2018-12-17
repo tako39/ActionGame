@@ -59,12 +59,12 @@ void Map::Draw() {
 }
 
 //map[y][x]の値の取得
-int Map::GetMap(int y, int x) const {
+int Map::GetMap(int y, int x) {
 	return map_stage[Game::nowStage][y][x];
 }
 
 //位置(x, y)に該当するマップチップの値の取得
-int Map::GetMapChip(float y, float x) const {
+int Map::GetMapChip(float y, float x) {
 	int Y = (int)y / CHIP_SIZE;
 	int X = (int)x / CHIP_SIZE;
 

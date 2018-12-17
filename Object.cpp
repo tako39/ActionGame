@@ -2,6 +2,7 @@
 #include "Define.h"
 #include "Stage.h"
 #include "Game.h"
+#include "Map.h"
 
 Object::Object() {
 	isExist = true;
@@ -9,25 +10,6 @@ Object::Object() {
 
 Object::~Object() {
 
-}
-
-//map[y][x]の値の取得
-int Object::GetMap(int y, int x) const {
-	return map_stage[Game::nowStage][y][x];
-}
-
-//位置(x, y)に該当するマップチップの値の取得
-int Object::GetMapChip(float y, float x) const {
-	int Y = (int)y / CHIP_SIZE;
-	int X = (int)x / CHIP_SIZE;
-
-	//ステージ外
-	if (Y < 0 || Y >= STAGE_HEIGHT[Game::nowStage] ||
-		X < 0 || X >= STAGE_WIDTH[Game::nowStage]) {
-		return -1;
-	}
-
-	return GetMap(Y, X);
 }
 
 //当たり判定
@@ -39,7 +21,7 @@ int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
 	float nextX = X + moveX;
 
 	//壁に当たっているかどうか
-	if (GetMapChip(nextY, nextX) == GROUND) {
+	if (Map::GetMapChip(nextY, nextX) == GROUND) {
 
 		//壁について
 		Top_y = (float)((int)nextY / CHIP_SIZE)     * CHIP_SIZE;     // 上辺の Y 座標

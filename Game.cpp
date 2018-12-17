@@ -25,7 +25,7 @@ void Game::Finalize() {
 
 //更新
 void Game::Update() {
-	player->Update();
+	player->Update(*enemyMgr);
 	map->Update(*player);
 	enemyMgr->Update(*player);
 	if (GetKey(KEY_INPUT_ESCAPE) != 0) { //Escキーが押されていたら
@@ -38,6 +38,4 @@ void Game::Draw() {
 	map->Draw();
 	player->Draw();
 	enemyMgr->Draw();
-	//DrawString(0, 0, "ゲーム画面です。", GetColor(255, 255, 255));
-	//DrawString(0, 20, "Escキーを押すとメニュー画面に戻ります。", GetColor(255, 255, 255));
 }

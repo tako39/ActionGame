@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "Player.h"
 #include "DxLib.h"
+#include "Map.h"
+#include <math.h>
 
 Enemy::Enemy() {
 	graphic_R = LoadGraph("image/enemy_r.png");
@@ -9,6 +11,8 @@ Enemy::Enemy() {
 	jump_Flag = false;
 	ver_Speed = 0.0f;
 	isGround = false;
+	pos = randomPos();		//ランダムに位置を設定
+	direct = randomDir();	//ランダムに向きを決定
 }
 
 Enemy::~Enemy() {
@@ -25,8 +29,6 @@ void Enemy::Update(const Player& player) {
 	move.y = ver_Speed;
 
 	Move(move.y, move.x);  //移動
-
-	Collision(player);  //当たり判定
 }
 
 void Enemy::Draw() {
@@ -109,7 +111,31 @@ void Enemy::Move(float moveY, float moveX) {
 	}
 }
 
+VECTOR Enemy::randomPos() {
+	int posY, posX;
+	while (1) {
+		posY = GetRand(STAGE_HEIGHT[Game::nowStage] - 1);
+		posX = GetRand(STAGE_WIDTH[Game::nowStage] - 1);
+		if (Map::GetMap(posY, posX) == BACK) {
+			break;
+		}
+	}
+	return VGet(posX * CHIP_SIZE, posY * CHIP_SIZE, 0.0f);
+}
+
+int Enemy::randomDir() {
+	int r = GetRand(1);
+	//移動方向を決める
+	if (r == 0) return DIR_LEFT;
+	else return DIR_RIGHT;
+}
+
 //当たり判定
 void Enemy::Collision(const Player& player) {
-	
+	//パンチが当たっているか
+	if (player.GetIsPunch() &&
+		fabs(pos.x - player.GetPunchPos().x) < CHIP_SIZE &&
+		fabs(pos.y - player.GetPunchPos().y) < CHIP_SIZE) {
+		isExist = false;
+	}
 }

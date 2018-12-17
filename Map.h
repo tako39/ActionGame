@@ -21,8 +21,8 @@ public:
 	void Update(const Player& cPlayer); //更新
 	void Draw();   //描画
 
-	int GetMap(int y, int x) const;  //map[y][x]の値の取得
-	int GetMapChip(float y, float x) const;  //位置(x, y)に該当するマップチップの値の取得
+	static int GetMap(int y, int x);  //map[y][x]の値の取得
+	static int GetMapChip(float y, float x);  //位置(x, y)に該当するマップチップの値の取得
 };
 
 #endif

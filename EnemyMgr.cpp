@@ -1,12 +1,10 @@
 #include "EnemyMgr.h"
-#include "DxLib.h"
 #include "Enemy.h"
+#include "Game.h"
 
 EnemyMgr::EnemyMgr() {
 	for (int num = 0; num < ENEMY_NUM; num++) {
 		enemy[num] = new Enemy();
-		enemy[num]->SetPos(VGet(15.0f * CHIP_SIZE, 1.0f, 0.0f));
-		enemy[num]->SetDirect(DIR_LEFT);
 	}
 }
 
@@ -16,10 +14,15 @@ EnemyMgr::~EnemyMgr() {
 	}
 }
 
-void EnemyMgr::Update(const Player& cPlayer) {
+void EnemyMgr::Update(const Player& player) {
 	for (int num = 0; num < ENEMY_NUM; num++) {
 		if (enemy[num] != NULL) {
-			enemy[num]->Update(cPlayer);
+			enemy[num]->Update(player);		//XV
+			enemy[num]->Collision(player);	//“–‚½‚è”»’è
+			if (enemy[num]->GetExist() == false) {	//“|‚³‚ê‚½‚Æ‚«
+				delete enemy[num];
+				enemy[num] = NULL;
+			}
 		}
 	}
 }
@@ -27,7 +30,7 @@ void EnemyMgr::Update(const Player& cPlayer) {
 void EnemyMgr::Draw() {
 	for (int num = 0; num < ENEMY_NUM; num++) {
 		if (enemy[num] != NULL) {
-			enemy[num]->Draw();
+			enemy[num]->Draw();  //•`‰æ
 		}
 	}
 }

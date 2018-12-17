@@ -11,8 +11,8 @@ const int SCREEN_HALF_H = 240;   //縦幅の半分
 
 //ステージ
 const int STAGE_NUM = 5;  //ステージ数
-const int STAGE_WIDTH[5]  = {40, 20, 20, 20, 20}; //横のチップ数
-const int STAGE_HEIGHT[5] = {20, 20, 20, 20, 20}; //縦のチップ数
+const int STAGE_WIDTH[5]  = {40, 0, 0, 0, 0}; //横のチップ数
+const int STAGE_HEIGHT[5] = {20, 0, 0, 0, 0}; //縦のチップ数
 
 //マップ
 const int BACK = 0;    //背景
@@ -27,11 +27,11 @@ const float Speed = 5.0f;      //横移動速度
 const float AirSpeed = 3.0f;   //空中での横移動速度
 const float JumpPower = 12.0f;  //ジャンプ力
 
-const float EPS = 1.0f;  //当たり判定はEPS分内側にある
+const float EPS = 1.0f;  //地面との当たり判定はEPS分内側にある
 
 //敵
 const float enemySpeed = 2.0f;  //敵の初期移動速度
-const int ENEMY_NUM = 1;  //最大の敵の数
+const int ENEMY_NUM = 5;  //最大の敵の数
 
 //方向
 const int NONE = -1;  //なし
@@ -45,6 +45,6 @@ const int RIGHT = 3;  //右
 const int KEY_NUM = 256; //入力
 
 //その他
-const double PI = 3.14; //円周率
+const float PI = 3.14f; //円周率
 
 #endif

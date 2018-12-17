@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Keyboard.h"
 #include "Game.h"
+#include "Map.h"
 #include <math.h>
 
 Player::Player() {
@@ -14,14 +15,14 @@ Player::Player() {
 	ver_Speed = 0.0f;
 
 	degree = 0.0f;
-	is_punch = false;
+	isPunch = false;
 }
 
 Player::~Player() {
 
 }
 
-void Player::Update() {
+void Player::Update(const EnemyMgr& enemymgr) {
 	move = VGet(0.0f, 0.0f, 0.0f);  //移動量の初期化
 
 	//右への移動
@@ -49,11 +50,11 @@ void Player::Update() {
 
 	//Aが押されたとき攻撃
 	if (GetKey(KEY_INPUT_A) == 1) {
-		is_punch = true;
+		isPunch = true;
 		punchDir = direct; //ボタンを押した時の向きに攻撃
 	}
 	
-	if (is_punch) {
+	if (isPunch) {
 		Attack();
 	}
 }
@@ -89,14 +90,14 @@ void Player::Draw() {
 	}
 
 	punchPos = pos;
-	punchMove = VGet(sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * punchDir, 0.0f, 0.0f);  //パンチの移動量
+	punchMove = VGet((float)sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * punchDir, 0.0f, 0.0f);  //パンチの移動量
 	SinkToWall();  //壁にめり込んだ時の処理
 
 	//パンチの描画
-	if (is_punch) {
+	if (isPunch) {
 		//画面上のパンチの位置
-		VECTOR pPos = VGet(px + punchMove.x, py, 0.0f);
-		DrawGraph(pPos.x, pPos.y, punchGraphic, TRUE);
+		VECTOR pPos = VGet((float)px + punchMove.x, (float)py, 0.0f);
+		DrawGraph((int)pPos.x, (int)pPos.y, punchGraphic, TRUE);
 	}
 }
 
@@ -141,8 +142,8 @@ void Player::Move(float moveY, float moveX) {
 	//接地判定
 	{
 		//左下と右下に地面があるかどうか
-		if (GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS) == GROUND ||
-			GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS) == GROUND) {
+		if (Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS) == GROUND ||
+			Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS) == GROUND) {
 			jump_Flag = false;
 		}
 		else {
@@ -155,7 +156,7 @@ void Player::Move(float moveY, float moveX) {
 void Player::Attack() {
 	degree += 10.0f;
 	if (degree >= 180.f) {
-		is_punch = false;
+		isPunch = false;
 		degree = 0.0f;
 	}
 }
@@ -185,7 +186,7 @@ void Player::SinkToWall() {
 	punchPos.x += punchMove.x;
 
 	if (tauch) {
-		is_punch = false;
+		isPunch = false;
 		degree = 0.0f;
 	}
 }
