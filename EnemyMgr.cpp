@@ -1,10 +1,11 @@
 #include "EnemyMgr.h"
 #include "Enemy.h"
 #include "Game.h"
+#include "Enemy_Zako.h"
 
 EnemyMgr::EnemyMgr() {
 	for (int num = 0; num < ENEMY_NUM; num++) {
-		enemy[num] = new Enemy();
+		enemy[num] = new Zako();
 	}
 }
 
@@ -17,8 +18,8 @@ EnemyMgr::~EnemyMgr() {
 void EnemyMgr::Update(const Player& player) {
 	for (int num = 0; num < ENEMY_NUM; num++) {
 		if (enemy[num] != NULL) {
-			enemy[num]->Update(player);		//更新
-			enemy[num]->Collision(player);	//当たり判定
+			enemy[num]->Update();		//更新
+			enemy[num]->Update(player);	//更新
 			if (enemy[num]->GetExist() == false) {	//倒されたとき
 				delete enemy[num];
 				enemy[num] = NULL;
@@ -27,10 +28,11 @@ void EnemyMgr::Update(const Player& player) {
 	}
 }
 
-void EnemyMgr::Draw() {
+void EnemyMgr::Draw(const Player& player) {
 	for (int num = 0; num < ENEMY_NUM; num++) {
 		if (enemy[num] != NULL) {
 			enemy[num]->Draw();  //描画
+			enemy[num]->Draw(player);
 		}
 	}
 }

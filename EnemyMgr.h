@@ -19,7 +19,8 @@ public:
 
 	void Update() {};
 	void Update(const Player& player);
-	void Draw();
+	void Draw() {};
+	void Draw(const Player& player);
 };
 
 #endif

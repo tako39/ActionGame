@@ -2,27 +2,20 @@
 #define ___Class_Enemy
 
 #include "Object.h"
-#include "Define.h"
 
 class Player;
 
 class Enemy : public Object {
-private:
-	bool isGround;		//接地判定
-	VECTOR playerPos;	//プレイヤーの位置
-
 public:
 	Enemy();
 	~Enemy();
 
-	void Update() {};
-	void Update(const Player& cPlayer);
-	void Draw();
+	virtual void Update() = 0;
+	virtual void Update(const Player& player) {};
+	virtual void Draw() = 0;
+	virtual void Draw(const Player& player) {};
 
-	VECTOR randomPos();	//ランダムで位置決め
-	int randomDir();	//ランダムで向きを決める
-	void Move(float moveY, float moveX);	//移動
-	void Collision(const Player& player);	//当たり判定
+	virtual void Collision() {};
 };
 
 #endif

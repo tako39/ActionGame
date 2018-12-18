@@ -37,5 +37,5 @@ void Game::Update() {
 void Game::Draw() {
 	map->Draw();
 	player->Draw();
-	enemyMgr->Draw();
+	enemyMgr->Draw(*player);
 }
