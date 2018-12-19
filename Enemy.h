@@ -4,6 +4,7 @@
 #include "Object.h"
 
 class Player;
+class BulletMgr;
 
 class Enemy : public Object {
 public:
@@ -15,7 +16,7 @@ public:
 	virtual void Draw() = 0;
 	virtual void Draw(const Player& player) {};
 
-	virtual void Collision() {};
+	void Collision(const Player& player, BulletMgr& bulletMgr);	//“–‚½‚è”»’è
 };
 
 #endif

@@ -5,8 +5,10 @@
 #include "DxLib.h"
 #include "Task.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class Enemy;
+class BulletMgr;
 
 class EnemyMgr : public Task {
 private:
@@ -18,9 +20,17 @@ public:
 	~EnemyMgr();
 
 	void Update() {};
-	void Update(const Player& player);
+	void Update(const Player& player, BulletMgr& bulletMgr);
 	void Draw() {};
 	void Draw(const Player& player);
+
+	bool IsExist(int num) const {	//‘¶Ý‚·‚é‚©‚Ç‚¤‚©
+		if (enemy[num] != NULL) return true;
+		else return false;
+	}
+	VECTOR GetEnemyPos(int num) const {	//enemy[num]‚ÌˆÊ’u‚ðŽæ“¾
+		return enemy[num]->GetPos();
+	}
 };
 
 #endif

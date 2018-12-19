@@ -2,6 +2,7 @@
 #include "Keyboard.h"
 #include "Game.h"
 #include "Map.h"
+#include "EnemyMgr.h"
 #include <math.h>
 
 Player::Player() {
@@ -16,13 +17,16 @@ Player::Player() {
 
 	degree = 0.0f;
 	isPunch = false;
+
+	damaged = false;	//ダメージを受けていない状態
+	flash = true;
 }
 
 Player::~Player() {
 
 }
 
-void Player::Update(const EnemyMgr& enemymgr) {
+void Player::Update(const EnemyMgr& enemyMgr) {
 	move = VGet(0.0f, 0.0f, 0.0f);  //移動量の初期化
 
 	//右への移動
@@ -43,11 +47,6 @@ void Player::Update(const EnemyMgr& enemymgr) {
 		jump_Flag = true;
 	}
 
-	ver_Speed += Gravity;  //重力を加える
-	move.y = ver_Speed;
-
-	Move(move.y, move.x);  //移動
-
 	//Aが押されたとき攻撃
 	if (GetKey(KEY_INPUT_A) == 1) {
 		isPunch = true;
@@ -57,46 +56,64 @@ void Player::Update(const EnemyMgr& enemymgr) {
 	if (isPunch) {
 		Attack();
 	}
+
+	ver_Speed += Gravity;	//重力を加える
+	move.y = ver_Speed;
+
+	Move(move.y, move.x);	//移動
+
+	HitEnemy(enemyMgr);		//敵に当たったか
 }
 
 void Player::Draw() {
 
 	//スクロール処理
-	int px = SCREEN_HALF_W;
-	int py = SCREEN_HALF_H;
+	screenPos = VGet((float)SCREEN_HALF_W, (float)SCREEN_HALF_H, 0.0f);
 
 	if ((int)pos.x - SCREEN_HALF_W < 0) {
-		px = (int)pos.x;
+		screenPos.x = pos.x;
 	}
 
 	if ((int)pos.x - SCREEN_HALF_W >= SCREEN_WIDTH) {
-		px = (int)pos.x - SCREEN_WIDTH;
+		screenPos.x = pos.x - SCREEN_WIDTH;
 	}
 
 	if ((int)pos.y - SCREEN_HALF_H < 0) {
-		py = (int)pos.y;
+		screenPos.y = pos.y;
 	}
 
 	if ((int)pos.y >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		py = (int)pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+		screenPos.y = pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
 	//向きに応じて描画
 	if (direct == DIR_RIGHT) {
-		DrawGraph((int)px, (int)py, graphic_R, FALSE);
+		if (damaged) {
+			if(flash) DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_R, FALSE);
+			flash = !flash;
+		}
+		else {
+			DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_R, FALSE);
+		}
 	}
 	else {
-		DrawGraph((int)px, (int)py, graphic_L, FALSE);
+		if (damaged) {
+			if(flash) DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
+			flash = !flash;
+		}
+		else {
+			DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
+		}
 	}
 
 	punchPos = pos;
 	punchMove = VGet((float)sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * punchDir, 0.0f, 0.0f);  //パンチの移動量
-	SinkToWall();  //壁にめり込んだ時の処理
+	HitWall();  //壁当たった時の処理
 
 	//パンチの描画
 	if (isPunch) {
 		//画面上のパンチの位置
-		VECTOR pPos = VGet((float)px + punchMove.x, (float)py, 0.0f);
+		VECTOR pPos = VGet(screenPos.x + punchMove.x, screenPos.y, 0.0f);
 		DrawGraph((int)pPos.x, (int)pPos.y, punchGraphic, TRUE);
 	}
 }
@@ -161,8 +178,8 @@ void Player::Attack() {
 	}
 }
 
-//壁にめり込んだ時の処理
-void Player::SinkToWall() {
+//パンチが壁に当たった時の処理
+void Player::HitWall() {
 	float dummy = 0.0f;
 	bool tauch = false;  //壁に触れたか
 
@@ -188,5 +205,28 @@ void Player::SinkToWall() {
 	if (tauch) {
 		isPunch = false;
 		degree = 0.0f;
+	}
+}
+
+//敵に当たった時の処理
+void Player::HitEnemy(const EnemyMgr& enemyMgr) {
+	if (!damaged) {
+		for (int num = 0; num < ENEMY_NUM; num++) {
+			if (enemyMgr.IsExist(num)) {
+				VECTOR enemyPos = enemyMgr.GetEnemyPos(num);
+				if (fabs(enemyPos.x - pos.x) < CHIP_SIZE &&
+					fabs(enemyPos.y - pos.y) < CHIP_SIZE) {
+					damaged = true;
+					flashStartTime = GetNowCount();
+					return;
+				}
+			}
+		}
+	}
+	else {
+		//ダメージを受けてから秒以上経った時
+		if (GetNowCount() - flashStartTime > 1000) {
+			damaged = false;
+		}
 	}
 }

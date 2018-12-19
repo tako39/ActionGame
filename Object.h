@@ -27,6 +27,8 @@ public:
 
 	VECTOR GetPos() const { return pos; }  //ˆÊ’u‚ÌŽæ“¾
 
+	int GetDirect() const { return direct; }	//•ûŒü‚ÌŽæ“¾
+
 	int MapCollision(float Y, float X, float &moveY, float &moveX); //“–‚½‚è”»’è
 };
 

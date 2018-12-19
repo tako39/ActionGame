@@ -1,5 +1,4 @@
 #include "EnemyMgr.h"
-#include "Enemy.h"
 #include "Game.h"
 #include "Enemy_Zako.h"
 
@@ -15,11 +14,12 @@ EnemyMgr::~EnemyMgr() {
 	}
 }
 
-void EnemyMgr::Update(const Player& player) {
+void EnemyMgr::Update(const Player& player, BulletMgr& bulletMgr) {
 	for (int num = 0; num < ENEMY_NUM; num++) {
 		if (enemy[num] != NULL) {
 			enemy[num]->Update();		//更新
 			enemy[num]->Update(player);	//更新
+			enemy[num]->Collision(player, bulletMgr);	//当たり判定
 			if (enemy[num]->GetExist() == false) {	//倒されたとき
 				delete enemy[num];
 				enemy[num] = NULL;
