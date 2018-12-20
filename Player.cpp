@@ -1,8 +1,8 @@
 #include "Player.h"
 #include "Keyboard.h"
-#include "Game.h"
 #include "Map.h"
 #include "EnemyMgr.h"
+#include "SceneMgr.h"
 #include <math.h>
 
 Player::Player() {
@@ -10,7 +10,7 @@ Player::Player() {
 	graphic_L = LoadGraph("image/player_l.png");
 	punchGraphic = LoadGraph("image/punch.png");
 
-	pos = firstPos[Game::nowStage];
+	pos = firstPos[SceneMgr::nowStage];
 	direct = DIR_RIGHT; //始めは右向き
 	jump_Flag = false;
 	ver_Speed = 0.0f;
@@ -26,7 +26,7 @@ Player::~Player() {
 
 }
 
-void Player::Update(const EnemyMgr& enemyMgr) {
+void Player::Update() {
 	move = VGet(0.0f, 0.0f, 0.0f);  //移動量の初期化
 
 	//右への移動
@@ -61,29 +61,30 @@ void Player::Update(const EnemyMgr& enemyMgr) {
 	move.y = ver_Speed;
 
 	Move(move.y, move.x);	//移動
-
-	HitEnemy(enemyMgr);		//敵に当たったか
 }
 
 void Player::Draw() {
-
 	//スクロール処理
 	screenPos = VGet((float)SCREEN_HALF_W, (float)SCREEN_HALF_H, 0.0f);
 
-	if ((int)pos.x - SCREEN_HALF_W < 0) {
+	if ((int)pos.x < SCREEN_HALF_W) {	//画面の半分以下
 		screenPos.x = pos.x;
 	}
-
-	if ((int)pos.x - SCREEN_HALF_W >= SCREEN_WIDTH) {
-		screenPos.x = pos.x - SCREEN_WIDTH;
+	else if ((int)pos.x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {	//画面の半分
+		screenPos.x = SCREEN_HALF_W;
+	}
+	else {	//画面の半分以上
+		screenPos.x = pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	if ((int)pos.y - SCREEN_HALF_H < 0) {
+	if ((int)pos.y < SCREEN_HALF_H) {
 		screenPos.y = pos.y;
 	}
-
-	if ((int)pos.y >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		screenPos.y = pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+	else if ((int)pos.y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		screenPos.y = SCREEN_HALF_H;
+	}
+	else {
+		screenPos.y = pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
 	//向きに応じて描画
@@ -208,7 +209,7 @@ void Player::HitWall() {
 	}
 }
 
-//敵に当たった時の処理
+//敵に当たった時の処理(無敵時間)
 void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 	if (!damaged) {
 		for (int num = 0; num < ENEMY_NUM; num++) {
@@ -224,8 +225,8 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 		}
 	}
 	else {
-		//ダメージを受けてから秒以上経った時
-		if (GetNowCount() - flashStartTime > 1000) {
+		//ダメージを受けてから2秒以上経った時
+		if (GetNowCount() - flashStartTime > 2000) {
 			damaged = false;
 		}
 	}

@@ -1,7 +1,7 @@
 #include "Enemy_Zako.h"
 #include "Player.h"
-#include "Game.h"
 #include "Map.h"
+#include "SceneMgr.h"
 
 Zako::Zako() {
 	graphic_R = LoadGraph("image/enemy_r.png");
@@ -29,31 +29,34 @@ void Zako::Update(const Player& player) {
 
 void Zako::Draw(const Player& player) {
 	//スクロール処理
-	int ex = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
-	int ey = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+	int scroll_x, scroll_y;
 
-	if ((int)player.GetPos().x - SCREEN_HALF_W < 0) {
-		ex = (int)pos.x;
+	if ((int)player.GetPos().x < SCREEN_HALF_W) {
+		scroll_x = (int)pos.x;
+	}
+	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
+		scroll_x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+	}
+	else {
+		scroll_x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	if ((int)player.GetPos().x - SCREEN_HALF_W >= SCREEN_WIDTH) {
-		ex = (int)pos.x - SCREEN_WIDTH;
+	if ((int)player.GetPos().y < SCREEN_HALF_H) {
+		scroll_y = (int)pos.y;
 	}
-
-	if ((int)player.GetPos().y - SCREEN_HALF_H < 0) {
-		ey = (int)pos.y;
+	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		scroll_y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
 	}
-
-	if ((int)player.GetPos().y >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		ey = (int)pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+	else {
+		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
 	//向きに応じて描画
 	if (direct == DIR_RIGHT) {
-		DrawGraph((int)ex, (int)ey, graphic_R, FALSE);
+		DrawGraph((int)scroll_x, (int)scroll_y, graphic_R, FALSE);
 	}
 	else {
-		DrawGraph((int)ex, (int)ey, graphic_L, FALSE);
+		DrawGraph((int)scroll_x, (int)scroll_y, graphic_L, FALSE);
 	}
 }
 
@@ -108,7 +111,7 @@ void Zako::Move(float moveY, float moveX) {
 	{
 		float nextMove = enemySpeed * direct;
 		//進む先に地面がないなら向きを変える
-		if (Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove) != GROUND &&
+		if (Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove) != GROUND ||
 			Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS + nextMove) != GROUND) {
 			direct *= -1;
 		}
@@ -119,8 +122,8 @@ void Zako::Move(float moveY, float moveX) {
 VECTOR Zako::randomPos() {
 	int posY, posX;
 	while (1) {
-		posY = GetRand(STAGE_HEIGHT[Game::nowStage] - 1);
-		posX = GetRand(STAGE_WIDTH[Game::nowStage] - 1);
+		posY = GetRand(STAGE_HEIGHT[SceneMgr::nowStage] - 1);
+		posX = GetRand(STAGE_WIDTH[SceneMgr::nowStage] - 1);
 		if (Map::GetMap(posY, posX) == BACK) {
 			break;
 		}
@@ -143,13 +146,13 @@ float Zako::randomSpeed() {
 	int r = GetRand(2);
 	switch (r) {
 	case 0:
-		speed = 1.5f;
+		speed = 1.0f;
 		break;
 	case 1:
 		speed = 2.0f;
 		break;
 	case 2:
-		speed = 2.5f;
+		speed = 3.0f;
 		break;
 	}
 	return speed;

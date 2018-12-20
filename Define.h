@@ -12,8 +12,8 @@ const int SCREEN_HALF_H = 240;	//縦幅の半分
 
 //ステージ
 const int STAGE_NUM = 5;	//ステージ数
-const int STAGE_WIDTH[5]  = {40, 0, 0, 0, 0};	//横のチップ数
-const int STAGE_HEIGHT[5] = {20, 0, 0, 0, 0};	//縦のチップ数
+const int STAGE_WIDTH[5]  = {20, 40, 0, 0, 0};	//ステージの横のチップ数
+const int STAGE_HEIGHT[5] = {15, 20, 0, 0, 0};	//ステージの縦のチップ数
 
 
 //マップ
@@ -38,7 +38,7 @@ const int BULLET_WIDTH	= 16;	//弾の横幅
 const int BULLET_HEIGHT = 8;	//弾の縦幅
 const int BULLET_NUM = 5;		//弾の数
 
-const float bulletSpeed = 10.0f;	//弾の速度
+const float bulletSpeed = 8.0f;	//弾の速度
 
 //敵
 const int ENEMY_NUM = 5;	//最大の敵の数
@@ -55,6 +55,8 @@ const int RIGHT = 3;	//右
 //キーボード
 const int KEY_NUM = 256;	//入力
 
+//点数
+const int POINT_ENEMY_ZAKO = 10;	//Zakoで得られるポイント
 
 //その他
 const float PI = 3.14f;		//円周率

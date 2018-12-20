@@ -12,8 +12,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SceneMgr sceneMgr;
 	Frame frame;
 
-	sceneMgr.Initialize();
-
 	//画面更新 & メッセージ処理 & 画面消去
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 		
@@ -27,8 +25,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		frame.Wait();  //待機
 	}
-
-	sceneMgr.Finalize();
 
 	DxLib_End(); // DXライブラリ終了処理
 	return 0;

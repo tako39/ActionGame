@@ -162,6 +162,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMgr.cpp" />
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyMgr.cpp" />
     <ClCompile Include="Enemy_Zako.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="BulletMgr.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyMgr.h" />
     <ClInclude Include="Enemy_Zako.h" />
@@ -196,7 +198,6 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Print.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Task.h" />

@@ -1,14 +1,10 @@
 #include "BaseScene.h"
 #include "DxLib.h"
 
-BaseScene::BaseScene(ISceneChanger* changer) : mImageHandle(0) {
+BaseScene::BaseScene(ISceneChanger* changer) {
 	mSceneChanger = changer;
 }
 
-void BaseScene::Finalize() {
-	DeleteGraph(mImageHandle);
-}
-
-void BaseScene::Draw() {
-	DrawGraph(0, 0, mImageHandle, FALSE);
+BaseScene::~BaseScene() {
+	
 }

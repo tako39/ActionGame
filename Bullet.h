@@ -9,6 +9,7 @@ class Player;
 class Bullet : public Object {
 private:
 	int bulletGraphic;	//’e‚Ì‰æ‘œ
+	bool init;	//¶¬
 
 public:
 	Bullet(const Player& player);

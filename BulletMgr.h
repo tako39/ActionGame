@@ -30,7 +30,7 @@ public:
 		return bullet[num]->GetPos();
 	}
 
-	void DeleteBullet(int num) {
+	void DeleteBullet(int num) {	//bullet[num]‚ğíœ
 		delete bullet[num];
 		bullet[num] = NULL;
 	}

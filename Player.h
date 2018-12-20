@@ -10,8 +10,9 @@ class EnemyMgr;
 class Player :  public Object {
 private:
 	//初期位置
-	const VECTOR firstPos[1] =
+	const VECTOR firstPos[2] =
 	{
+		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
 		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
 	};
 
@@ -31,13 +32,12 @@ public:
 	Player();
 	~Player();
 
-	void Update() {};
-	void Update(const EnemyMgr& enemyMgr);
+	void Update();
 	void Draw();
 
-	VECTOR GetPunchPos() const { return punchPos; }
-	bool GetIsPunch() const { return isPunch; }
-	VECTOR GetScreenPos() const { return screenPos; }
+	VECTOR GetPunchPos() const { return punchPos; }		//パンチの位置の取得
+	bool GetIsPunch() const { return isPunch; }			//パンチをしているか
+	VECTOR GetScreenPos() const { return screenPos; }	//スクリーン上での位置の取得
 
 	void Move(float moveY, float moveX);	//移動
 	void Attack();		//攻撃

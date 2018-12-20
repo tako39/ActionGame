@@ -1,8 +1,8 @@
 #include "Map.h"
 #include "Define.h"
-#include "Game.h"
 #include "Stage.h"
 #include "Player.h"
+#include "SceneMgr.h"
 
 Map::Map() {
 	back_Graphic   = LoadGraph("image/back_Graphic.png");
@@ -20,30 +20,32 @@ void Map::Update(const Player& player) {
 
 //描画
 void Map::Draw() {
+	////スクロール処理(上限と下限)
+	int scroll_x, scroll_y;
 
-	//スクロール処理(上限と下限)
-	int scroll_x = (int)playerPos.x - SCREEN_HALF_W;
-	int scroll_y = (int)playerPos.y - SCREEN_HALF_H;
-
-	if (scroll_x < 0) {
+	if ((int)playerPos.x < SCREEN_HALF_W) {
 		scroll_x = 0;
 	}
-
-	if (scroll_x >= SCREEN_WIDTH) {
-		scroll_x = SCREEN_WIDTH;
+	else if ((int)playerPos.x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
+		scroll_x = (int)playerPos.x - SCREEN_HALF_W;
+	}
+	else {
+		scroll_x = STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH;
 	}
 
-	if (scroll_y < 0) {
+	if ((int)playerPos.y < SCREEN_HALF_H) {
 		scroll_y = 0;
 	}
-
-	if (scroll_y >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT) {
-		scroll_y = STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT;
+	else if ((int)playerPos.y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		scroll_y = (int)playerPos.y - SCREEN_HALF_H;
+	}
+	else {
+		scroll_y = STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT;
 	}
 
 	//マップの描画
-	for (int y = 0; y < STAGE_HEIGHT[Game::nowStage]; y++) {
-		for (int x = 0; x < STAGE_WIDTH[Game::nowStage]; x++) {
+	for (int y = 0; y < STAGE_HEIGHT[SceneMgr::nowStage]; y++) {
+		for (int x = 0; x < STAGE_WIDTH[SceneMgr::nowStage]; x++) {
 
 			int chip_x = x * CHIP_SIZE - scroll_x;  //チップのx座標
 			int chip_y = y * CHIP_SIZE - scroll_y;  //チップのy座標
@@ -60,7 +62,7 @@ void Map::Draw() {
 
 //map[y][x]の値の取得
 int Map::GetMap(int y, int x) {
-	return map_stage[Game::nowStage][y][x];
+	return map_stage[SceneMgr::nowStage][y][x];
 }
 
 //位置(x, y)に該当するマップチップの値の取得
@@ -69,8 +71,8 @@ int Map::GetMapChip(float y, float x) {
 	int X = (int)x / CHIP_SIZE;
 
 	//ステージ外
-	if (Y < 0 || Y >= STAGE_HEIGHT[Game::nowStage] ||
-		X < 0 || X >= STAGE_WIDTH[Game::nowStage]) {
+	if (Y < 0 || Y >= STAGE_HEIGHT[SceneMgr::nowStage] ||
+		X < 0 || X >= STAGE_WIDTH[SceneMgr::nowStage]) {
 		return -1;
 	}
 

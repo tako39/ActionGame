@@ -4,25 +4,20 @@
 #include "Menu.h"
 #include "SceneMgr.h"
 
+int SceneMgr::nowStage = 0;
+
 SceneMgr::SceneMgr() : mNextScene(eScene_None) //次のシーン管理変数
 {
 	mScene = (BaseScene*) new Menu(this);
 }
 
-//初期化
-void SceneMgr::Initialize() {
-	mScene->Initialize();
-}
+SceneMgr::~SceneMgr() {
 
-//終了処理
-void SceneMgr::Finalize() {
-	mScene->Finalize();
 }
 
 //更新
 void SceneMgr::Update() {
 	if (mNextScene != eScene_None) {  //次のシーンがセットされていたら
-		mScene->Finalize();  //現在のシーンの終了処理を実行
 		delete mScene;
 		switch (mNextScene) {  //シーンによって処理を分岐
 		case eScene_Menu:
@@ -36,7 +31,7 @@ void SceneMgr::Update() {
 			break;
 		}
 		mNextScene = eScene_None;  //次のシーン情報をクリア
-		mScene->Initialize();  //シーンを初期化
+		//mScene->Initialize();  //シーンを初期化
 	}
 
 	mScene->Update();  //シーンの更新

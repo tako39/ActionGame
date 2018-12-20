@@ -23,7 +23,7 @@ public:
 	Object();
 	~Object();
 
-	bool GetExist() const { return isExist; } //生存確認
+	bool GetExist() const { return isExist; }	//生存確認
 
 	VECTOR GetPos() const { return pos; }  //位置の取得
 

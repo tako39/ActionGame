@@ -2,8 +2,7 @@
 #include "DxLib.h"
 #include "Player.h"
 #include "Define.h"
-#include "Game.h"
-#include "Define.h"
+#include "SceneMgr.h"
 
 Bullet::Bullet(const Player& player) {
 	bulletGraphic = LoadGraph("image/bullet.png");
@@ -19,6 +18,7 @@ Bullet::Bullet(const Player& player) {
 				   player.GetPos().y + CHIP_SIZE / 2 - BULLET_HEIGHT / 2,
 				   0.0f);
 	}
+	init = true;
 }
 
 Bullet::~Bullet() {
@@ -27,32 +27,40 @@ Bullet::~Bullet() {
 
 void Bullet::Update(const Player& player) {
 	move = VGet(0.0f, 0.0f, 0.0f);
-	move.x += bulletSpeed * direct;
+	if (!init) {	//ê∂ê¨éûÇÕà⁄ìÆÇµÇ»Ç¢
+		move.x += bulletSpeed * direct;
+	}
+	else {
+		init = false;
+	}
 	HitWall();
 }
 
 void Bullet::Draw(const Player& player) {
 	//ÉXÉNÉçÅ[ÉãÇ…çáÇÌÇπÇΩï`âÊ
-	int bx = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
-	int by = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+	int scroll_x, scroll_y;
 
-	if ((int)player.GetPos().x - SCREEN_HALF_W < 0) {
-		bx = (int)pos.x;
+	if ((int)player.GetPos().x < SCREEN_HALF_W) {
+		scroll_x = (int)pos.x;
+	}
+	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
+		scroll_x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+	}
+	else {
+		scroll_x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	if ((int)player.GetPos().x - SCREEN_HALF_W >= SCREEN_WIDTH) {
-		bx = (int)pos.x - SCREEN_WIDTH;
+	if ((int)player.GetPos().y < SCREEN_HALF_H) {
+		scroll_y = (int)pos.y;
+	}
+	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		scroll_y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+	}
+	else {
+		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
-	if ((int)player.GetPos().y - SCREEN_HALF_H < 0) {
-		by = (int)pos.y;
-	}
-
-	if ((int)player.GetPos().y >= STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		by = (int)pos.y - (STAGE_HEIGHT[Game::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
-	}
-
-	DrawGraph(bx, by, bulletGraphic, FALSE);
+	DrawGraph(scroll_x, scroll_y, bulletGraphic, FALSE);
 }
 
 //ï«Ç…ìñÇΩÇ¡ÇΩéûÇÃèàóù

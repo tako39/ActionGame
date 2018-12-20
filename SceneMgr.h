@@ -11,9 +11,11 @@ private:
 	eScene mNextScene;    //次のシーン管理変数
 
 public:
+	static int nowStage;	//現在のステージ
+
 	SceneMgr();
-	void Initialize() override;  //初期化
-	void Finalize()   override;  //終了処理
+	~SceneMgr();
+
 	void Update()     override;  //更新
 	void Draw()       override;  //描画
 
