@@ -1,17 +1,17 @@
-#ifndef ___Class_Config
-#define ___Class_Config
+#ifndef ___Class_Manual
+#define ___Class_Manual
 
 #include "BaseScene.h"
 
 //設定画面クラス
-class Config : public BaseScene {
+class Manual : public BaseScene {
 
 public:
-	Config(ISceneChanger* changer);
-	~Config();
+	Manual(ISceneChanger* changer);
+	~Manual();
+
 	void Update() override;      //更新処理をオーバーライド。
 	void Draw() override;        //描画処理をオーバーライド。
-
 };
 
 #endif

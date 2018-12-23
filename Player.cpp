@@ -127,11 +127,11 @@ void Player::Move(float moveY, float moveX) {
 	{	
 		//左上
 		if (MapCollision(pos.y + EPS, pos.x + EPS, moveY, dummy) == DOWN) {
-			ver_Speed *= -1.0f;
+			ver_Speed *= -0.6f;
 		}
 		//右上
 		if (MapCollision(pos.y + EPS, pos.x + CHIP_SIZE - EPS, moveY, dummy) == DOWN) {
-			ver_Speed *= -1.0f;
+			ver_Speed *= -0.6f;
 		}
 		//左下
 		if (MapCollision(pos.y + CHIP_SIZE - EPS, pos.x + EPS, moveY, dummy) == UP) {
@@ -159,9 +159,11 @@ void Player::Move(float moveY, float moveX) {
 	}
 	//接地判定
 	{
+		int ground_R = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS);
+		int ground_L = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS);
 		//左下と右下に地面があるかどうか
-		if (Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS) == GROUND ||
-			Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS) == GROUND) {
+		if (ground_R == GROUND || (20 <= ground_R && ground_L <= 45) ||
+			ground_L == GROUND || (20 <= ground_L && ground_L <= 45)) {
 			jump_Flag = false;
 		}
 		else {

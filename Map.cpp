@@ -3,10 +3,19 @@
 #include "Stage.h"
 #include "Player.h"
 #include "SceneMgr.h"
+#include <iostream>
+#include <string>
 
 Map::Map() {
 	back_Graphic   = LoadGraph("image/back_Graphic.png");
 	ground_Graphic = LoadGraph("image/ground_Graphic.png");
+
+	for (int i = 0; i <= 25; i++) {
+		std::string s = "image/image_";
+		s += (char)('A' + i);
+		s += ".png";
+		image_Alpha[i] = LoadGraph(s.c_str());
+	}
 }
 
 Map::~Map() {
@@ -50,11 +59,17 @@ void Map::Draw() {
 			int chip_x = x * CHIP_SIZE - scroll_x;  //チップのx座標
 			int chip_y = y * CHIP_SIZE - scroll_y;  //チップのy座標
 
-			if (GetMap(y, x) == GROUND) {
+			int chip = GetMap(y, x);
+
+			if (chip == GROUND) {
 				DrawGraph(chip_x, chip_y, ground_Graphic, TRUE);
 			}
-			else if (GetMap(y, x) == BACK) {
+			if (chip == BACK) {
 				DrawGraph(chip_x, chip_y, back_Graphic, TRUE);
+			}
+
+			if (20 <= chip && chip <= 45) {
+				DrawGraph(chip_x, chip_y, image_Alpha[chip - 20], TRUE);
 			}
 		}
 	}

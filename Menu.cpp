@@ -26,8 +26,8 @@ void Menu::Update() {
 	if (CheckHitKey(KEY_INPUT_G) != 0) {  //Gキーが押されていたら
 		mSceneChanger->ChangeScene(eScene_Game);  //シーンをゲーム画面に変更
 	}
-	if (CheckHitKey(KEY_INPUT_C) != 0) {  //Cキーが押されていたら
-		mSceneChanger->ChangeScene(eScene_Config);  //シーンを設定画面に変更
+	if (CheckHitKey(KEY_INPUT_M) != 0) {  //Cキーが押されていたら
+		mSceneChanger->ChangeScene(eScene_Manual);  //シーンをゲーム説明画面に変更
 	}
 	player->Update();
 	if (GetKey(KEY_INPUT_S) == 1) {
@@ -42,7 +42,5 @@ void Menu::Draw() {
 	player->Draw();
 	map->Draw();
 	bulletMgr->Draw(*player);
-	DrawString(0, 0, "メニュー画面です。", GetColor(255, 0, 0));
-	DrawString(0, 20, "Gキーを押すとゲーム画面に進みます。", GetColor(255, 0, 0));
-	DrawString(0, 40, "Cキーを押すと　設定画面に進みます。", GetColor(255, 0, 0));
+	DrawString(0, 0, "Gキーを押すとゲーム開始、Mキーを押すとゲーム説明", GetColor(255, 0, 0));
 }

@@ -11,6 +11,9 @@ private:
 	int back_Graphic;   //背景の画像
 	int ground_Graphic; //地面の画像
 
+	//文字の画像
+	int image_Alpha[26];
+
 	VECTOR playerPos;   //プレイヤーの位置
 
 public:

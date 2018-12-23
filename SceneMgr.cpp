@@ -1,7 +1,8 @@
 #include "DxLib.h"
-#include "Config.h"
+#include "Manual.h"
 #include "Game.h"
 #include "Menu.h"
+#include "Result.h"
 #include "SceneMgr.h"
 
 int SceneMgr::nowStage = 0;
@@ -21,17 +22,18 @@ void SceneMgr::Update() {
 		delete mScene;
 		switch (mNextScene) {  //シーンによって処理を分岐
 		case eScene_Menu:
-			mScene = (BaseScene*) new Menu(this);    //メニュー画面
+			mScene = (BaseScene*) new Menu(this);		//メニュー画面
 			break;
 		case eScene_Game:
-			mScene = (BaseScene*) new Game(this);    //ゲーム画面
+			mScene = (BaseScene*) new Game(this);		//ゲーム画面
 			break;
-		case eScene_Config:
-			mScene = (BaseScene*) new Config(this);  //設定画面
+		case eScene_Manual:
+			mScene = (BaseScene*) new Manual(this);		//ゲーム説明画面
 			break;
+		case eScene_Result:
+			mScene = (BaseScene*) new Result(this);		//結果表示画面
 		}
 		mNextScene = eScene_None;  //次のシーン情報をクリア
-		//mScene->Initialize();  //シーンを初期化
 	}
 
 	mScene->Update();  //シーンの更新

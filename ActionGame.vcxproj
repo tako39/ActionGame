@@ -161,7 +161,7 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMgr.cpp" />
-    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Manual.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyMgr.cpp" />
@@ -178,13 +178,14 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\gk532\Documents\Visual Studio 2015\Projects\game\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\gk532\Documents\Visual Studio 2015\Projects\game\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMgr.h" />
-    <ClInclude Include="Config.h" />
+    <ClInclude Include="Manual.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Enemy.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Task.h" />

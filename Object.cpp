@@ -23,8 +23,10 @@ int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
 	float nextY = Y + moveY;
 	float nextX = X + moveX;
 
+	int chip = Map::GetMapChip(nextY, nextX);
+
 	//•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	if (Map::GetMapChip(nextY, nextX) == GROUND) {
+	if (chip == GROUND || (20 <= chip && chip <= 45)) {
 
 		//•Ç‚É‚Â‚¢‚Ä
 		Top_y = (float)((int)nextY / CHIP_SIZE)     * CHIP_SIZE;     // ã•Ó‚Ì Y À•W

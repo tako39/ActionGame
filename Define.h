@@ -20,6 +20,32 @@ const int STAGE_HEIGHT[5] = {15, 20, 0, 0, 0};	//ステージの縦のチップ数
 const int BACK = 0;		//背景
 const int GROUND = 1;	//地面
 
+const int A = 20;
+const int B = 21;
+const int C = 22;
+const int D = 23;
+const int E = 24;
+const int F = 25;
+const int G = 26;
+const int H = 27;
+const int I = 28;
+const int J = 29;
+const int K = 30;
+const int L = 31;
+const int M = 32;
+const int N = 33;
+const int O = 34;
+const int P = 35;
+const int Q = 36;
+const int R = 37;
+const int S = 38;
+const int T = 39;
+const int U = 40;
+const int V = 41;
+const int W = 42;
+const int X = 43;
+const int Y = 44;
+const int Z = 45;
 
 //プレイヤー
 const int DIR_RIGHT =  1;	//右向き
