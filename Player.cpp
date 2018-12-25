@@ -6,6 +6,8 @@
 #include <math.h>
 
 Player::Player() {
+	hitPoint = MAX_HP;
+
 	graphic_R = LoadGraph("image/player_r.png");
 	graphic_L = LoadGraph("image/player_l.png");
 	punchGraphic = LoadGraph("image/punch.png");
@@ -221,6 +223,7 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 					fabs(enemyPos.y - pos.y) < CHIP_SIZE) {
 					damaged = true;
 					flashStartTime = GetNowCount();
+					hitPoint -= 10;
 					return;
 				}
 			}

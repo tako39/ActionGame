@@ -3,8 +3,13 @@
 
 #include "Task.h"
 
-class Display {
+class Player;
+
+class Display : public Task {
 private:
+	int hpGreeen;	//緑色のHPの画像
+	int hpOrange;	//橙色のHPの画像
+	int hpRed;		//赤色のHPの画像
 
 public:
 	static int Score;	//ゲームのスコア
@@ -13,7 +18,8 @@ public:
 	~Display();
 
 	void Update();
-	void Draw();
+	void Draw() {};
+	void Draw(const Player& player);
 };
 
 #endif

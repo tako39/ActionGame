@@ -7,35 +7,53 @@ abstract class ISceneChanger
 abstract class BaseScene
 class Menu
 class Game
-class Config
+class Manual
 
 abstract class Object
 class Player
-class Enemy
-
+class EnemyMgr
+abstract class Enemy
+class Enemy_Zako
 class Map
+class BulletMgr
+class Bullet
 
-Task<|--SceneMgr
-SceneMgr*--BaseScene
+class Display
 
-BaseScene<|--Menu
-BaseScene<|--Game
-BaseScene<|--Config
+Task <|-- SceneMgr
+Task <|-- BaseScene
+SceneMgr *-- BaseScene
 
-ISceneChanger<|..SceneMgr
-ISceneChanger<..Menu
-ISceneChanger<..Game
-ISceneChanger<..Config
+BaseScene <|-- Menu
+BaseScene <|-- Game
+BaseScene <|-- Manual
 
-Task<|--Object
-Object<|--Player
-Object<|--Enemy
-Game<..Player
+ISceneChanger <|.. SceneMgr
+ISceneChanger <.. Menu
+ISceneChanger <.. Game
+ISceneChanger <.. Manual
 
-Task<|--EnemyMgr
-EnemyMgr*--Enemy
-Game<..EnemyMgr
+Menu <.. Game
+Menu <.. Manual
 
-Task<|--Map
-Game<..Map
+Task <|-- Object
+Object <|-- Player
+Object <|-- Enemy
+Enemy <|-- Enemy_Zako
+Object <|-- Bullet
+Game o-- Player
+
+Task <|-- EnemyMgr
+EnemyMgr *-- Enemy
+Game o-- EnemyMgr
+
+Task <|-- BulletMgr
+BulletMgr *-- Bullet
+Game o-- BulletMgr
+
+Task <|-- Map
+Game o-- Map
+
+Task <|-- Display
+Game o-- Display
 @enduml

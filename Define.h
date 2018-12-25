@@ -48,6 +48,8 @@ const int Y = 44;
 const int Z = 45;
 
 //プレイヤー
+const int MAX_HP = 100;	//最大ＨＰ
+
 const int DIR_RIGHT =  1;	//右向き
 const int DIR_LEFT  = -1;	//左向き
 
