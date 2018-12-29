@@ -12,6 +12,7 @@ class Player;
 class BulletMgr : public Task {
 private:
 	Bullet *bullet[BULLET_NUM];
+	int deleteTime[BULLET_NUM];	//’e‚ğÁ”ï‚µ‚½ŠÔ
 
 public:
 	BulletMgr();
@@ -33,6 +34,7 @@ public:
 	void DeleteBullet(int num) {	//bullet[num]‚ğíœ
 		delete bullet[num];
 		bullet[num] = NULL;
+		deleteTime[num] = GetNowCount();
 	}
 
 	void Shot(const Player& player);	//’e‚ğ—LŒø‚É‚·‚é

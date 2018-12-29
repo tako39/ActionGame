@@ -16,7 +16,7 @@ private:
 		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
 	};
 
-	int punchGraphic;		//画像
+	int punchGraphic;		//パンチの画像
 	bool isPunch;			//パンチしているか
 	int punchDir;			//向き
 	float degree = 0.0f;	//周期
@@ -24,9 +24,12 @@ private:
 	VECTOR punchMove;		//移動量
 	VECTOR screenPos;		//スクリーン上の位置
 
-	bool damaged;	//ダメージを受けているか
-	bool flash;		//点滅用
+	bool damaged;			//ダメージを受けているか
+	int flashCount;			//点滅用
 	int flashStartTime;		//ダメージを受けたの時間
+
+	int hideGraphic;		//隠れているときの画像
+	int isHide;				//隠れているか
 
 public:
 	Player();

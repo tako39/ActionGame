@@ -11,17 +11,20 @@ Player::Player() {
 	graphic_R = LoadGraph("image/player_r.png");
 	graphic_L = LoadGraph("image/player_l.png");
 	punchGraphic = LoadGraph("image/punch.png");
+	hideGraphic = LoadGraph("image/player_hide.png");
 
 	pos = firstPos[SceneMgr::nowStage];
-	direct = DIR_RIGHT; //始めは右向き
-	jump_Flag = false;
+	direct = DIR_RIGHT;	//始めは右向きとする
+	jump_Flag = false;	//ジャンプしていない状態
 	ver_Speed = 0.0f;
 
 	degree = 0.0f;
-	isPunch = false;
+	isPunch = false;	//パンチしていない状態
 
 	damaged = false;	//ダメージを受けていない状態
-	flash = true;
+	flashCount = 0;
+
+	isHide = false;		//隠れていない状態
 }
 
 Player::~Player() {
@@ -29,6 +32,16 @@ Player::~Player() {
 }
 
 void Player::Update() {
+
+	//隠れる(隠れているときは動けない)
+	if (!jump_Flag && 0 < GetKey(KEY_INPUT_H) && GetKey(KEY_INPUT_H) <= 120) {
+		isHide = true;
+		return;
+	}
+	else {
+		isHide = false;
+	}
+
 	move = VGet(0.0f, 0.0f, 0.0f);  //移動量の初期化
 
 	//右への移動
@@ -54,7 +67,7 @@ void Player::Update() {
 		isPunch = true;
 		punchDir = direct; //ボタンを押した時の向きに攻撃
 	}
-	
+
 	if (isPunch) {
 		Attack();
 	}
@@ -89,24 +102,27 @@ void Player::Draw() {
 		screenPos.y = pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
-	//向きに応じて描画
-	if (direct == DIR_RIGHT) {
-		if (damaged) {
-			if(flash) DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_R, FALSE);
-			flash = !flash;
-		}
-		else {
-			DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_R, FALSE);
-		}
+	int graphic;	//向きに応じた画像
+
+	if (isHide) {	//隠れているとき
+		graphic = hideGraphic;
 	}
 	else {
-		if (damaged) {
-			if(flash) DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
-			flash = !flash;
+		if (direct == DIR_RIGHT) {
+			graphic = graphic_R;
 		}
 		else {
-			DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
+			graphic = graphic_L;
 		}
+	}
+
+	if (damaged) {
+		if (flashCount % 3 == 0) DrawGraph((int)screenPos.x, (int)screenPos.y, graphic, FALSE);
+		flashCount++;
+		if (flashCount >= 3) flashCount = 0;
+	}
+	else {
+		DrawGraph((int)screenPos.x, (int)screenPos.y, graphic, FALSE);
 	}
 
 	punchPos = pos;
@@ -215,6 +231,8 @@ void Player::HitWall() {
 
 //敵に当たった時の処理(無敵時間)
 void Player::HitEnemy(const EnemyMgr& enemyMgr) {
+	if (isHide) return;	//隠れているときはダメージを受けない
+
 	if (!damaged) {
 		for (int num = 0; num < ENEMY_NUM; num++) {
 			if (enemyMgr.IsExist(num)) {

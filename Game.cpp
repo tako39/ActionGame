@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "EnemyMgr.h"
 #include "BulletMgr.h"
+#include "BombMgr.h"
 #include "Display.h"
 #include "SceneMgr.h"
 
@@ -13,6 +14,7 @@ Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 	map = new Map();
 	enemyMgr = new EnemyMgr();
 	bulletMgr = new BulletMgr();
+	bombMgr = new BombMgr();
 	display = new Display();
 }
 
@@ -21,6 +23,7 @@ Game::~Game() {
 	delete map;
 	delete enemyMgr;
 	delete bulletMgr;
+	delete bombMgr;
 	delete display;
 }
 
@@ -31,12 +34,18 @@ void Game::Update() {
 	}
 	player->Update();
 	player->HitEnemy(*enemyMgr);
+	//’e‚ð”­ŽË
 	if (GetKey(KEY_INPUT_S) == 1) {
 		bulletMgr->Shot(*player);
 	}
+	//”š’e‚ðÝ’u
+	if (GetKey(KEY_INPUT_B) == 1) {
+		bombMgr->BombSet(*player);
+	}
 	map->Update(*player);
 	bulletMgr->Update(*player);
-	enemyMgr->Update(*player, *bulletMgr);
+	bombMgr->Update();
+	enemyMgr->Update(*player, *bulletMgr, *bombMgr);
 	display->Update();
 }
 
@@ -45,6 +54,7 @@ void Game::Draw() {
 	map->Draw();
 	player->Draw();
 	bulletMgr->Draw(*player);
+	bombMgr->Draw(*player);
 	enemyMgr->Draw(*player);
 	display->Draw(*player);
 }

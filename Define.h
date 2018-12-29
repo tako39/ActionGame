@@ -65,8 +65,10 @@ const float EPS = 1.0f;		//’n–Ê‚Æ‚Ì“–‚½‚è”»’è‚ÍEPS•ª“à‘¤‚É‚ ‚é
 const int BULLET_WIDTH	= 16;	//’e‚Ì‰¡•
 const int BULLET_HEIGHT = 8;	//’e‚Ìc•
 const int BULLET_NUM = 5;		//’e‚Ì”
-
 const float bulletSpeed = 8.0f;	//’e‚Ì‘¬“x
+
+//”š’e
+const int BOMB_NUM = 3;		//”š’e‚Ì”
 
 //“G
 const int ENEMY_NUM = 5;	//Å‘å‚Ì“G‚Ì”

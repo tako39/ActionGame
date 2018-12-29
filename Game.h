@@ -7,6 +7,7 @@ class Map;
 class Player;
 class EnemyMgr;
 class BulletMgr;
+class BombMgr;
 class Display;
 
 //ƒQ[ƒ€‰æ–ÊƒNƒ‰ƒX
@@ -17,6 +18,7 @@ private:
 	Map *map;
 	EnemyMgr *enemyMgr;
 	BulletMgr *bulletMgr;
+	BombMgr *bombMgr;
 	Display *display;
 
 public:

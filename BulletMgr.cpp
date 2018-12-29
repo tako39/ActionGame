@@ -3,6 +3,7 @@
 BulletMgr::BulletMgr() {
 	for (int num = 0; num < BULLET_NUM; num++) {
 		bullet[num] = NULL;
+		deleteTime[num] = -1000;
 	}
 }
 
@@ -34,7 +35,8 @@ void BulletMgr::Draw(const Player& player) {
 //ŽËŒ‚
 void BulletMgr::Shot(const Player& player) {
 	for (int num = 0; num < BULLET_NUM; num++) {
-		if (bullet[num] == NULL) {
+		//NULL‚©‚ÂÁ”ï‚µ‚½ŽžŠÔ‚©‚ç2•bŒo‚Á‚½‚à‚Ì‚ðŽg—p
+		if (bullet[num] == NULL && GetNowCount() - deleteTime[num] > 2000) {
 			bullet[num] = new Bullet(player);
 			break;
 		}

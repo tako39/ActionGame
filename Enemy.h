@@ -5,6 +5,7 @@
 
 class Player;
 class BulletMgr;
+class BombMgr;
 
 class Enemy : public Object {
 public:
@@ -16,7 +17,7 @@ public:
 	virtual void Draw() = 0;
 	virtual void Draw(const Player& player) {};
 
-	void Collision(const Player& player, BulletMgr& bulletMgr);	//“–‚½‚è”»’è
+	void Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr);	//“–‚½‚è”»’è
 };
 
 #endif

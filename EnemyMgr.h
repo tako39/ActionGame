@@ -9,6 +9,7 @@
 
 class Enemy;
 class BulletMgr;
+class BombMgr;
 
 class EnemyMgr : public Task {
 private:
@@ -20,7 +21,7 @@ public:
 	~EnemyMgr();
 
 	void Update() {};
-	void Update(const Player& player, BulletMgr& bulletMgr);
+	void Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr);
 	void Draw() {};
 	void Draw(const Player& player);
 

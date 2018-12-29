@@ -6,13 +6,15 @@
 class Player;
 class Map;
 class BulletMgr;
+class BombMgr;
 
 //メニュー画面クラス
 class Menu : public BaseScene {
 private:
 	Player *player;
 	Map *map;
-	BulletMgr * bulletMgr;
+	BulletMgr *bulletMgr;
+	BombMgr *bombMgr;
 
 public:
 	Menu(ISceneChanger* changer);
