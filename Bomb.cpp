@@ -5,7 +5,11 @@
 
 Bomb::Bomb(const Player& player) {
 	setTime = GetNowCount();
-	bombGraphic = LoadGraph("image/bomb.png");
+	bombGraphic_Count3 = LoadGraph("image/bomb_count3.png");
+	bombGraphic_Count2 = LoadGraph("image/bomb_count2.png");
+	bombGraphic_Count1 = LoadGraph("image/bomb_count1.png");
+	bombGraphic_Red = LoadGraph("image/bomb_red.png");
+	explosionGraphic = LoadGraph("image/explosion.png");
 	pos = player.GetPos();
 }
 
@@ -49,7 +53,26 @@ void Bomb::Draw(const Player& player) {
 		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
-	DrawGraph(scroll_x, scroll_y, bombGraphic, FALSE);
+	//カウントによって画像を変える
+	if (GetNowCount() - setTime > 2800) {
+		//爆発時に爆発のエフェクトを描画
+		DrawGraph((int)pos.x - CHIP_SIZE * 2, (int)pos.y - CHIP_SIZE * 2, explosionGraphic, TRUE);
+	}
+	else if (GetNowCount() - setTime > 1500) {
+		//爆発が近いときは点滅させる
+		if (GetNowCount() % 3 == 0) {
+			DrawGraph(scroll_x, scroll_y, bombGraphic_Red, FALSE);
+		}
+		else {
+			DrawGraph(scroll_x, scroll_y, bombGraphic_Count1, FALSE);
+		}
+	}
+	else if (GetNowCount() - setTime > 1000) {
+		DrawGraph(scroll_x, scroll_y, bombGraphic_Count2, FALSE);
+	}
+	else {
+		DrawGraph(scroll_x, scroll_y, bombGraphic_Count3, FALSE);
+	}
 }
 
 //移動

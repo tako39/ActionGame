@@ -10,7 +10,8 @@ Player::Player() {
 
 	graphic_R = LoadGraph("image/player_r.png");
 	graphic_L = LoadGraph("image/player_l.png");
-	punchGraphic = LoadGraph("image/punch.png");
+	punchGraphic_R = LoadGraph("image/arrow_r.png");
+	punchGraphic_L = LoadGraph("image/arrow_l.png");
 	hideGraphic = LoadGraph("image/player_hide.png");
 
 	pos = firstPos[SceneMgr::nowStage];
@@ -133,7 +134,12 @@ void Player::Draw() {
 	if (isPunch) {
 		//画面上のパンチの位置
 		VECTOR pPos = VGet(screenPos.x + punchMove.x, screenPos.y, 0.0f);
-		DrawGraph((int)pPos.x, (int)pPos.y, punchGraphic, TRUE);
+		if (direct == DIR_RIGHT) {
+			DrawGraph((int)pPos.x, (int)pPos.y, punchGraphic_R, TRUE);
+		}
+		else {
+			DrawGraph((int)pPos.x, (int)pPos.y, punchGraphic_L, TRUE);
+		}
 	}
 }
 
@@ -180,7 +186,7 @@ void Player::Move(float moveY, float moveX) {
 		int ground_R = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS);
 		int ground_L = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS);
 		//左下と右下に地面があるかどうか
-		if (ground_R == GROUND || (20 <= ground_R && ground_L <= 45) ||
+		if (ground_R == GROUND || (20 <= ground_R && ground_R <= 45) ||
 			ground_L == GROUND || (20 <= ground_L && ground_L <= 45)) {
 			jump_Flag = false;
 		}

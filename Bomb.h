@@ -7,8 +7,12 @@ class Player;
 
 class Bomb : public Object {
 private:
-	int setTime;		//”š’e‚ğİ’u‚µ‚½ŠÔ
-	int bombGraphic;	//”š’e‚Ì‰æ‘œ
+	int setTime;			//”š’e‚ğİ’u‚µ‚½ŠÔ	
+	int bombGraphic_Count1;	//”š’e‚Ì‰æ‘œ
+	int bombGraphic_Count2;
+	int bombGraphic_Count3;
+	int bombGraphic_Red;
+	int explosionGraphic;		//”š”­‰æ‘œ
 
 public:
 	Bomb(const Player& player);

@@ -16,6 +16,9 @@ Map::Map() {
 		s += ".png";
 		image_Alpha[i] = LoadGraph(s.c_str());
 	}
+
+	arrowGraphic_r = LoadGraph("image/arrow_r.png");
+	arrowGraphic_l = LoadGraph("image/arrow_l.png");
 }
 
 Map::~Map() {
@@ -70,6 +73,13 @@ void Map::Draw() {
 
 			if (20 <= chip && chip <= 45) {
 				DrawGraph(chip_x, chip_y, image_Alpha[chip - 20], TRUE);
+			}
+
+			if (chip == YR) {
+				DrawGraph(chip_x, chip_y, arrowGraphic_r, TRUE);
+			}
+			if (chip == YL) {
+				DrawGraph(chip_x, chip_y, arrowGraphic_l, TRUE);
 			}
 		}
 	}

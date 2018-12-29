@@ -44,7 +44,7 @@ void Enemy::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 	for (int bombNum = 0; bombNum < BOMB_NUM; bombNum++) {
 		if (bombMgr.IsExplosion(bombNum)) {	//”š”­‚µ‚½‚Æ‚«
 			VECTOR bombPos = bombMgr.GetBombPos(bombNum);
-			//”š’e‚ÌŽüˆÍ‚Pƒ}ƒX•ª‚Ì‹——£‚É‚¢‚é‚È‚ç“–‚½‚é
+			//”š’e‚ÌŽüˆÍ‚Qƒ}ƒX•ª‚Ì‹——£‚É‚¢‚é‚È‚ç“–‚½‚é
 			if ((fabs(pos.x + CHIP_SIZE / 2 - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 2) &&
 				(fabs(pos.y + CHIP_SIZE / 2 - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 2)) {
 				isExist = false;

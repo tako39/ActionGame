@@ -16,7 +16,8 @@ private:
 		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
 	};
 
-	int punchGraphic;		//パンチの画像
+	int punchGraphic_R;		//パンチの画像
+	int punchGraphic_L;
 	bool isPunch;			//パンチしているか
 	int punchDir;			//向き
 	float degree = 0.0f;	//周期

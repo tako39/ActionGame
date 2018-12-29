@@ -47,6 +47,9 @@ const int X = 43;
 const int Y = 44;
 const int Z = 45;
 
+const int YR = 46;	//¨
+const int YL = 47;	//©
+
 //ƒvƒŒƒCƒ„[
 const int MAX_HP = 100;	//Å‘å‚g‚o
 

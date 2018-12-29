@@ -3,6 +3,7 @@
 
 #include "Task.h"
 #include "Define.h"
+#include "DxLib.h"
 #include "Bomb.h"
 
 class Bomb;
@@ -35,14 +36,14 @@ public:
 		return explosion[num];
 	}
 
-	void DeleteBomb(int num) {	//”š’e‚Ìíœ
+	void DeleteBomb(int num) {	//”š’e‚Ìˆ—
 		delete bomb[num];
 		bomb[num] = NULL;
 		deleteTime[num] = GetNowCount();
 		explosion[num] = false;
 	}
 
-	void DeleteBombAll() {		//”š”­‚µ‚½”š’e‚Ìˆ—
+	void DeleteBombAll() {	//”š”­‚µ‚½”š’e‚Ìˆ—
 		for (int bombNum = 0; bombNum < BOMB_NUM; bombNum++) {
 			if (IsExplosion(bombNum)) {
 				DeleteBomb(bombNum);

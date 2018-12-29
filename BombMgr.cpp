@@ -1,5 +1,4 @@
 #include "BombMgr.h"
-#include "DxLib.h"
 
 BombMgr::BombMgr() {
 	for (int num = 0; num < BOMB_NUM; num++) {

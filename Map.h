@@ -8,11 +8,13 @@ class Player;
 
 class Map : public Task {
 private:
-	int back_Graphic;   //背景の画像
-	int ground_Graphic; //地面の画像
+	int back_Graphic;		//背景の画像
+	int ground_Graphic;		//地面の画像
 
-	//文字の画像
-	int image_Alpha[26];
+	int image_Alpha[26];	//文字の画像
+
+	int arrowGraphic_r;		//矢印の画像
+	int arrowGraphic_l;
 
 	VECTOR playerPos;   //プレイヤーの位置
 
