@@ -2,9 +2,8 @@
 #include "Game.h"
 #include "Define.h"
 #include "Player.h"
-#include "BulletMgr.h"
-#include "BombMgr.h"
-#include "Display.h"
+#include "SceneMgr.h"
+#include "Map.h"
 #include <math.h>
 
 Enemy::Enemy() {
@@ -15,42 +14,85 @@ Enemy::~Enemy() {
 
 }
 
-// “–‚½‚è”»’è
-void Enemy::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr) {
-	//ƒpƒ“ƒ`‚ª“–‚½‚Á‚Ä‚¢‚é‚©
-	if (player.GetIsPunch() &&
-		(fabs(pos.x - player.GetPunchPos().x) < CHIP_SIZE) &&
-		(fabs(pos.y - player.GetPunchPos().y) < CHIP_SIZE)) {
-		isExist = false;
-		Display::Score += POINT_ENEMY_ZAKO;
-		return;
+void Enemy::EnemyDraw(const Player& player) {
+	//ƒXƒNƒ[ƒ‹ˆ—
+	int scroll_x, scroll_y;
+
+	if ((int)player.GetPos().x < SCREEN_HALF_W) {
+		scroll_x = (int)pos.x;
+	}
+	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
+		scroll_x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+	}
+	else {
+		scroll_x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	//’e‚ª“–‚½‚Á‚Ä‚¢‚é‚©
-	for (int bulletNum = 0; bulletNum < BULLET_NUM; bulletNum++) {
-		if (bulletMgr.IsExist(bulletNum)) {	//’e‚ª‘¶Ý‚·‚é‚Æ‚«
-			VECTOR bulletPos = bulletMgr.GetBulletPos(bulletNum);
-			if ((fabs(pos.x + CHIP_SIZE / 2 - (bulletPos.x + BULLET_WIDTH  / 2)) < CHIP_SIZE / 2 + BULLET_WIDTH  / 2) &&
-				(fabs(pos.y + CHIP_SIZE / 2 - (bulletPos.y + BULLET_HEIGHT / 2)) < CHIP_SIZE / 2 + BULLET_HEIGHT / 2)) {
-				isExist = false;
-				bulletMgr.DeleteBullet(bulletNum);
-				Display::Score += POINT_ENEMY_ZAKO;
-				return;
-			}
-		}
+	if ((int)player.GetPos().y < SCREEN_HALF_H) {
+		scroll_y = (int)pos.y;
+	}
+	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		scroll_y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+	}
+	else {
+		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
-	//”š’e‚ª”š”­‚µ‚½‚Æ‚«‚ÉŠª‚«ž‚Ü‚ê‚½‚©
-	for (int bombNum = 0; bombNum < BOMB_NUM; bombNum++) {
-		if (bombMgr.IsExplosion(bombNum)) {	//”š”­‚µ‚½‚Æ‚«
-			VECTOR bombPos = bombMgr.GetBombPos(bombNum);
-			//”š’e‚ÌŽüˆÍ‚Qƒ}ƒX•ª‚Ì‹——£‚É‚¢‚é‚È‚ç“–‚½‚é
-			if ((fabs(pos.x + CHIP_SIZE / 2 - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 2) &&
-				(fabs(pos.y + CHIP_SIZE / 2 - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 2)) {
-				isExist = false;
-				Display::Score += POINT_ENEMY_ZAKO;
-				return;
+	//Œü‚«‚É‰ž‚¶‚Ä•`‰æ
+	if (direct == DIR_RIGHT) {
+		DrawGraph((int)scroll_x, (int)scroll_y, graphic_R, FALSE);
+	}
+	else {
+		DrawGraph((int)scroll_x, (int)scroll_y, graphic_L, FALSE);
+	}
+}
+
+//ˆÊ’u‚ÌŒˆ’è
+VECTOR Enemy::randomPos(int h, int w) {
+	int posY, posX;
+	while (1) {
+		posY = GetRand(STAGE_HEIGHT[SceneMgr::nowStage] - 1);
+		posX = GetRand(STAGE_WIDTH[SceneMgr::nowStage] - 1);
+
+		bool canPut = true;
+
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				if (Map::GetMap(posY + CHIP_SIZE * y, posX + CHIP_SIZE * x) != BACK) {
+					canPut = false;
+					break;
+				}
 			}
 		}
+
+		if (canPut) break;
 	}
+	return VGet((float)posX * CHIP_SIZE, (float)posY * CHIP_SIZE, 0.0f);
+}
+
+//Œü‚«‚ÌŒˆ’è
+int Enemy::randomDir() {
+	int r = GetRand(1);
+	//ˆÚ“®•ûŒü‚ðŒˆ‚ß‚é
+	if (r == 0) return DIR_LEFT;
+	else return DIR_RIGHT;
+}
+
+//ƒXƒs[ƒh‚ÌŒˆ’è
+float Enemy::randomSpeed() {
+	float speed;
+
+	int r = GetRand(2);
+	switch (r) {
+	case 0:
+		speed = 1.0f;
+		break;
+	case 1:
+		speed = 2.0f;
+		break;
+	case 2:
+		speed = 3.0f;
+		break;
+	}
+	return speed;
 }

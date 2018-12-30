@@ -76,6 +76,9 @@ const int BOMB_NUM = 3;		//爆弾の数
 //敵
 const int ENEMY_NUM = 5;	//最大の敵の数
 
+const int ENEMY_ZAKO = 1;	//Zakoクラスの敵
+const int ENEMY_TALL = 2;	//Tallクラスの敵
+
 //方向
 const int NONE = -1;	//なし
 
@@ -90,6 +93,7 @@ const int KEY_NUM = 256;	//入力
 
 //点数
 const int POINT_ENEMY_ZAKO = 10;	//Zakoで得られるポイント
+const int POINT_ENEMY_TALL = 10;	//Tallで得られるポイント
 
 //その他
 const float PI = 3.14f;		//円周率

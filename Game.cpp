@@ -54,7 +54,7 @@ void Game::Draw() {
 	map->Draw();
 	player->Draw();
 	bulletMgr->Draw(*player);
-	bombMgr->Draw(*player);
 	enemyMgr->Draw(*player);
+	bombMgr->Draw(*player);
 	display->Draw(*player);
 }

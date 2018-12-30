@@ -34,8 +34,8 @@ Player::~Player() {
 
 void Player::Update() {
 
-	//‰B‚ê‚é(‰B‚ê‚Ä‚¢‚é‚Æ‚«‚Í“®‚¯‚È‚¢)
-	if (!jump_Flag && 0 < GetKey(KEY_INPUT_H) && GetKey(KEY_INPUT_H) <= 120) {
+	//‰B‚ê‚é‚±‚Æ‚ª‚Å‚«‚é(‰B‚ê‚Ä‚¢‚é‚Æ‚«‚Í“®‚¯‚È‚¢)
+	if (!jump_Flag && GetKey(KEY_INPUT_H) > 0) {
 		isHide = true;
 		return;
 	}

@@ -1,11 +1,12 @@
 #include "EnemyMgr.h"
-#include "Game.h"
 #include "Enemy_Zako.h"
+#include "Enemy_Tall.h"
+#include "Game.h"
 #include "BombMgr.h"
 
 EnemyMgr::EnemyMgr() {
 	for (int num = 0; num < ENEMY_NUM; num++) {
-		enemy[num] = new Zako();
+		enemy[num] = new Tall();
 	}
 }
 
@@ -22,8 +23,15 @@ void EnemyMgr::Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 			enemy[num]->Update(player);	//XV
 			enemy[num]->Collision(player, bulletMgr, bombMgr);	//“–‚½‚è”»’è
 			if (enemy[num]->GetExist() == false) {	//“|‚³‚ê‚½‚Æ‚«
-				delete enemy[num];
-				enemy[num] = NULL;
+				if (enemy[num]->GetType() == ENEMY_ZAKO) {
+					delete enemy[num];
+					enemy[num] = NULL;
+				}
+				else if (enemy[num]->GetType() == ENEMY_TALL) {
+					VECTOR tallPos = enemy[num]->GetPos();
+					delete enemy[num];
+					enemy[num] = new Zako(tallPos);
+				}
 			}
 		}
 	}

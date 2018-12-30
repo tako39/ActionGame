@@ -35,8 +35,8 @@ void BombMgr::Draw(const Player& player) {
 
 void BombMgr::BombSet(const Player& player) {
 	for (int num = 0; num < BOMB_NUM; num++) {
-		//NULLかつ、消費した時間から1秒経ったものを使用
-		if (bomb[num] == NULL && (GetNowCount() - deleteTime[num] > 1000)) {
+		//NULLかつ、消費した時間から2秒経ったものを使用
+		if (bomb[num] == NULL && (GetNowCount() - deleteTime[num] > 2000)) {
 			bomb[num] = new Bomb(player);
 			break;
 		}

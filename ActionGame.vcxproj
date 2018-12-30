@@ -163,6 +163,7 @@
     <ClCompile Include="BombMgr.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMgr.cpp" />
+    <ClCompile Include="Enemy_Tall.cpp" />
     <ClCompile Include="Manual.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="BombMgr.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMgr.h" />
+    <ClInclude Include="Enemy_Tall.h" />
     <ClInclude Include="Manual.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Display.h" />
