@@ -11,6 +11,8 @@ class Player;
 
 class BulletMgr : public Task {
 private:
+	int bulletSound;	//’e‚ğ”­Ë‚µ‚½‚Æ‚«‚Ì‰¹
+
 	Bullet *bullet[BULLET_NUM];
 	int deleteTime[BULLET_NUM];	//’e‚ğÁ”ï‚µ‚½ŠÔ
 

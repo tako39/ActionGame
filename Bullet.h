@@ -11,6 +11,8 @@ private:
 	int bulletGraphic;	//’e‚Ì‰æ‘œ
 	bool init;	//¶¬
 
+	float totalMove;	//‘ˆÚ“®‹——£
+
 public:
 	Bullet(const Player& player);
 	~Bullet();

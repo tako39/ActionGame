@@ -1,13 +1,12 @@
-#ifndef ___Class_Tall
-#define ___Class_Tall
+#ifndef ___Class_Big
+#define ___Class_Big
 
 #include "Enemy.h"
 
-class Tall : public Enemy {
+class Big : public Enemy {
 public:
-	Tall();
-	Tall(VECTOR setPos);
-	~Tall();
+	Big();
+	~Big();
 
 	void Update() {};
 	void Update(const Player& player);

@@ -3,8 +3,6 @@
 
 #include "Enemy.h"
 
-class Player;
-
 class Zako : public Enemy {
 public:
 	Zako();

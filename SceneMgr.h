@@ -7,6 +7,8 @@
 class SceneMgr : public ISceneChanger, Task {
 
 private:
+	int selectSound;	//選択音
+
 	BaseScene* mScene;    //シーン管理変数
 	eScene mNextScene;    //次のシーン管理変数
 

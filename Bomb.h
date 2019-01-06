@@ -7,6 +7,8 @@ class Player;
 
 class Bomb : public Object {
 private:
+	int bombSound;	//”š’e‚ª”š”­‚µ‚½‚Æ‚«‚Ì‰¹
+
 	int setTime;			//”š’e‚ğİ’u‚µ‚½ŠÔ	
 	int bombGraphic_Count1;	//”š’e‚Ì‰æ‘œ
 	int bombGraphic_Count2;

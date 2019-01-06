@@ -5,6 +5,7 @@
 
 Bomb::Bomb(const Player& player) {
 	setTime = GetNowCount();
+	bombSound = LoadSoundMem("sound/bomb.mp3");
 	bombGraphic_Count3 = LoadGraph("image/bomb_count3.png");
 	bombGraphic_Count2 = LoadGraph("image/bomb_count2.png");
 	bombGraphic_Count1 = LoadGraph("image/bomb_count1.png");
@@ -20,6 +21,7 @@ Bomb::~Bomb() {
 void Bomb::Update() {
 	//Ý’u‚µ‚Ä‚©‚ç3•bŒo‚Á‚½‚Æ‚«”š”­
 	if (GetNowCount() - setTime > 3000) {
+		PlaySoundMem(bombSound, DX_PLAYTYPE_BACK);	//”š’e‚ª”š”­‚µ‚½‚Æ‚«‚Ì‰¹
 		isExist = false;
 	}
 	

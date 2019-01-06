@@ -17,6 +17,16 @@ Tall::Tall() {
 	enemySpeed = randomSpeed();	//ランダムに速さを決定
 }
 
+Tall::Tall(VECTOR setPos) {
+	enemyType = ENEMY_TALL;
+	graphic_R = LoadGraph("image/enemyTall_r.png");
+	graphic_L = LoadGraph("image/enemyTall_l.png");
+	isGround = false;
+	pos = setPos;				//setPosに位置を設定
+	direct = randomDir();		//ランダムに向きを決定
+	enemySpeed = randomSpeed();	//ランダムに速さを決定
+}
+
 Tall::~Tall() {
 
 }
@@ -86,9 +96,11 @@ void Tall::Move(float moveY, float moveX) {
 	{
 		float nextMove = enemySpeed * direct;
 		//進む先に地面がないなら向きを変える
-		if (Map::GetMapChip(pos.y + CHIP_SIZE * 2 + EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove) != GROUND ||
-			Map::GetMapChip(pos.y + CHIP_SIZE * 2 + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS + nextMove) != GROUND) {
-			direct *= -1;
+		if (Map::GetMapChip(pos.y + CHIP_SIZE * 2 + EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove) != GROUND) {
+			direct = DIR_RIGHT;	//左端が当たったら右に
+		}
+		if (Map::GetMapChip(pos.y + CHIP_SIZE * 2 + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS + nextMove) != GROUND) {
+			direct = DIR_LEFT;	//右端が当たったら左に
 		}
 	}
 }

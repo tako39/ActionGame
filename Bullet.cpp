@@ -6,6 +6,7 @@
 
 Bullet::Bullet(const Player& player) {
 	bulletGraphic = LoadGraph("image/bullet.png");
+
 	//Œü‚«‚ğæ“¾‚µ‚Ä”­ËˆÊ’u‚ğŒˆ‚ß‚é
 	direct = player.GetDirect();
 	if (direct == DIR_RIGHT) {
@@ -19,6 +20,7 @@ Bullet::Bullet(const Player& player) {
 				   0.0f);
 	}
 	init = true;
+	totalMove = 0.0f;
 }
 
 Bullet::~Bullet() {
@@ -33,7 +35,11 @@ void Bullet::Update(const Player& player) {
 	else {
 		init = false;
 	}
-	HitWall();
+	HitWall();				//•Ç‚É“–‚½‚Á‚½‚Ìˆ—
+	totalMove += move.x;	//ˆÚ“®‹——£‚ğ‘«‚·
+	if (totalMove > CHIP_SIZE * 10) {	//‘ˆÚ“®‹——£‚ª10ƒ}ƒX•ª‚É‚È‚Á‚½‚çÁ‚¦‚é
+		isExist = false;
+	}
 }
 
 void Bullet::Draw(const Player& player) {

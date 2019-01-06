@@ -2,7 +2,7 @@
 #include "Manual.h"
 #include "Game.h"
 #include "Menu.h"
-#include "Result.h"
+#include "GameOver.h"
 #include "SceneMgr.h"
 
 int SceneMgr::nowStage = 0;
@@ -10,6 +10,7 @@ int SceneMgr::nowStage = 0;
 SceneMgr::SceneMgr() : mNextScene(eScene_None) //次のシーン管理変数
 {
 	mScene = (BaseScene*) new Menu(this);
+	selectSound = LoadSoundMem("sound/select.mp3");
 }
 
 SceneMgr::~SceneMgr() {
@@ -30,8 +31,8 @@ void SceneMgr::Update() {
 		case eScene_Manual:
 			mScene = (BaseScene*) new Manual(this);		//ゲーム説明画面
 			break;
-		case eScene_Result:
-			mScene = (BaseScene*) new Result(this);		//結果表示画面
+		case eScene_GameOver:
+			mScene = (BaseScene*) new GameOver(this);		//ゲームオーバー画面
 		}
 		mNextScene = eScene_None;  //次のシーン情報をクリア
 	}
@@ -46,5 +47,6 @@ void SceneMgr::Draw() {
 
 // 引数 nextScene にシーンを変更する
 void SceneMgr::ChangeScene(eScene NextScene) {
+	PlaySoundMem(selectSound, DX_PLAYTYPE_BACK);
 	mNextScene = NextScene;  //次のシーンをセットする
 }

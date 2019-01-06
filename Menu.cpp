@@ -10,6 +10,7 @@
 
 Menu::Menu(ISceneChanger* changer) : BaseScene(changer) {
 	SceneMgr::nowStage = 0;	//ステージ0にする
+
 	player = new Player();
 	map = new Map();
 	bulletMgr = new BulletMgr();
@@ -51,5 +52,5 @@ void Menu::Draw() {
 	player->Draw();
 	bulletMgr->Draw(*player);
 	bombMgr->Draw(*player);
-	DrawString(0, 0, "Gキーを押すとゲーム開始、Mキーを押すとゲーム説明", GetColor(255, 0, 0));
+	//DrawString(0, 0, "Gキーを押すとゲーム開始、Mキーを押すとゲーム説明", GetColor(255, 0, 0));
 }

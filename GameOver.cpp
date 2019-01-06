@@ -1,20 +1,20 @@
-#include "Result.h"
+#include "GameOver.h"
 #include "Keyboard.h"
 
-Result::Result(ISceneChanger* changer) : BaseScene(changer) {
+GameOver::GameOver(ISceneChanger* changer) : BaseScene(changer) {
 
 }
 
-Result::~Result() {
+GameOver::~GameOver() {
 
 }
 
-void Result::Update() {
+void GameOver::Update() {
 	if (CheckHitKey(KEY_INPUT_SPACE) != 0) {  //スペースキーが押されていたら
 		mSceneChanger->ChangeScene(eScene_Menu);  //シーンをメニュー画面に変更
 	}
 }
 
-void Result::Draw() {
+void GameOver::Draw() {
 
 }

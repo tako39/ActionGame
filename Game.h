@@ -12,7 +12,6 @@ class Display;
 
 //ƒQ[ƒ€‰æ–ÊƒNƒ‰ƒX
 class Game : public BaseScene {
-
 private:
 	Player * player;
 	Map *map;

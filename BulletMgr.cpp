@@ -1,6 +1,8 @@
 #include "BulletMgr.h"
 
 BulletMgr::BulletMgr() {
+	bulletSound = LoadSoundMem("sound/bullet.mp3");
+
 	for (int num = 0; num < BULLET_NUM; num++) {
 		bullet[num] = NULL;
 		deleteTime[num] = -1000;
@@ -37,6 +39,7 @@ void BulletMgr::Shot(const Player& player) {
 	for (int num = 0; num < BULLET_NUM; num++) {
 		//NULL‚©‚ÂÁ”ï‚µ‚½ŽžŠÔ‚©‚ç2•bŒo‚Á‚½‚à‚Ì‚ðŽg—p
 		if (bullet[num] == NULL && GetNowCount() - deleteTime[num] > 2000) {
+			PlaySoundMem(bulletSound, DX_PLAYTYPE_BACK);	//’e‚ð”­ŽË‚µ‚½Žž‚Ì‰¹
 			bullet[num] = new Bullet(player);
 			break;
 		}

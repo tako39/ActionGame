@@ -8,6 +8,10 @@
 Player::Player() {
 	hitPoint = MAX_HP;
 
+	jumpSound = LoadSoundMem("sound/jump.mp3");
+	damageSound = LoadSoundMem("sound/damage.mp3");
+	punchSound = LoadSoundMem("sound/punch.mp3");
+
 	graphic_R = LoadGraph("image/player_r.png");
 	graphic_L = LoadGraph("image/player_l.png");
 	punchGraphic_R = LoadGraph("image/arrow_r.png");
@@ -59,6 +63,7 @@ void Player::Update() {
 
 	//ジャンプ
 	if (!jump_Flag && GetKey(KEY_INPUT_SPACE) == 1) {
+		PlaySoundMem(jumpSound, DX_PLAYTYPE_BACK);	//ジャンプ音
 		ver_Speed = -JumpPower;
 		jump_Flag = true;
 	}
@@ -70,6 +75,7 @@ void Player::Update() {
 	}
 
 	if (isPunch) {
+		PlaySoundMem(punchSound, DX_PLAYTYPE_BACK);	//パンチしたときの音
 		Attack();
 	}
 
@@ -235,7 +241,7 @@ void Player::HitWall() {
 	}
 }
 
-//敵に当たった時の処理(無敵時間)
+//敵に当たった時の処理(無敵時間あり)
 void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 	if (isHide) return;	//隠れているときはダメージを受けない
 
@@ -243,8 +249,22 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 		for (int num = 0; num < ENEMY_NUM; num++) {
 			if (enemyMgr.IsExist(num)) {
 				VECTOR enemyPos = enemyMgr.GetEnemyPos(num);
-				if (fabs(enemyPos.x - pos.x) < CHIP_SIZE &&
-					fabs(enemyPos.y - pos.y) < CHIP_SIZE) {
+				int enemySizeX, enemySizeY;
+				if (enemyMgr.GetEnemyType(num) == ENEMY_ZAKO) {
+					enemySizeX = CHIP_SIZE;
+					enemySizeY = CHIP_SIZE;
+				}
+				else if (enemyMgr.GetEnemyType(num) == ENEMY_TALL) {
+					enemySizeX = CHIP_SIZE;
+					enemySizeY = CHIP_SIZE * 2;
+				}
+				else if(enemyMgr.GetEnemyType(num) == ENEMY_BIG) {
+					enemySizeX = CHIP_SIZE * 2;
+					enemySizeY = CHIP_SIZE * 2;
+				}
+				if (fabs(enemyPos.x - pos.x) < CHIP_SIZE / 2 + enemySizeX / 2 &&
+					fabs(enemyPos.y - pos.y) < CHIP_SIZE / 2 + enemySizeY / 2) {
+					PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージを受けたときの音
 					damaged = true;
 					flashStartTime = GetNowCount();
 					hitPoint -= 10;

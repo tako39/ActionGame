@@ -78,6 +78,7 @@ const int ENEMY_NUM = 5;	//最大の敵の数
 
 const int ENEMY_ZAKO = 1;	//Zakoクラスの敵
 const int ENEMY_TALL = 2;	//Tallクラスの敵
+const int ENEMY_BIG = 3;	//Bigクラスの敵
 
 //方向
 const int NONE = -1;	//なし

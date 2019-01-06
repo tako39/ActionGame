@@ -16,6 +16,10 @@ private:
 		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
 	};
 
+	int jumpSound;		//ジャンプしたときの音
+	int damageSound;	//ダメージを受けたときの音
+	int punchSound;		//パンチしたときの音
+
 	int punchGraphic_R;		//パンチの画像
 	int punchGraphic_L;
 	bool isPunch;			//パンチしているか

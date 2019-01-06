@@ -32,6 +32,9 @@ public:
 	VECTOR GetEnemyPos(int num) const {	//enemy[num]‚ÌˆÊ’u‚ðŽæ“¾
 		return enemy[num]->GetPos();
 	}
+	int GetEnemyType(int num) const {
+		return enemy[num]->GetType();
+	}
 };
 
 #endif

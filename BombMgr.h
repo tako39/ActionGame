@@ -11,6 +11,8 @@ class Player;
 
 class BombMgr : public Task {
 private:
+	int putSound;	//”š’e‚ğ’u‚¢‚½‚Æ‚«‚Ì‰¹
+
 	Bomb *bomb[BOMB_NUM];
 	int deleteTime[BOMB_NUM];	//”š’e‚ğÁ”ï‚µ‚½ŠÔ
 	bool explosion[BOMB_NUM];	//”š”­‚µ‚Ä‚¢‚é‚©
