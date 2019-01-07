@@ -164,6 +164,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMgr.cpp" />
     <ClCompile Include="Enemy_Big.cpp" />
+    <ClCompile Include="Enemy_Boss.cpp" />
     <ClCompile Include="Enemy_Tall.cpp" />
     <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="Manual.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMgr.h" />
     <ClInclude Include="Enemy_Big.h" />
+    <ClInclude Include="Enemy_Boss.h" />
     <ClInclude Include="Enemy_Tall.h" />
     <ClInclude Include="GameClear.h" />
     <ClInclude Include="Manual.h" />

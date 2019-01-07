@@ -54,10 +54,13 @@ VECTOR Enemy::randomPos(int h, int w) {
 		posY = GetRand(STAGE_HEIGHT[SceneMgr::nowStage] - 1);
 		posX = GetRand(STAGE_WIDTH[SceneMgr::nowStage] - 1);
 
-		bool canPut = true;
+		if (posX > 3) continue;	//xが3以下(プレイヤーのスタート位置)には敵を配置しない
+
+		bool canPut = true;		//敵を配置できるか
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				//敵がマップからはみ出るなら
 				if (Map::GetMap(posY + CHIP_SIZE * y, posX + CHIP_SIZE * x) != BACK) {
 					canPut = false;
 					break;
@@ -65,7 +68,7 @@ VECTOR Enemy::randomPos(int h, int w) {
 			}
 		}
 
-		if (canPut) break;
+		if (canPut) break;	//敵が配置できるときループを抜ける
 	}
 	return VGet((float)posX * CHIP_SIZE, (float)posY * CHIP_SIZE, 0.0f);
 }
@@ -73,7 +76,7 @@ VECTOR Enemy::randomPos(int h, int w) {
 //向きの決定
 int Enemy::randomDir() {
 	int r = GetRand(1);
-	//移動方向を決める
+
 	if (r == 0) return DIR_LEFT;
 	else return DIR_RIGHT;
 }
@@ -81,8 +84,8 @@ int Enemy::randomDir() {
 //スピードの決定
 float Enemy::randomSpeed() {
 	float speed;
-
 	int r = GetRand(2);
+	
 	switch (r) {
 	case 0:
 		speed = 1.0f;

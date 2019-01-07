@@ -24,7 +24,10 @@ public:
 	Object();
 	~Object();
 
-	int GetHitPoint() const { return hitPoint; }	//HPの取得
+	void SetHitPoint(int hp) { hitPoint = hp; }			//HPをセットする
+	int GetHitPoint() const { return hitPoint; }		//HPを取得する
+	void Damaged(int damege) { hitPoint -= damege; }	//ダメージを与える
+
 	bool GetExist() const { return isExist; }		//生存確認
 
 	VECTOR GetPos() const { return pos; }		//位置の取得

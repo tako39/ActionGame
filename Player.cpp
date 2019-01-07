@@ -6,7 +6,7 @@
 #include <math.h>
 
 Player::Player() {
-	hitPoint = MAX_HP;
+	SetHitPoint(MAX_HP);
 
 	jumpSound = LoadSoundMem("sound/jump.mp3");
 	damageSound = LoadSoundMem("sound/damage.mp3");
@@ -246,28 +246,36 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 	if (isHide) return;	//隠れているときはダメージを受けない
 
 	if (!damaged) {
-		for (int num = 0; num < ENEMY_NUM; num++) {
+		for (int num = 0; num < enemyMgr.GetEnemyNum(); num++) {
 			if (enemyMgr.IsExist(num)) {
-				VECTOR enemyPos = enemyMgr.GetEnemyPos(num);
-				int enemySizeX, enemySizeY;
-				if (enemyMgr.GetEnemyType(num) == ENEMY_ZAKO) {
+				VECTOR enemyPos = enemyMgr.GetEnemyPos(num);	//敵の位置
+				int enemySizeX, enemySizeY;						//敵の大きさ
+				int type = enemyMgr.GetEnemyType(num);			//敵の種類
+
+				if (type == ENEMY_ZAKO) {
 					enemySizeX = CHIP_SIZE;
 					enemySizeY = CHIP_SIZE;
 				}
-				else if (enemyMgr.GetEnemyType(num) == ENEMY_TALL) {
+				else if (type == ENEMY_TALL) {
 					enemySizeX = CHIP_SIZE;
 					enemySizeY = CHIP_SIZE * 2;
 				}
-				else if(enemyMgr.GetEnemyType(num) == ENEMY_BIG) {
+				else if(type == ENEMY_BIG) {
 					enemySizeX = CHIP_SIZE * 2;
 					enemySizeY = CHIP_SIZE * 2;
 				}
+				else if (type == ENEMY_BOSS) {
+					enemySizeX = CHIP_SIZE * 3;
+					enemySizeY = CHIP_SIZE * 3;
+				}
+
+				//当たり判定の計算、処理
 				if (fabs(enemyPos.x - pos.x) < CHIP_SIZE / 2 + enemySizeX / 2 &&
 					fabs(enemyPos.y - pos.y) < CHIP_SIZE / 2 + enemySizeY / 2) {
 					PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージを受けたときの音
 					damaged = true;
-					flashStartTime = GetNowCount();
-					hitPoint -= 10;
+					flashStartTime = GetNowCount();	//ダメージを受けた時間の記憶
+					Damaged(10);	//10ダメージ受ける
 					return;
 				}
 			}

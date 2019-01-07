@@ -10,10 +10,11 @@ class EnemyMgr;
 class Player :  public Object {
 private:
 	//èâä˙à íu
-	const VECTOR firstPos[2] =
+	const VECTOR firstPos[STAGE_NUM] =
 	{
-		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
-		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0),
+		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0f),
+		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0f),
+		VGet(1 * CHIP_SIZE, 1 * CHIP_SIZE, 0.0f),
 	};
 
 	int jumpSound;		//ÉWÉÉÉìÉvÇµÇΩÇ∆Ç´ÇÃâπ

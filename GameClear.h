@@ -13,4 +13,4 @@ public:
 	void Draw();
 };
 
-#endif#pragma once
+#endif

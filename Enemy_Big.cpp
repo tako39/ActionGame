@@ -109,7 +109,7 @@ void Big::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr
 	for (int bulletNum = 0; bulletNum < BULLET_NUM; bulletNum++) {
 		if (bulletMgr.IsExist(bulletNum)) {	//’e‚ª‘¶Ý‚·‚é‚Æ‚«
 			VECTOR bulletPos = bulletMgr.GetBulletPos(bulletNum);
-			if ((fabs(pos.x + CHIP_SIZE / 2 - (bulletPos.x + BULLET_WIDTH / 2)) < CHIP_SIZE / 2 + BULLET_WIDTH / 2) &&
+			if ((fabs(pos.x + CHIP_SIZE - (bulletPos.x + BULLET_WIDTH  / 2)) < CHIP_SIZE + BULLET_WIDTH  / 2) &&
 				(fabs(pos.y + CHIP_SIZE - (bulletPos.y + BULLET_HEIGHT / 2)) < CHIP_SIZE + BULLET_HEIGHT / 2)) {
 				isExist = false;
 				bulletMgr.DeleteBullet(bulletNum);
@@ -124,8 +124,8 @@ void Big::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr
 		if (bombMgr.IsExplosion(bombNum)) {	//”š”­‚µ‚½‚Æ‚«
 			VECTOR bombPos = bombMgr.GetBombPos(bombNum);
 			//”š’e‚ÌŽüˆÍ‚Qƒ}ƒX•ª‚Ì‹——£‚É‚¢‚é‚È‚ç“–‚½‚é
-			if ((fabs(pos.x + CHIP_SIZE / 2 - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 2) &&
-				(fabs(pos.y + CHIP_SIZE - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 2.5f)) {
+			if ((fabs(pos.x + CHIP_SIZE - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 3.5f) &&
+				(fabs(pos.y + CHIP_SIZE - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 3.5f)) {
 				isExist = false;
 				Display::Score += POINT_ENEMY_TALL;
 				return;

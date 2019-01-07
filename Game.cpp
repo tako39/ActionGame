@@ -12,7 +12,7 @@ Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 	SceneMgr::nowStage = 1;	//ステージ1から始める
 	player = new Player();
 	map = new Map();
-	enemyMgr = new EnemyMgr();
+	enemyMgr = new EnemyMgr(ENEMY_ZAKO, 10);	//最初にZakoを10匹
 	bulletMgr = new BulletMgr();
 	bombMgr = new BombMgr();
 	display = new Display();

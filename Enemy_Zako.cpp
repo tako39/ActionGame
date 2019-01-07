@@ -136,8 +136,8 @@ void Zako::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMg
 		if (bombMgr.IsExplosion(bombNum)) {	//”š”­‚µ‚½‚Æ‚«
 			VECTOR bombPos = bombMgr.GetBombPos(bombNum);
 			//”š’e‚ÌŽüˆÍ‚Qƒ}ƒX•ª‚Ì‹——£‚É‚¢‚é‚È‚ç“–‚½‚é
-			if ((fabs(pos.x + CHIP_SIZE / 2 - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 2) &&
-				(fabs(pos.y + CHIP_SIZE / 2 - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 2)) {
+			if ((fabs(pos.x + CHIP_SIZE / 2 - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 3.0f) &&
+				(fabs(pos.y + CHIP_SIZE / 2 - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 3.0f)) {
 				isExist = false;
 				Display::Score += POINT_ENEMY_ZAKO;
 				return;

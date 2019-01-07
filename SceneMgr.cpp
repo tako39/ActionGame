@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Menu.h"
 #include "GameOver.h"
+#include "GameClear.h"
 #include "SceneMgr.h"
 
 int SceneMgr::nowStage = 0;
@@ -32,7 +33,11 @@ void SceneMgr::Update() {
 			mScene = (BaseScene*) new Manual(this);		//ゲーム説明画面
 			break;
 		case eScene_GameOver:
-			mScene = (BaseScene*) new GameOver(this);		//ゲームオーバー画面
+			mScene = (BaseScene*) new GameOver(this);	//ゲームオーバー画面
+			break;
+		case eScene_GameClear:
+			mScene = (BaseScene*) new GameClear(this);	//ゲームクリア画面
+			break;
 		}
 		mNextScene = eScene_None;  //次のシーン情報をクリア
 	}

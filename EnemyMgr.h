@@ -13,17 +13,22 @@ class BombMgr;
 
 class EnemyMgr : public Task {
 private:
-	Enemy *enemy[ENEMY_NUM];
-	VECTOR enemyPos[ENEMY_NUM];  //ìGÇÃà íu
+	const int enemyNum;			//ìGÇÃêî
+	Enemy *enemy[MAX_ENEMY];	//ìG
+	VECTOR enemyPos[MAX_ENEMY];	//ìGÇÃà íu
 
 public:
-	EnemyMgr();
+	EnemyMgr(int type, int num);
 	~EnemyMgr();
 
 	void Update() {};
 	void Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr);
 	void Draw() {};
 	void Draw(const Player& player);
+
+	int GetEnemyNum() const {
+		return enemyNum;
+	}
 
 	bool IsExist(int num) const {	//ë∂ç›Ç∑ÇÈÇ©Ç«Ç§Ç©
 		if (enemy[num] != NULL) return true;
