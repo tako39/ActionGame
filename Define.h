@@ -64,6 +64,9 @@ const float JumpPower = 12.0f;	//ジャンプ力
 
 const float EPS = 1.0f;		//地面との当たり判定はEPS分内側にある
 
+const int PUNCH_WIDTH = CHIP_SIZE;	//パンチの横幅
+const int PUNCH_HEIGHT = CHIP_SIZE;	//パンチの縦幅
+
 //弾
 const int BULLET_WIDTH = 16;	//弾の横幅
 const int BULLET_HEIGHT = 8;	//弾の縦幅
@@ -71,15 +74,29 @@ const int BULLET_NUM = 5;		//弾の数
 const float bulletSpeed = 8.0f;	//弾の速度
 
 //爆弾
+const int BOMB_WIDTH = CHIP_SIZE;	//爆弾の横幅
+const int BOMB_HEIGHT = CHIP_SIZE;	//爆弾の縦幅
+const int BOMB_RANGE = CHIP_SIZE * 2;	//爆弾の範囲
 const int BOMB_NUM = 3;		//爆弾の数
+
+//攻撃力
+const int DAMAGE_PUNCH  = 20;	//パンチのダメージ
+const int DAMAGE_BULLET = 10;	//弾のダメージ
+const int DAMAGE_BOMB   = 30;	//爆弾のダメージ
 
 //敵
 const int MAX_ENEMY = 100;	//最大の敵の数
+const int ENEMY_TYPE = 4;	//敵の種類
 
-const int ENEMY_ZAKO = 1;	//Zakoクラスの敵
-const int ENEMY_TALL = 2;	//Tallクラスの敵
-const int ENEMY_BIG = 3;	//Big クラスの敵
-const int ENEMY_BOSS = 4;	//Bossクラスの敵
+const int ENEMY_ZAKO = 0;	//Zakoクラスの敵
+const int ENEMY_TALL = 1;	//Tallクラスの敵
+const int ENEMY_BIG = 2;	//Big クラスの敵
+const int ENEMY_BOSS = 3;	//Bossクラスの敵
+
+const int HP_ZAKO = 20;	//ZAKOのHP
+const int HP_TALL = 40;	//TALLのHP
+const int HP_BIG = 60;	//BIGのHP
+const int HP_BOSS = 80;	//BOSSのHP
 
 //方向
 const int NONE = -1;	//なし
@@ -96,6 +113,8 @@ const int KEY_NUM = 256;	//入力
 //点数
 const int POINT_ENEMY_ZAKO = 10;	//Zakoで得られるポイント
 const int POINT_ENEMY_TALL = 10;	//Tallで得られるポイント
+const int POINT_ENEMY_BIG = 10;		//Bigで得られるポイント
+const int POINT_ENEMY_BOSS = 10;	//
 
 //その他
 const float PI = 3.14f;		//円周率

@@ -10,9 +10,10 @@ class BombMgr;
 class Enemy : public Object {
 protected:
 	int enemyType;		//敵の種類
-
 	float enemySpeed;	//敵の初期移動速度
 	bool isGround;		//接地判定
+
+	int damageSound;	//ダメージ音
 
 public:
 	Enemy();
@@ -22,7 +23,6 @@ public:
 	virtual void Update(const Player& player) {};
 	virtual void Draw() = 0;
 	virtual void Draw(const Player& player) {};
-	virtual void Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr) {};
 
 	void EnemyDraw(const Player& player);	//敵の描画
 
@@ -31,6 +31,11 @@ public:
 	VECTOR randomPos(int h, int w);		//ランダムで位置決め(h:敵の縦幅,w:敵の横幅)
 	int randomDir();		//ランダムで向きを決める
 	float randomSpeed();	//ランダムで移動速度を決める
+
+	void Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr);	//当たり判定
+	bool CollisionPunch(const Player& player);	//当たり判定（パンチ）
+	bool CollisionBullet(BulletMgr& bulletMgr);	//当たり判定（弾）
+	bool CollisionBomb(BombMgr& bombMgr);	//当たり判定（爆弾）
 };
 
 #endif

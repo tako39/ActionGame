@@ -7,9 +7,10 @@
 
 Player::Player() {
 	SetHitPoint(MAX_HP);
+	size = VGet(CHIP_SIZE, CHIP_SIZE, 0.0f);	//大きさ
 
 	jumpSound = LoadSoundMem("sound/jump.mp3");
-	damageSound = LoadSoundMem("sound/damage.mp3");
+	damageSound = LoadSoundMem("sound/damage_player.mp3");
 	punchSound = LoadSoundMem("sound/punch.mp3");
 
 	graphic_R = LoadGraph("image/player_r.png");
@@ -270,8 +271,8 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 				}
 
 				//当たり判定の計算、処理
-				if (fabs(enemyPos.x - pos.x) < CHIP_SIZE / 2 + enemySizeX / 2 &&
-					fabs(enemyPos.y - pos.y) < CHIP_SIZE / 2 + enemySizeY / 2) {
+				if (fabs(enemyPos.x - pos.x) < size.x / 2 + enemySizeX / 2 &&
+					fabs(enemyPos.y - pos.y) < size.y / 2 + enemySizeY / 2) {
 					PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージを受けたときの音
 					damaged = true;
 					flashStartTime = GetNowCount();	//ダメージを受けた時間の記憶

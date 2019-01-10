@@ -20,6 +20,8 @@ private:
 	BombMgr *bombMgr;
 	Display *display;
 
+	int enemyPhase;	//“G‚Ì¶¬’iŠK
+
 public:
 	Game(ISceneChanger* changer);
 	~Game();

@@ -10,9 +10,10 @@
 
 Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 	SceneMgr::nowStage = 1;	//ステージ1から始める
+	enemyPhase = 0;
 	player = new Player();
 	map = new Map();
-	enemyMgr = new EnemyMgr(ENEMY_ZAKO, 10);	//最初にZakoを10匹
+	enemyMgr = new EnemyMgr();
 	bulletMgr = new BulletMgr();
 	bombMgr = new BombMgr();
 	display = new Display();
@@ -29,8 +30,8 @@ Game::~Game() {
 
 //更新
 void Game::Update() {
-	if (GetKey(KEY_INPUT_ESCAPE) != 0) { //Escキーが押されていたら
-		mSceneChanger->ChangeScene(eScene_Menu);//シーンをメニューに変更
+	if (GetKey(KEY_INPUT_ESCAPE) != 0) {	//Escキーが押されていたら
+		mSceneChanger->ChangeScene(eScene_Menu);	//シーンをメニューに変更
 	}
 	player->Update();
 	player->HitEnemy(*enemyMgr);
@@ -47,6 +48,30 @@ void Game::Update() {
 	bombMgr->Update();
 	enemyMgr->Update(*player, *bulletMgr, *bombMgr);
 	display->Update();
+
+	//敵が全て倒されたとき
+	if (enemyMgr->IsNoEnemy()) {
+		if (enemyPhase == 0) {
+			delete enemyMgr;
+			enemyMgr = new EnemyMgr(ENEMY_ZAKO, 1);
+		}
+		else if (enemyPhase == 1) {
+			delete enemyMgr;
+			enemyMgr = new EnemyMgr(ENEMY_TALL, 1);
+		}
+		else if (enemyPhase == 2) {
+			delete enemyMgr;
+			enemyMgr = new EnemyMgr(ENEMY_BIG, 1);
+		}
+		else if (enemyPhase == 3) {
+			delete enemyMgr;
+			enemyMgr = new EnemyMgr(ENEMY_BOSS, 1);
+		}
+		else if (enemyPhase == 4) {
+			mSceneChanger->ChangeScene(eScene_GameClear);	//シーンをクリア画面に変更
+		}
+		enemyPhase++;	//次の段階へ
+	}
 }
 
 //描画

@@ -2,12 +2,14 @@
 #include "Game.h"
 #include "Define.h"
 #include "Player.h"
+#include "BulletMgr.h"
+#include "BombMgr.h"
 #include "SceneMgr.h"
 #include "Map.h"
 #include <math.h>
 
 Enemy::Enemy() {
-
+	damageSound = LoadSoundMem("damage_enemy.mp3");
 }
 
 Enemy::~Enemy() {
@@ -15,35 +17,33 @@ Enemy::~Enemy() {
 }
 
 void Enemy::EnemyDraw(const Player& player) {
-	//スクロール処理
-	int scroll_x, scroll_y;
 
 	if ((int)player.GetPos().x < SCREEN_HALF_W) {
-		scroll_x = (int)pos.x;
+		screenPos.x = (int)pos.x;
 	}
 	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
-		scroll_x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+		screenPos.x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
 	}
 	else {
-		scroll_x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
+		screenPos.x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
 	if ((int)player.GetPos().y < SCREEN_HALF_H) {
-		scroll_y = (int)pos.y;
+		screenPos.y = (int)pos.y;
 	}
 	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		scroll_y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+		screenPos.y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
 	}
 	else {
-		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+		screenPos.y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
 	//向きに応じて描画
 	if (direct == DIR_RIGHT) {
-		DrawGraph((int)scroll_x, (int)scroll_y, graphic_R, FALSE);
+		DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_R, FALSE);
 	}
 	else {
-		DrawGraph((int)scroll_x, (int)scroll_y, graphic_L, FALSE);
+		DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
 	}
 }
 
@@ -54,7 +54,7 @@ VECTOR Enemy::randomPos(int h, int w) {
 		posY = GetRand(STAGE_HEIGHT[SceneMgr::nowStage] - 1);
 		posX = GetRand(STAGE_WIDTH[SceneMgr::nowStage] - 1);
 
-		if (posX > 3) continue;	//xが3以下(プレイヤーのスタート位置)には敵を配置しない
+		if (posX <= 3) continue;	//xが3以下(プレイヤーのスタート位置)には敵を配置しない
 
 		bool canPut = true;		//敵を配置できるか
 
@@ -98,4 +98,62 @@ float Enemy::randomSpeed() {
 		break;
 	}
 	return speed;
+}
+
+// 当たり判定
+void Enemy::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr) {
+	//パンチが当たっているか
+	if (CollisionPunch(player)) return;
+
+	//弾が当たっているか
+	if (CollisionBullet(bulletMgr)) return;
+
+	//爆弾が爆発したときに巻き込まれたか
+	if (CollisionBomb(bombMgr)) return;
+}
+
+//当たり判定（パンチ）
+bool Enemy::CollisionPunch(const Player& player) {
+	if (player.GetIsPunch() &&
+		(fabs(pos.x + size.x / 2 - (player.GetPunchPos().x + PUNCH_WIDTH  / 2)) < size.x / 2 + PUNCH_WIDTH  / 2) &&
+		(fabs(pos.y + size.y / 2 - (player.GetPunchPos().y + PUNCH_HEIGHT / 2)) < size.y / 2 + PUNCH_HEIGHT / 2)) {
+		Damaged(DAMAGE_PUNCH);	//ダメージを受ける
+		PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
+		return true;
+	}
+	return false;
+}
+
+//当たり判定（弾）
+bool Enemy::CollisionBullet(BulletMgr& bulletMgr) {
+	for (int bulletNum = 0; bulletNum < BULLET_NUM; bulletNum++) {
+		if (bulletMgr.IsExist(bulletNum)) {		//弾が存在するとき
+			VECTOR bulletPos = bulletMgr.GetBulletPos(bulletNum);
+			if ((fabs(pos.x + size.x / 2 - (bulletPos.x + BULLET_WIDTH  / 2)) < size.x + BULLET_WIDTH  / 2) &&
+				(fabs(pos.y + size.y / 2 - (bulletPos.y + BULLET_HEIGHT / 2)) < size.y + BULLET_HEIGHT / 2)) {
+				Damaged(DAMAGE_BULLET);		//ダメージを受ける
+				bulletMgr.DeleteBullet(bulletNum);	//弾の消滅
+				PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+//当たり判定（爆弾）
+bool Enemy::CollisionBomb(BombMgr& bombMgr) {
+	for (int bombNum = 0; bombNum < BOMB_NUM; bombNum++) {
+		if (bombMgr.IsExplosion(bombNum)) {		//爆発したとき
+			VECTOR bombPos = bombMgr.GetBombPos(bombNum);
+			//爆弾の周囲２マス分の距離にいるなら当たる
+			if ((fabs(pos.x + size.x / 2 - (bombPos.x + BOMB_WIDTH  / 2)) < size.x / 2 + BOMB_WIDTH  / 2 + BOMB_RANGE) &&
+				(fabs(pos.y + size.y / 2 - (bombPos.y + BOMB_HEIGHT / 2)) < size.y / 2 + BOMB_HEIGHT / 2 + BOMB_RANGE)) {
+				Damaged(DAMAGE_BOMB);	//ダメージを受ける
+				PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
+				return true;
+			}
+		}
+	}
+	return false;
 }

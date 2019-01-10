@@ -5,7 +5,13 @@
 #include "Enemy_Boss.h"
 #include "Game.h"
 #include "BombMgr.h"
-#include <typeinfo>
+#include "Display.h"
+
+EnemyMgr::EnemyMgr() : enemyNum(MAX_ENEMY) {
+	for (int num = 0; num < MAX_ENEMY; num++) {
+		enemy[num] = NULL;
+	}
+}
 
 EnemyMgr::EnemyMgr(int type, int num) : enemyNum(num) {
 	if (type == ENEMY_ZAKO) {
@@ -39,20 +45,27 @@ EnemyMgr::~EnemyMgr() {
 void EnemyMgr::Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr) {
 	for (int num = 0; num < enemyNum; num++) {
 		if (enemy[num] != NULL) {
+			int type = enemy[num]->GetType();
+
 			enemy[num]->Update();		//XV
 			enemy[num]->Update(player);	//XV
 			enemy[num]->Collision(player, bulletMgr, bombMgr);	//“–‚½‚è”»’è
+
+			if (enemy[num]->GetHitPoint() <= 0) {	//hp‚ª0ˆÈ‰º‚Ì‚Æ‚«
+				enemy[num]->SetExist(false);
+				Display::Point[type]++;	//“|‚µ‚½”‚ð‘‚â‚·
+			}
 			if (enemy[num]->GetExist() == false) {	//“|‚³‚ê‚½‚Æ‚«
-				if (enemy[num]->GetType() == ENEMY_ZAKO) {
+				if (type == ENEMY_ZAKO) {
 					delete enemy[num];
 					enemy[num] = NULL;
 				}
-				else if (enemy[num]->GetType() == ENEMY_TALL) {
+				else if (type == ENEMY_TALL) {
 					VECTOR tallPos = enemy[num]->GetPos();
 					delete enemy[num];
 					enemy[num] = new Zako(tallPos);
 				}
-				else if (enemy[num]->GetType() == ENEMY_BIG) {
+				else if (type == ENEMY_BIG) {
 					VECTOR bigPos = enemy[num]->GetPos();
 					delete enemy[num];
 					enemy[num] = new Tall(bigPos);

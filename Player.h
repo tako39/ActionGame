@@ -28,7 +28,6 @@ private:
 	float degree = 0.0f;	//周期
 	VECTOR punchPos;		//位置
 	VECTOR punchMove;		//移動量
-	VECTOR screenPos;		//スクリーン上の位置
 
 	bool damaged;			//ダメージを受けているか
 	int flashCount;			//点滅用
@@ -46,7 +45,6 @@ public:
 
 	VECTOR GetPunchPos() const { return punchPos; }		//パンチの位置の取得
 	bool GetIsPunch() const { return isPunch; }			//パンチをしているか
-	VECTOR GetScreenPos() const { return screenPos; }	//スクリーン上での位置の取得
 
 	void Move(float moveY, float moveX);	//移動
 	void Attack();		//攻撃

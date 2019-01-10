@@ -18,7 +18,8 @@ private:
 	VECTOR enemyPos[MAX_ENEMY];	//“G‚ÌˆÊ’u
 
 public:
-	EnemyMgr(int type, int num);
+	EnemyMgr();
+	EnemyMgr(int type, int num);	//type‚Ì“G‚ðnum•C¶¬‚·‚é
 	~EnemyMgr();
 
 	void Update() {};
@@ -37,8 +38,17 @@ public:
 	VECTOR GetEnemyPos(int num) const {	//enemy[num]‚ÌˆÊ’u‚ðŽæ“¾
 		return enemy[num]->GetPos();
 	}
-	int GetEnemyType(int num) const {
+	int GetEnemyType(int num) const {	//enemy[num]‚ÌŽí—Þ‚ðŽæ“¾
 		return enemy[num]->GetType();
+	}
+
+	bool IsNoEnemy() {	//“G‚ª‘S‚Ä“|‚³‚ê‚½‚©
+		for (int num = 0; num < enemyNum; num++) {
+			if (enemy[num] != NULL) {
+				return false;
+			}
+		}
+		return true;
 	}
 };
 

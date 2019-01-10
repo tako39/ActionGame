@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Define.h"
 #include "SceneMgr.h"
+#include <math.h>
 
 Bullet::Bullet(const Player& player) {
 	bulletGraphic = LoadGraph("image/bullet.png");
@@ -36,37 +37,35 @@ void Bullet::Update(const Player& player) {
 		init = false;
 	}
 	HitWall();				//壁に当たった時の処理
-	totalMove += move.x;	//移動距離を足す
+	totalMove += fabs(move.x);	//移動距離を足す
 	if (totalMove > CHIP_SIZE * 10) {	//総移動距離が10マス分になったら消える
 		isExist = false;
 	}
 }
 
 void Bullet::Draw(const Player& player) {
-	//スクロールに合わせた描画
-	int scroll_x, scroll_y;
 
 	if ((int)player.GetPos().x < SCREEN_HALF_W) {
-		scroll_x = (int)pos.x;
+		screenPos.x = (int)pos.x;
 	}
 	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
-		scroll_x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+		screenPos.x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
 	}
 	else {
-		scroll_x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
+		screenPos.x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
 	if ((int)player.GetPos().y < SCREEN_HALF_H) {
-		scroll_y = (int)pos.y;
+		screenPos.y = (int)pos.y;
 	}
 	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		scroll_y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+		screenPos.y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
 	}
 	else {
-		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+		screenPos.y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
-	DrawGraph(scroll_x, scroll_y, bulletGraphic, FALSE);
+	DrawGraph(screenPos.x, screenPos.y, bulletGraphic, FALSE);
 }
 
 //壁に当たった時の処理

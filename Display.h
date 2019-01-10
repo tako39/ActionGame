@@ -2,6 +2,7 @@
 #define ___Class_Display
 
 #include "Task.h"
+#include "Define.h"
 
 class Player;
 
@@ -12,7 +13,7 @@ private:
 	int hpRed;		//赤色のHPの画像
 
 public:
-	static int Score;	//ゲームのスコア
+	static int Point[ENEMY_TYPE];	//敵を倒した数
 
 	Display();
 	~Display();

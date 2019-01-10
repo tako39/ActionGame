@@ -1,9 +1,8 @@
 #include "Display.h"
 #include "DxLib.h"
 #include "Player.h"
-#include "Define.h"
 
-int Display::Score = 0;
+int Display::Point[ENEMY_TYPE] = { 0, 0, 0, 0 };
 
 Display::Display() {
 	hpGreeen = LoadGraph("image/hp_green.png");
@@ -20,9 +19,6 @@ void Display::Update() {
 }
 
 void Display::Draw(const Player& player) {
-	//ì_êîÇÃï`âÊ
-	DrawFormatString(0, 0, GetColor(255, 0, 0),"Score: %d", Score);
-
 	//HPÉoÅ[ÇÃï`âÊ
 	int hp = player.GetHitPoint();
 	int hpGraphic;
@@ -37,7 +33,7 @@ void Display::Draw(const Player& player) {
 		hpGraphic = hpRed;
 	}
 
-	DrawFormatString(210, 0, GetColor(255, 0, 255), "HP:", Score);
+	DrawFormatString(210, 0, GetColor(255, 0, 255), "HP:");
 	for (int i = 0; i < hp; i++) {
 		DrawGraph(240 + 4 * i, 0, hpGraphic, TRUE);
 	}

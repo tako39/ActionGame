@@ -18,9 +18,11 @@ BulletMgr::~BulletMgr() {
 void BulletMgr::Update(const Player& player) {
 	for (int num = 0; num < BULLET_NUM; num++) {
 		if (bullet[num] != NULL) {
-			bullet[num]->Update(player);	//更新
 			if (bullet[num]->GetExist() == false) {	//存在しないなら消す
 				DeleteBullet(num);
+			}
+			else {
+				bullet[num]->Update(player);	//更新
 			}
 		}
 	}

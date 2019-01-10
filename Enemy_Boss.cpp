@@ -8,7 +8,9 @@
 #include <math.h>
 
 Boss::Boss() {
+	SetHitPoint(HP_BOSS);
 	enemyType = ENEMY_BOSS;
+	size = VGet(CHIP_SIZE * 3, CHIP_SIZE * 3, 0.0f);	//大きさを設定
 	graphic_R = LoadGraph("image/enemyBoss_r.png");
 	graphic_L = LoadGraph("image/enemyBoss_l.png");
 	isGround = false;
@@ -100,44 +102,5 @@ void Boss::Move(float moveY, float moveX) {
 		//if (Map::GetMapChip(pos.y + CHIP_SIZE * 3 + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE * 3 - EPS + nextMove) != GROUND) {
 		//	direct = DIR_LEFT;	//右端が当たったら左に
 		//}
-	}
-}
-
-void Boss::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr) {
-	//パンチが当たっているか
-	if (player.GetIsPunch() &&
-		(fabs(pos.x - player.GetPunchPos().x) < CHIP_SIZE * 2.0f) &&
-		(fabs(pos.y - player.GetPunchPos().y) < CHIP_SIZE * 2.0f)) {
-		isExist = false;
-		Display::Score += POINT_ENEMY_TALL;
-		return;
-	}
-
-	//弾が当たっているか
-	for (int bulletNum = 0; bulletNum < BULLET_NUM; bulletNum++) {
-		if (bulletMgr.IsExist(bulletNum)) {	//弾が存在するとき
-			VECTOR bulletPos = bulletMgr.GetBulletPos(bulletNum);
-			if ((fabs(pos.x + CHIP_SIZE * 1.5f - (bulletPos.x + BULLET_WIDTH  / 2)) < CHIP_SIZE * 1.5f + BULLET_WIDTH / 2) &&
-				(fabs(pos.y + CHIP_SIZE * 1.5f - (bulletPos.y + BULLET_HEIGHT / 2)) < CHIP_SIZE * 1.5f + BULLET_HEIGHT / 2)) {
-				isExist = false;
-				bulletMgr.DeleteBullet(bulletNum);
-				Display::Score += POINT_ENEMY_TALL;
-				return;
-			}
-		}
-	}
-
-	//爆弾が爆発したときに巻き込まれたか
-	for (int bombNum = 0; bombNum < BOMB_NUM; bombNum++) {
-		if (bombMgr.IsExplosion(bombNum)) {	//爆発したとき
-			VECTOR bombPos = bombMgr.GetBombPos(bombNum);
-			//爆弾の周囲２マス分の距離にいるなら当たる
-			if ((fabs(pos.x + CHIP_SIZE * 1.5f - (bombPos.x + CHIP_SIZE / 2)) < CHIP_SIZE * 4.0f) &&
-				(fabs(pos.y + CHIP_SIZE * 1.5f - (bombPos.y + CHIP_SIZE / 2)) < CHIP_SIZE * 4.0f)) {
-				isExist = false;
-				Display::Score += POINT_ENEMY_TALL;
-				return;
-			}
-		}
 	}
 }

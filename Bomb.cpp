@@ -32,48 +32,46 @@ void Bomb::Update() {
 }
 
 void Bomb::Draw(const Player& player) {
-	//スクロールに合わせた描画
-	int scroll_x, scroll_y;
 
 	if ((int)player.GetPos().x < SCREEN_HALF_W) {
-		scroll_x = (int)pos.x;
+		screenPos.x = (int)pos.x;
 	}
 	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
-		scroll_x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+		screenPos.x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
 	}
 	else {
-		scroll_x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
+		screenPos.x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
 	if ((int)player.GetPos().y < SCREEN_HALF_H) {
-		scroll_y = (int)pos.y;
+		screenPos.y = (int)pos.y;
 	}
 	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		scroll_y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+		screenPos.y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
 	}
 	else {
-		scroll_y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+		screenPos.y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
 	//カウントによって画像を変える
 	if (GetNowCount() - setTime > 2800) {
 		//爆発時に爆発のエフェクトを描画
-		DrawGraph(scroll_x - CHIP_SIZE * 2, scroll_y - CHIP_SIZE * 2, explosionGraphic, TRUE);
+		DrawGraph(screenPos.x - CHIP_SIZE * 2, screenPos.y - CHIP_SIZE * 2, explosionGraphic, TRUE);
 	}
 	else if (GetNowCount() - setTime > 1500) {
 		//爆発が近いときは点滅させる
 		if (GetNowCount() % 3 == 0) {
-			DrawGraph(scroll_x, scroll_y, bombGraphic_Red, FALSE);
+			DrawGraph(screenPos.x, screenPos.y, bombGraphic_Red, FALSE);
 		}
 		else {
-			DrawGraph(scroll_x, scroll_y, bombGraphic_Count1, FALSE);
+			DrawGraph(screenPos.x, screenPos.y, bombGraphic_Count1, FALSE);
 		}
 	}
 	else if (GetNowCount() - setTime > 1000) {
-		DrawGraph(scroll_x, scroll_y, bombGraphic_Count2, FALSE);
+		DrawGraph(screenPos.x, screenPos.y, bombGraphic_Count2, FALSE);
 	}
 	else {
-		DrawGraph(scroll_x, scroll_y, bombGraphic_Count3, FALSE);
+		DrawGraph(screenPos.x, screenPos.y, bombGraphic_Count3, FALSE);
 	}
 }
 
