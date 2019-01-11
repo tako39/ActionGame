@@ -25,6 +25,7 @@ public:
 	virtual void Draw(const Player& player) {};
 
 	void EnemyDraw(const Player& player);	//“G‚Ì•`‰æ
+	void HpDraw();	//‘Ì—Í‚Ì•`‰æ
 
 	int GetType() const { return enemyType; };	//“G‚ÌŽí—Þ‚ÌŽæ“¾
 	

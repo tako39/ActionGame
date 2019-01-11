@@ -10,21 +10,11 @@
 Tall::Tall() {
 	SetHitPoint(HP_TALL);
 	enemyType = ENEMY_TALL;
-	size = VGet(CHIP_SIZE * 2, CHIP_SIZE * 1, 0.0f);	//大きさを設定
+	size = VGet(CHIP_SIZE * 1, CHIP_SIZE * 2, 0.0f);
 	graphic_R = LoadGraph("image/enemyTall_r.png");
 	graphic_L = LoadGraph("image/enemyTall_l.png");
 	isGround = false;
 	pos = randomPos(1, 1);		//ランダムに位置を設定
-	direct = randomDir();		//ランダムに向きを決定
-	enemySpeed = randomSpeed();	//ランダムに速さを決定
-}
-
-Tall::Tall(VECTOR setPos) {
-	enemyType = ENEMY_TALL;
-	graphic_R = LoadGraph("image/enemyTall_r.png");
-	graphic_L = LoadGraph("image/enemyTall_l.png");
-	isGround = false;
-	pos = setPos;				//setPosに位置を設定
 	direct = randomDir();		//ランダムに向きを決定
 	enemySpeed = randomSpeed();	//ランダムに速さを決定
 }

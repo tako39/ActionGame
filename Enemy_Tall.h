@@ -6,7 +6,6 @@
 class Tall : public Enemy {
 public:
 	Tall();
-	Tall(VECTOR setPos);
 	~Tall();
 
 	void Update() {};

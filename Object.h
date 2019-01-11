@@ -33,6 +33,8 @@ public:
 	bool GetExist() const { return isExist; }			//生存確認
 	void SetExist(bool exist) { isExist = exist; }
 
+	void SetPos(VECTOR sPos) { pos = sPos; }	//位置をセットする
+
 	VECTOR GetSize() const { return size; }		//大きさの取得
 	VECTOR GetPos() const { return pos; }		//位置の取得
 	int GetDirect() const { return direct; }	//方向の取得

@@ -10,7 +10,7 @@
 Big::Big() {
 	SetHitPoint(HP_BIG);
 	enemyType = ENEMY_BIG;
-	size = VGet(CHIP_SIZE * 2, CHIP_SIZE * 2, 0.0f);	//ëÂÇ´Ç≥Çê›íË
+	size = VGet(CHIP_SIZE * 2, CHIP_SIZE * 2, 0.0f);
 	graphic_R = LoadGraph("image/enemyBig_r.png");
 	graphic_L = LoadGraph("image/enemyBig_l.png");
 	isGround = false;

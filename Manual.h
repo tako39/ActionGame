@@ -1,17 +1,20 @@
 #ifndef ___Class_Manual
 #define ___Class_Manual
 
-#include "BaseScene.h"
+#include "Task.h"
 
-//設定画面クラス
-class Manual : public BaseScene {
+class Manual : public Task {
+private:
+	int manualImage;	//画像
+	const int manualSize_x = 520;
+	const int manualSize_y = 360;
 
 public:
-	Manual(ISceneChanger* changer);
+	Manual();
 	~Manual();
 
-	void Update() override;      //更新処理をオーバーライド。
-	void Draw() override;        //描画処理をオーバーライド。
+	void Update();
+	void Draw();
 };
 
 #endif

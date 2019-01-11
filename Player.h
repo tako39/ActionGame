@@ -37,6 +37,8 @@ private:
 	int isHide;				//隠れているか
 
 public:
+	static bool isFirstPunch;		//最初のパンチ
+
 	Player();
 	~Player();
 
@@ -50,6 +52,8 @@ public:
 	void Attack();		//攻撃
 	void HitWall();		//パンチが壁に当たった時の処理
 	void HitEnemy(const EnemyMgr& enemyMgr);	//敵に当たった時の処理
+
+	void ResetPosition();	//位置を戻す
 };
 
 #endif

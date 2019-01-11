@@ -65,7 +65,7 @@ void Bullet::Draw(const Player& player) {
 		screenPos.y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
-	DrawGraph(screenPos.x, screenPos.y, bulletGraphic, FALSE);
+	DrawGraph((int)screenPos.x, (int)screenPos.y, bulletGraphic, FALSE);
 }
 
 //ï«Ç…ìñÇΩÇ¡ÇΩéûÇÃèàóù

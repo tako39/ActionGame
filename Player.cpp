@@ -5,6 +5,8 @@
 #include "SceneMgr.h"
 #include <math.h>
 
+bool Player::isFirstPunch;
+
 Player::Player() {
 	SetHitPoint(MAX_HP);
 	size = VGet(CHIP_SIZE, CHIP_SIZE, 0.0f);	//大きさ
@@ -26,6 +28,7 @@ Player::Player() {
 
 	degree = 0.0f;
 	isPunch = false;	//パンチしていない状態
+	isFirstPunch = false;
 
 	damaged = false;	//ダメージを受けていない状態
 	flashCount = 0;
@@ -72,6 +75,7 @@ void Player::Update() {
 	//Aが押されたとき攻撃
 	if (GetKey(KEY_INPUT_A) == 1) {
 		isPunch = true;
+		isFirstPunch = true;
 		punchDir = direct; //ボタンを押した時の向きに攻撃
 	}
 
@@ -271,8 +275,8 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 				}
 
 				//当たり判定の計算、処理
-				if (fabs(enemyPos.x - pos.x) < size.x / 2 + enemySizeX / 2 &&
-					fabs(enemyPos.y - pos.y) < size.y / 2 + enemySizeY / 2) {
+				if ((fabs(pos.x + size.x / 2 - (enemyPos.x + enemySizeX / 2)) < size.x / 2 + enemySizeX / 2) &&
+					(fabs(pos.y + size.y / 2 - (enemyPos.y + enemySizeY / 2)) < size.y / 2 + enemySizeY / 2)) {
 					PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージを受けたときの音
 					damaged = true;
 					flashStartTime = GetNowCount();	//ダメージを受けた時間の記憶
@@ -288,4 +292,9 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 			damaged = false;
 		}
 	}
+}
+
+//位置を初期位置に戻す
+void Player::ResetPosition() {
+	pos = firstPos[SceneMgr::nowStage];
 }

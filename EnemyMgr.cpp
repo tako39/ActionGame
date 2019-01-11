@@ -51,24 +51,25 @@ void EnemyMgr::Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 			enemy[num]->Update(player);	//XV
 			enemy[num]->Collision(player, bulletMgr, bombMgr);	//“–‚½‚è”»’è
 
-			if (enemy[num]->GetHitPoint() <= 0) {	//hp‚ª0ˆÈ‰º‚Ì‚Æ‚«
+			if (enemy[num]->GetHitPoint() <= 0) {	//“|‚³‚ê‚½‚Æ‚«
 				enemy[num]->SetExist(false);
 				Display::Point[type]++;	//“|‚µ‚½”‚ð‘‚â‚·
-			}
-			if (enemy[num]->GetExist() == false) {	//“|‚³‚ê‚½‚Æ‚«
+
 				if (type == ENEMY_ZAKO) {
-					delete enemy[num];
 					enemy[num] = NULL;
 				}
 				else if (type == ENEMY_TALL) {
 					VECTOR tallPos = enemy[num]->GetPos();
-					delete enemy[num];
-					enemy[num] = new Zako(tallPos);
+					enemy[num] = new Zako();
+					enemy[num]->SetPos(tallPos);
 				}
 				else if (type == ENEMY_BIG) {
 					VECTOR bigPos = enemy[num]->GetPos();
-					delete enemy[num];
-					enemy[num] = new Tall(bigPos);
+					enemy[num] = new Tall();
+					enemy[num]->SetPos(bigPos);
+				}
+				else if (type == ENEMY_BOSS) {
+					enemy[num] = NULL;
 				}
 			}
 		}

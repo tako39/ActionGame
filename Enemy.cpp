@@ -9,7 +9,7 @@
 #include <math.h>
 
 Enemy::Enemy() {
-	damageSound = LoadSoundMem("damage_enemy.mp3");
+	damageSound = LoadSoundMem("sound/damage_enemy.mp3");
 }
 
 Enemy::~Enemy() {
@@ -45,6 +45,27 @@ void Enemy::EnemyDraw(const Player& player) {
 	else {
 		DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
 	}
+
+	HpDraw();	//hpの描画
+}
+
+void Enemy::HpDraw() {
+	int maxHp;	//最大hp
+	if (enemyType == ENEMY_ZAKO) {
+		maxHp = HP_ZAKO;
+	}
+	else if (enemyType == ENEMY_TALL) {
+		maxHp = HP_TALL;
+	}
+	else if (enemyType == ENEMY_BIG) {
+		maxHp = HP_BIG;
+	}
+	else if (enemyType == ENEMY_BOSS) {
+		maxHp = HP_BOSS;
+	}
+
+	SetFontSize(10);
+	DrawFormatString((int)screenPos.x, (int)screenPos.y - 10, GetColor(255, 255, 255), "%d/%d", hitPoint, maxHp);
 }
 
 //位置の決定
@@ -54,7 +75,12 @@ VECTOR Enemy::randomPos(int h, int w) {
 		posY = GetRand(STAGE_HEIGHT[SceneMgr::nowStage] - 1);
 		posX = GetRand(STAGE_WIDTH[SceneMgr::nowStage] - 1);
 
-		if (posX <= 3) continue;	//xが3以下(プレイヤーのスタート位置)には敵を配置しない
+		//敵がマップからはみ出さないようにする
+		if (posX <= 3 || posY <= 1) continue;
+		if ((posX >= STAGE_WIDTH[SceneMgr::nowStage]  - w) ||
+			(posY >= STAGE_HEIGHT[SceneMgr::nowStage] - h)) {
+			continue;
+		}
 
 		bool canPut = true;		//敵を配置できるか
 
@@ -114,11 +140,12 @@ void Enemy::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 
 //当たり判定（パンチ）
 bool Enemy::CollisionPunch(const Player& player) {
-	if (player.GetIsPunch() &&
+	if (Player::isFirstPunch &&
 		(fabs(pos.x + size.x / 2 - (player.GetPunchPos().x + PUNCH_WIDTH  / 2)) < size.x / 2 + PUNCH_WIDTH  / 2) &&
 		(fabs(pos.y + size.y / 2 - (player.GetPunchPos().y + PUNCH_HEIGHT / 2)) < size.y / 2 + PUNCH_HEIGHT / 2)) {
 		Damaged(DAMAGE_PUNCH);	//ダメージを受ける
 		PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
+		Player::isFirstPunch = false;
 		return true;
 	}
 	return false;

@@ -6,17 +6,20 @@
 #include "BulletMgr.h"
 #include "BombMgr.h"
 #include "Display.h"
+#include "Manual.h"
 #include "SceneMgr.h"
 
 Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 	SceneMgr::nowStage = 1;	//ステージ1から始める
 	enemyPhase = 0;
+	mPush = false;
 	player = new Player();
 	map = new Map();
 	enemyMgr = new EnemyMgr();
 	bulletMgr = new BulletMgr();
 	bombMgr = new BombMgr();
 	display = new Display();
+	manual = new Manual();
 }
 
 Game::~Game() {
@@ -26,6 +29,7 @@ Game::~Game() {
 	delete bulletMgr;
 	delete bombMgr;
 	delete display;
+	delete manual;
 }
 
 //更新
@@ -33,6 +37,14 @@ void Game::Update() {
 	if (GetKey(KEY_INPUT_ESCAPE) != 0) {	//Escキーが押されていたら
 		mSceneChanger->ChangeScene(eScene_Menu);	//シーンをメニューに変更
 	}
+	if (GetKey(KEY_INPUT_M) == 1) {	//mが押された状態ならManualを表示
+		mPush = !mPush;
+	}
+	if (mPush) {	//Manual表示中は何も出来ない
+		manual->Update();
+		return;
+	}
+
 	player->Update();
 	player->HitEnemy(*enemyMgr);
 	//弾を発射
@@ -54,23 +66,28 @@ void Game::Update() {
 		if (enemyPhase == 0) {
 			delete enemyMgr;
 			enemyMgr = new EnemyMgr(ENEMY_ZAKO, 1);
+			enemyPhase++;
 		}
 		else if (enemyPhase == 1) {
 			delete enemyMgr;
 			enemyMgr = new EnemyMgr(ENEMY_TALL, 1);
+			enemyPhase++;
 		}
 		else if (enemyPhase == 2) {
 			delete enemyMgr;
 			enemyMgr = new EnemyMgr(ENEMY_BIG, 1);
+			enemyPhase++;
 		}
 		else if (enemyPhase == 3) {
 			delete enemyMgr;
+			SceneMgr::nowStage++;
+			player->ResetPosition();
 			enemyMgr = new EnemyMgr(ENEMY_BOSS, 1);
+			enemyPhase++;
 		}
 		else if (enemyPhase == 4) {
 			mSceneChanger->ChangeScene(eScene_GameClear);	//シーンをクリア画面に変更
 		}
-		enemyPhase++;	//次の段階へ
 	}
 }
 
@@ -82,4 +99,5 @@ void Game::Draw() {
 	enemyMgr->Draw(*player);
 	bombMgr->Draw(*player);
 	display->Draw(*player);
+	if(mPush) manual->Draw();
 }

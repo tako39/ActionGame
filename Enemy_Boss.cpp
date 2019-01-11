@@ -16,7 +16,7 @@ Boss::Boss() {
 	isGround = false;
 
 	//pos = randomPos(3, 3);	//ランダムに位置を設定
-	pos = VGet(0.0f, 0.0f, 0.0f);	//右端に配置
+	pos = VGet(5 * CHIP_SIZE, 3.0 * CHIP_SIZE, 0.0f);	//右端に配置
 
 	//direct = randomDir();		//ランダムに向きを決定
 	direct = DIR_LEFT;	//左向き
@@ -31,14 +31,14 @@ Boss::~Boss() {
 
 //パターンで行動したい
 void Boss::Update(const Player& player) {
-	//move = VGet(0.0f, 0.0f, 0.0f);	//初期化
+	move = VGet(0.0f, 0.0f, 0.0f);	//初期化
 
 	//if (isGround) move.x += enemySpeed * direct;	//横方向の移動
 
-	//ver_Speed += Gravity;	//重力を加える
-	//move.y = ver_Speed;
+	ver_Speed += Gravity;	//重力を加える
+	move.y = ver_Speed;
 
-	//Move(move.y, move.x);	//移動
+	Move(move.y, move.x);	//移動
 }
 
 void Boss::Draw(const Player& player) {

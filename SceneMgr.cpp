@@ -29,9 +29,6 @@ void SceneMgr::Update() {
 		case eScene_Game:
 			mScene = (BaseScene*) new Game(this);		//ゲーム画面
 			break;
-		case eScene_Manual:
-			mScene = (BaseScene*) new Manual(this);		//ゲーム説明画面
-			break;
 		case eScene_GameOver:
 			mScene = (BaseScene*) new GameOver(this);	//ゲームオーバー画面
 			break;

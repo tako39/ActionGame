@@ -9,6 +9,7 @@ class EnemyMgr;
 class BulletMgr;
 class BombMgr;
 class Display;
+class Manual;
 
 //ƒQ[ƒ€‰æ–ÊƒNƒ‰ƒX
 class Game : public BaseScene {
@@ -19,8 +20,10 @@ private:
 	BulletMgr *bulletMgr;
 	BombMgr *bombMgr;
 	Display *display;
+	Manual *manual;
 
 	int enemyPhase;	//“G‚Ì¶¬’iŠK
+	bool mPush;	//m‚ª‰Ÿ‚³‚ê‚½ó‘Ô‚©
 
 public:
 	Game(ISceneChanger* changer);

@@ -6,7 +6,6 @@
 class Zako : public Enemy {
 public:
 	Zako();
-	Zako(VECTOR setPos);
 	~Zako();
 
 	void Update() {};

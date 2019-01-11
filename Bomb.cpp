@@ -56,22 +56,22 @@ void Bomb::Draw(const Player& player) {
 	//カウントによって画像を変える
 	if (GetNowCount() - setTime > 2800) {
 		//爆発時に爆発のエフェクトを描画
-		DrawGraph(screenPos.x - CHIP_SIZE * 2, screenPos.y - CHIP_SIZE * 2, explosionGraphic, TRUE);
+		DrawGraph((int)screenPos.x - CHIP_SIZE * 2, (int)screenPos.y - CHIP_SIZE * 2, explosionGraphic, TRUE);
 	}
 	else if (GetNowCount() - setTime > 1500) {
 		//爆発が近いときは点滅させる
 		if (GetNowCount() % 3 == 0) {
-			DrawGraph(screenPos.x, screenPos.y, bombGraphic_Red, FALSE);
+			DrawGraph((int)screenPos.x, (int)screenPos.y, bombGraphic_Red, FALSE);
 		}
 		else {
-			DrawGraph(screenPos.x, screenPos.y, bombGraphic_Count1, FALSE);
+			DrawGraph((int)screenPos.x, (int)screenPos.y, bombGraphic_Count1, FALSE);
 		}
 	}
 	else if (GetNowCount() - setTime > 1000) {
-		DrawGraph(screenPos.x, screenPos.y, bombGraphic_Count2, FALSE);
+		DrawGraph((int)screenPos.x, (int)screenPos.y, bombGraphic_Count2, FALSE);
 	}
 	else {
-		DrawGraph(screenPos.x, screenPos.y, bombGraphic_Count3, FALSE);
+		DrawGraph((int)screenPos.x, (int)screenPos.y, bombGraphic_Count3, FALSE);
 	}
 }
 
