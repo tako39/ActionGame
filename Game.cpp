@@ -82,7 +82,7 @@ void Game::ChangeEnemyPhase() {
 	if (!enemyMgr->IsNoEnemy()) return;	//“G‚ª‚Ü‚¾‘¶İ‚·‚é‚È‚ç
 
 	if (enemyPhase == 0) {
-		enemyMgr = new EnemyMgr(ENEMY_ZAKO, 15);
+		enemyMgr = new EnemyMgr(ENEMY_ZAKO, 12);
 		enemyPhase++;
 	}
 	else if (enemyPhase == 1) {
