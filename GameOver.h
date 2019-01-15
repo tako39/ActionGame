@@ -4,6 +4,9 @@
 #include "BaseScene.h"
 
 class GameOver : public BaseScene {
+private:
+	int gameoverGraphic;	//ゲームオーバー画面
+	int gameoverSound;
 
 public:
 	GameOver(ISceneChanger* changer);

@@ -10,6 +10,7 @@ class BulletMgr;
 class BombMgr;
 class Display;
 class Manual;
+class BossStage;
 
 //ゲーム画面クラス
 class Game : public BaseScene {
@@ -21,6 +22,7 @@ private:
 	BombMgr *bombMgr;
 	Display *display;
 	Manual *manual;
+	BossStage * bossStage;
 
 	int enemyPhase;	//敵の生成段階
 	bool mPush;	//mが押された状態か
@@ -29,8 +31,10 @@ public:
 	Game(ISceneChanger* changer);
 	~Game();
 
-	void Update() override;      //更新処理をオーバーライド。
-	void Draw() override;        //描画処理をオーバーライド。
+	void Update();
+	void Draw();
+
+	void ChangeEnemyPhase();	//敵の段階の変更
 };
 
 #endif

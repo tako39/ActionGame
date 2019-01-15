@@ -20,7 +20,7 @@ protected:
 	int direct;   //方向
 	VECTOR move;  //移動
 
-	VECTOR screenPos;		//スクリーン上の位置
+	VECTOR screenPos;	//スクリーン上の位置
 
 public:
 	Object();

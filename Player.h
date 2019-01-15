@@ -6,6 +6,8 @@
 #include "DxLib.h"
 
 class EnemyMgr;
+class BulletMgr;
+class BombMgr;
 
 class Player :  public Object {
 private:
@@ -36,13 +38,16 @@ private:
 	int hideGraphic;		//隠れているときの画像
 	int isHide;				//隠れているか
 
+	bool isAttack;			//既に攻撃したか(パンチ、弾、爆弾のいずれか)
+
 public:
 	static bool isFirstPunch;		//最初のパンチ
 
 	Player();
 	~Player();
 
-	void Update();
+	void Update() {};
+	void Update(BulletMgr& bulletMgr, BombMgr& bombMgr);
 	void Draw();
 
 	VECTOR GetPunchPos() const { return punchPos; }		//パンチの位置の取得

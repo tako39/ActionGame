@@ -26,7 +26,7 @@ int Object::MapCollision(float Y, float X, float &moveY, float &moveX) {
 	int chip = Map::GetMapChip(nextY, nextX);
 
 	//•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	if (chip == GROUND || (20 <= chip && chip <= 47)) {
+	if (chip == GROUND || chip == CLOUD || (20 <= chip && chip <= 45)) {
 
 		//•Ç‚É‚Â‚¢‚Ä
 		Top_y = (float)((int)nextY / CHIP_SIZE)     * CHIP_SIZE;     // ã•Ó‚Ì Y À•W

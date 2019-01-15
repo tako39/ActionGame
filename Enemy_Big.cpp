@@ -32,67 +32,9 @@ void Big::Update(const Player& player) {
 	move.y = ver_Speed;
 
 	Move(move.y, move.x);	//移動
+	LookAhead();	//落ちるとき向きを変える
 }
 
 void Big::Draw(const Player& player) {
 	EnemyDraw(player);	//敵の描画
-}
-
-void Big::Move(float moveY, float moveX) {
-	float dummy = 0.0f;
-	//上下成分の移動
-	{
-		//左上
-		if (MapCollision(pos.y + EPS, pos.x + EPS, moveY, dummy) == DOWN) {
-			ver_Speed *= -1.0f;
-		}
-		//右上
-		if (MapCollision(pos.y + EPS, pos.x + CHIP_SIZE * 2 - EPS, moveY, dummy) == DOWN) {
-			ver_Speed *= -1.0f;
-		}
-		//左下
-		if (MapCollision(pos.y + CHIP_SIZE * 2 - EPS, pos.x + EPS, moveY, dummy) == UP) {
-			ver_Speed = 0.0f;
-			isGround = true;
-		}
-		//右下
-		if (MapCollision(pos.y + CHIP_SIZE * 2 - EPS, pos.x + CHIP_SIZE * 2 - EPS, moveY, dummy) == UP) {
-			ver_Speed = 0.0f;
-			isGround = true;
-		}
-
-		pos.y += moveY;
-	}
-	//左右成分の移動
-	{
-		//左上
-		if (MapCollision(pos.y + EPS, pos.x + EPS, dummy, moveX) == RIGHT) {
-			direct = DIR_RIGHT;
-		}
-		//右上
-		if (MapCollision(pos.y + EPS, pos.x + CHIP_SIZE * 2 - EPS, dummy, moveX) == LEFT) {
-			direct = DIR_LEFT;
-		}
-		//左下
-		if (MapCollision(pos.y + CHIP_SIZE * 2 - EPS, pos.x + EPS, dummy, moveX) == RIGHT) {
-			direct = DIR_RIGHT;
-		}
-		//右下
-		if (MapCollision(pos.y + CHIP_SIZE * 2 - EPS, pos.x + CHIP_SIZE * 2 - EPS, dummy, moveX) == LEFT) {
-			direct = DIR_LEFT;
-		}
-
-		pos.x += moveX;
-	}
-	//次の移動で落ちるとき、向きを変える
-	{
-		float nextMove = enemySpeed * direct;
-		//進む先に地面がないなら向きを変える
-		if (Map::GetMapChip(pos.y + CHIP_SIZE * 2 + EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove) != GROUND) {
-			direct = DIR_RIGHT;	//左端が当たったら右に
-		}
-		if (Map::GetMapChip(pos.y + CHIP_SIZE * 2 + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE * 2 - EPS + nextMove) != GROUND) {
-			direct = DIR_LEFT;	//右端が当たったら左に
-		}
-	}
 }

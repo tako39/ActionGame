@@ -12,13 +12,14 @@ const int SCREEN_HALF_H = 240;	//縦幅の半分
 
 //ステージ
 const int STAGE_NUM = 3;	//ステージ数
-const int STAGE_WIDTH[STAGE_NUM] = { 20, 40, 40 };	//ステージの横のチップ数
-const int STAGE_HEIGHT[STAGE_NUM] = { 15, 20, 15 };	//ステージの縦のチップ数
+const int STAGE_WIDTH[STAGE_NUM] = { 20, 40, 33 };	//ステージの横のチップ数
+const int STAGE_HEIGHT[STAGE_NUM] = { 15, 20, 20 };	//ステージの縦のチップ数
 
 
 //マップ
-const int BACK = 0;		//背景
-const int GROUND = 1;	//地面
+const int BACK = 0;		//水色背景
+const int GROUND = 1;	//茶色地面
+const int CLOUD = 2;	//白地面
 
 //アルファベット
 const int A = 20;
@@ -48,9 +49,6 @@ const int X = 43;
 const int Y = 44;
 const int Z = 45;
 
-const int YR = 46;	//→
-const int YL = 47;	//←
-
 //プレイヤー
 const int MAX_HP = 100;	//最大ＨＰ
 
@@ -61,8 +59,6 @@ const float Gravity = 0.5f;		//重力
 const float Speed = 5.0f;		//横移動速度
 const float AirSpeed = 3.0f;	//空中での横移動速度
 const float JumpPower = 12.0f;	//ジャンプ力
-
-const float EPS = 1.0f;		//地面との当たり判定はEPS分内側にある
 
 const int PUNCH_WIDTH = CHIP_SIZE;	//パンチの横幅
 const int PUNCH_HEIGHT = CHIP_SIZE;	//パンチの縦幅
@@ -96,7 +92,7 @@ const int ENEMY_BOSS = 3;	//Bossクラスの敵
 const int HP_ZAKO = 20;	//ZAKOのHP
 const int HP_TALL = 40;	//TALLのHP
 const int HP_BIG = 60;	//BIGのHP
-const int HP_BOSS = 80;	//BOSSのHP
+const int HP_BOSS = 500;	//BOSSのHP
 
 //方向
 const int NONE = -1;	//なし
@@ -113,10 +109,12 @@ const int KEY_NUM = 256;	//入力
 //点数
 const int POINT_ENEMY_ZAKO = 10;	//Zakoで得られるポイント
 const int POINT_ENEMY_TALL = 10;	//Tallで得られるポイント
-const int POINT_ENEMY_BIG = 10;		//Bigで得られるポイント
-const int POINT_ENEMY_BOSS = 10;	//
+const int POINT_ENEMY_BIG = 10;		//Big で得られるポイント
+const int POINT_ENEMY_BOSS = 10;	//Bossで得られるポイント
 
 //その他
+const int fps = 60;			//一秒間の描画数
 const float PI = 3.14f;		//円周率
+const float EPS = 1.0f;		//誤差
 
 #endif

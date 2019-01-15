@@ -64,8 +64,8 @@ void Enemy::HpDraw() {
 		maxHp = HP_BOSS;
 	}
 
-	SetFontSize(10);
-	DrawFormatString((int)screenPos.x, (int)screenPos.y - 10, GetColor(255, 255, 255), "%d/%d", hitPoint, maxHp);
+	SetFontSize(12);
+	DrawFormatString((int)screenPos.x, (int)screenPos.y - 12, GetColor(50, 50, 50), "%d/%d", hitPoint, maxHp);
 }
 
 //位置の決定
@@ -76,8 +76,7 @@ VECTOR Enemy::randomPos(int h, int w) {
 		posX = GetRand(STAGE_WIDTH[SceneMgr::nowStage] - 1);
 
 		//敵がマップからはみ出さないようにする
-		if (posX <= 3 || posY <= 1) continue;
-		if ((posX >= STAGE_WIDTH[SceneMgr::nowStage]  - w) ||
+		if ((posX >= STAGE_WIDTH[SceneMgr::nowStage] - w) ||
 			(posY >= STAGE_HEIGHT[SceneMgr::nowStage] - h)) {
 			continue;
 		}
@@ -109,21 +108,83 @@ int Enemy::randomDir() {
 
 //スピードの決定
 float Enemy::randomSpeed() {
-	float speed;
-	int r = GetRand(2);
-	
-	switch (r) {
-	case 0:
-		speed = 1.0f;
-		break;
-	case 1:
-		speed = 2.0f;
-		break;
-	case 2:
-		speed = 3.0f;
-		break;
+	float speed = 2.0f;
+	float decimal = GetRand(20) / 10.0f;
+	return speed + decimal;
+}
+
+void Enemy::Move(float moveY, float moveX) {
+	float dummy = 0.0f;
+	//上下成分の移動
+	{
+		//左上
+		if (MapCollision(pos.y + EPS, pos.x + EPS, moveY, dummy) == DOWN) {
+			ver_Speed *= -1.0f;
+		}
+		//右上
+		if (MapCollision(pos.y + EPS, pos.x + size.x - EPS, moveY, dummy) == DOWN) {
+			ver_Speed *= -1.0f;
+		}
+		//左下
+		if (MapCollision(pos.y + size.y - EPS, pos.x + EPS, moveY, dummy) == UP) {
+			ver_Speed = 0.0f;
+			isGround = true;
+		}
+		//右下
+		if (MapCollision(pos.y + size.y - EPS, pos.x + size.x - EPS, moveY, dummy) == UP) {
+			ver_Speed = 0.0f;
+			isGround = true;
+		}
+
+		pos.y += moveY;
 	}
-	return speed;
+	//左右成分の移動
+	{
+		//左上
+		if (MapCollision(pos.y + EPS, pos.x + EPS, dummy, moveX) == RIGHT) {
+			direct = DIR_RIGHT;
+		}
+		//右上
+		if (MapCollision(pos.y + EPS, pos.x + size.x - EPS, dummy, moveX) == LEFT) {
+			direct = DIR_LEFT;
+		}
+		//左下
+		if (MapCollision(pos.y + size.y - EPS, pos.x + EPS, dummy, moveX) == RIGHT) {
+			direct = DIR_RIGHT;
+		}
+		//右下
+		if (MapCollision(pos.y + size.y - EPS, pos.x + size.x - EPS, dummy, moveX) == LEFT) {
+			direct = DIR_LEFT;
+		}
+
+		pos.x += moveX;
+	}
+}
+
+void Enemy::LookAhead() {
+	//次の移動で落ちるとき、向きを変える
+	float nextMove = enemySpeed * direct;
+	//進む先に地面がないなら向きを変える
+	int leftEnd = Map::GetMapChip(pos.y + size.y - EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove);
+	if ((leftEnd != GROUND) && (leftEnd != CLOUD)) {
+		direct = DIR_RIGHT;	//左端が当たったら右に
+	}
+	int rightEnd = Map::GetMapChip(pos.y + size.y - EPS + CHIP_SIZE / 4, pos.x + size.x - EPS + nextMove);
+	if ((rightEnd != GROUND) && (rightEnd != CLOUD)) {
+		direct = DIR_LEFT;	//右端が当たったら左に
+	}
+}
+
+void Enemy::GroundCheck() {
+	int leftGround = Map::GetMapChip(pos.y + size.y + EPS, pos.x + EPS);
+	int rightGround = Map::GetMapChip(pos.y + size.y + EPS, pos.x + size.x - EPS);
+	if ((leftGround  == GROUND) || (leftGround  == CLOUD) ||
+		(rightGround == GROUND) || (rightGround == CLOUD)) {
+		isGround = true;
+	}
+	else {
+		isGround = false;
+	}
 }
 
 // 当たり判定
@@ -141,7 +202,7 @@ void Enemy::Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 //当たり判定（パンチ）
 bool Enemy::CollisionPunch(const Player& player) {
 	if (Player::isFirstPunch &&
-		(fabs(pos.x + size.x / 2 - (player.GetPunchPos().x + PUNCH_WIDTH  / 2)) < size.x / 2 + PUNCH_WIDTH  / 2) &&
+		(fabs(pos.x + size.x / 2 - (player.GetPunchPos().x + PUNCH_WIDTH / 2)) < size.x / 2 + PUNCH_WIDTH / 2) &&
 		(fabs(pos.y + size.y / 2 - (player.GetPunchPos().y + PUNCH_HEIGHT / 2)) < size.y / 2 + PUNCH_HEIGHT / 2)) {
 		Damaged(DAMAGE_PUNCH);	//ダメージを受ける
 		PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
@@ -156,7 +217,7 @@ bool Enemy::CollisionBullet(BulletMgr& bulletMgr) {
 	for (int bulletNum = 0; bulletNum < BULLET_NUM; bulletNum++) {
 		if (bulletMgr.IsExist(bulletNum)) {		//弾が存在するとき
 			VECTOR bulletPos = bulletMgr.GetBulletPos(bulletNum);
-			if ((fabs(pos.x + size.x / 2 - (bulletPos.x + BULLET_WIDTH  / 2)) < size.x + BULLET_WIDTH  / 2) &&
+			if ((fabs(pos.x + size.x / 2 - (bulletPos.x + BULLET_WIDTH / 2)) < size.x + BULLET_WIDTH / 2) &&
 				(fabs(pos.y + size.y / 2 - (bulletPos.y + BULLET_HEIGHT / 2)) < size.y + BULLET_HEIGHT / 2)) {
 				Damaged(DAMAGE_BULLET);		//ダメージを受ける
 				bulletMgr.DeleteBullet(bulletNum);	//弾の消滅

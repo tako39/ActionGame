@@ -1,8 +1,6 @@
 #include "Display.h"
-#include "DxLib.h"
 #include "Player.h"
-
-int Display::Point[ENEMY_TYPE] = { 0, 0, 0, 0 };
+#include "EnemyMgr.h"
 
 Display::Display() {
 	hpGreeen = LoadGraph("image/hp_green.png");
@@ -19,14 +17,17 @@ void Display::Update() {
 }
 
 void Display::Draw(const Player& player) {
-	//HPƒo[‚Ì•`‰æ
-	int hp = player.GetHitPoint();
+	DrawHp(VGet(240.0f, 0.0f, 0.0f), player.GetHitPoint(), MAX_HP);
+}
+
+void Display::DrawHp(VECTOR hpPos, int hitPoint, int maxHp) {
+	int hp = hitPoint;
 	int hpGraphic;
 
-	if (hp > MAX_HP / 2) {
+	if (hp > maxHp / 2) {
 		hpGraphic = hpGreeen;
 	}
-	else if (hp > MAX_HP / 4) {
+	else if (hp > maxHp / 4) {
 		hpGraphic = hpOrange;
 	}
 	else {
@@ -34,8 +35,9 @@ void Display::Draw(const Player& player) {
 	}
 
 	SetFontSize(20);
-	DrawFormatString(210, 0, GetColor(255, 0, 255), "HP:");
-	for (int i = 0; i < hp; i++) {
-		DrawGraph(240 + 4 * i, 0, hpGraphic, TRUE);
+	DrawFormatString((int)hpPos.x - 30, 0, GetColor(255, 0, 255), "HP:");
+	int hpRate = ((float)hitPoint / maxHp) * 100;
+	for (int i = 0; i < hpRate; i++) {
+		DrawGraph((int)hpPos.x + 4 * i, (int)hpPos.y, hpGraphic, TRUE);
 	}
 }

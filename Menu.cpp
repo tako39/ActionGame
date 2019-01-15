@@ -42,14 +42,8 @@ void Menu::Update() {
 		return;
 	}
 
-	player->Update();
-	if (GetKey(KEY_INPUT_S) == 1) {
-		bulletMgr->Shot(*player);
-	}
-	if (GetKey(KEY_INPUT_B) == 1) {
-		bombMgr->BombSet(*player);
-	}
-	map->Update(*player);
+	player->Update(*bulletMgr, *bombMgr);
+	map->Update();
 	bulletMgr->Update(*player);
 	bombMgr->Update();
 	bombMgr->DeleteBombAll();
@@ -57,7 +51,7 @@ void Menu::Update() {
 
 //•`‰æ
 void Menu::Draw() {
-	map->Draw();
+	map->Draw(*player);
 	player->Draw();
 	bulletMgr->Draw(*player);
 	bombMgr->Draw(*player);

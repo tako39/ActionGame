@@ -3,6 +3,8 @@
 #include "Map.h"
 #include "EnemyMgr.h"
 #include "SceneMgr.h"
+#include "BulletMgr.h"
+#include "BombMgr.h"
 #include <math.h>
 
 bool Player::isFirstPunch;
@@ -40,10 +42,14 @@ Player::~Player() {
 
 }
 
-void Player::Update() {
+void Player::Update(BulletMgr& bulletMgr, BombMgr& bombMgr) {
+
+	if (GetHitPoint() <= 0) {	//体力が０以下の時
+		SetExist(false);
+	}
 
 	//隠れることができる(隠れているときは動けない)
-	if (!jump_Flag && GetKey(KEY_INPUT_H) > 0) {
+	if (!jump_Flag && GetKey(KEY_INPUT_F) > 0) {
 		isHide = true;
 		return;
 	}
@@ -72,8 +78,11 @@ void Player::Update() {
 		jump_Flag = true;
 	}
 
+	isAttack = false;	//攻撃していない状態
+
 	//Aが押されたとき攻撃
 	if (GetKey(KEY_INPUT_A) == 1) {
+		isAttack = true;
 		isPunch = true;
 		isFirstPunch = true;
 		punchDir = direct; //ボタンを押した時の向きに攻撃
@@ -82,6 +91,17 @@ void Player::Update() {
 	if (isPunch) {
 		PlaySoundMem(punchSound, DX_PLAYTYPE_BACK);	//パンチしたときの音
 		Attack();
+	}
+
+	//まだ攻撃していないなら、Sボタンで弾を発射
+	if (GetKey(KEY_INPUT_S) == 1 && !isAttack) {
+		isAttack = true;
+		bulletMgr.Shot(*this);
+	}
+	//まだ攻撃していないなら、Dボタンで爆弾を設置
+	if (GetKey(KEY_INPUT_D) == 1 & !isAttack) {
+		isAttack = true;
+		bombMgr.BombSet(*this);
 	}
 
 	ver_Speed += Gravity;	//重力を加える
@@ -197,8 +217,8 @@ void Player::Move(float moveY, float moveX) {
 		int ground_R = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS);
 		int ground_L = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS);
 		//左下と右下に地面があるかどうか
-		if (ground_R == GROUND || (20 <= ground_R && ground_R <= 45) ||
-			ground_L == GROUND || (20 <= ground_L && ground_L <= 45)) {
+		if (ground_R == GROUND || ground_R == CLOUD || (20 <= ground_R && ground_R <= 45) ||
+			ground_L == GROUND || ground_R == CLOUD || (20 <= ground_L && ground_L <= 45)) {
 			jump_Flag = false;
 		}
 		else {
@@ -248,10 +268,17 @@ void Player::HitWall() {
 
 //敵に当たった時の処理(無敵時間あり)
 void Player::HitEnemy(const EnemyMgr& enemyMgr) {
+	if (damaged) {
+		//ダメージを受けてから2秒以上経った時
+		if (GetNowCount() - flashStartTime > 2000) {
+			damaged = false;
+		}
+	}
+
 	if (isHide) return;	//隠れているときはダメージを受けない
 
 	if (!damaged) {
-		for (int num = 0; num < enemyMgr.GetEnemyNum(); num++) {
+		for (int num = 0; num < MAX_ENEMY; num++) {
 			if (enemyMgr.IsExist(num)) {
 				VECTOR enemyPos = enemyMgr.GetEnemyPos(num);	//敵の位置
 				int enemySizeX, enemySizeY;						//敵の大きさ
@@ -284,12 +311,6 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 					return;
 				}
 			}
-		}
-	}
-	else {
-		//ダメージを受けてから2秒以上経った時
-		if (GetNowCount() - flashStartTime > 2000) {
-			damaged = false;
 		}
 	}
 }

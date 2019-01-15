@@ -13,13 +13,12 @@ class BombMgr;
 
 class EnemyMgr : public Task {
 private:
-	const int enemyNum;			//“G‚Ì”
 	Enemy *enemy[MAX_ENEMY];	//“G
 	VECTOR enemyPos[MAX_ENEMY];	//“G‚ÌˆÊ’u
 
 public:
 	EnemyMgr();
-	EnemyMgr(int type, int num);	//type‚Ì“G‚ðnum•C¶¬‚·‚é
+	EnemyMgr(int type, int enemyNum);	//type‚Ì“G‚ðnum•C¶¬‚·‚é
 	~EnemyMgr();
 
 	void Update() {};
@@ -27,9 +26,9 @@ public:
 	void Draw() {};
 	void Draw(const Player& player);
 
-	int GetEnemyNum() const {
-		return enemyNum;
-	}
+	void SetPosAll(VECTOR sPos);	//‘S‚Ä‚Ì“G‚ðsPos‚ÉÝ’u‚·‚é
+
+	void AddEnemy(int type, int addNum, VECTOR sPos);	//sPos‚Étype‚Ì“G‚ðaddNum•C‘‚â‚·
 
 	bool IsExist(int num) const {	//‘¶Ý‚·‚é‚©‚Ç‚¤‚©
 		if (enemy[num] != NULL) return true;
@@ -41,9 +40,12 @@ public:
 	int GetEnemyType(int num) const {	//enemy[num]‚ÌŽí—Þ‚ðŽæ“¾
 		return enemy[num]->GetType();
 	}
+	int GetEnemyHp(int num) const {		//enemy[num]‚ÌHP‚ðŽæ“¾
+		return enemy[num]->GetHitPoint();
+	}
 
 	bool IsNoEnemy() {	//“G‚ª‘S‚Ä“|‚³‚ê‚½‚©
-		for (int num = 0; num < enemyNum; num++) {
+		for (int num = 0; num < MAX_ENEMY; num++) {
 			if (enemy[num] != NULL) {
 				return false;
 			}

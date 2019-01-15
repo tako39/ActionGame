@@ -8,6 +8,8 @@
 #include "Display.h"
 #include "Manual.h"
 #include "SceneMgr.h"
+#include "Enemy_Boss.h"
+#include "BossStage.h"
 
 Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 	SceneMgr::nowStage = 1;	//ステージ1から始める
@@ -30,10 +32,14 @@ Game::~Game() {
 	delete bombMgr;
 	delete display;
 	delete manual;
+	delete bossStage;
 }
 
 //更新
 void Game::Update() {
+	if (!player->GetExist()) {	//プレイヤーが倒されたら
+		mSceneChanger->ChangeScene(eScene_GameOver);	//シーンをゲームオーバーに変更
+	}
 	if (GetKey(KEY_INPUT_ESCAPE) != 0) {	//Escキーが押されていたら
 		mSceneChanger->ChangeScene(eScene_Menu);	//シーンをメニューに変更
 	}
@@ -44,60 +50,75 @@ void Game::Update() {
 		manual->Update();
 		return;
 	}
-
-	player->Update();
-	player->HitEnemy(*enemyMgr);
-	//弾を発射
-	if (GetKey(KEY_INPUT_S) == 1) {
-		bulletMgr->Shot(*player);
+	if (SceneMgr::nowStage == 2) {	//ボスステージの時
+		if (bossStage->FrameCheck()) {	//最初の3秒間は何もできない
+			return;	
+		}
 	}
-	//爆弾を設置
-	if (GetKey(KEY_INPUT_B) == 1) {
-		bombMgr->BombSet(*player);
-	}
-	map->Update(*player);
-	bulletMgr->Update(*player);
-	bombMgr->Update();
-	enemyMgr->Update(*player, *bulletMgr, *bombMgr);
-	display->Update();
 
-	//敵が全て倒されたとき
-	if (enemyMgr->IsNoEnemy()) {
-		if (enemyPhase == 0) {
-			delete enemyMgr;
-			enemyMgr = new EnemyMgr(ENEMY_ZAKO, 1);
-			enemyPhase++;
+	player->Update(*bulletMgr, *bombMgr);	//プレイヤーの更新
+	player->HitEnemy(*enemyMgr);			//プレイヤーの敵との接触
+
+	map->Update();	//マップの更新	
+
+	bulletMgr->Update(*player);		//弾の更新
+	bombMgr->Update();				//爆弾の更新
+	enemyMgr->Update(*player, *bulletMgr, *bombMgr);	//敵の更新	
+	
+	//ボスステージのみの更新
+	if (SceneMgr::nowStage == 2) {
+		if (enemyMgr->IsExist(0)) {	//ボスが生きているなら
+			bossStage->Update(*player, *bulletMgr, *bombMgr, enemyMgr->GetEnemyPos(0));	//ボスの仲間の更新
 		}
-		else if (enemyPhase == 1) {
-			delete enemyMgr;
-			enemyMgr = new EnemyMgr(ENEMY_TALL, 1);
-			enemyPhase++;
-		}
-		else if (enemyPhase == 2) {
-			delete enemyMgr;
-			enemyMgr = new EnemyMgr(ENEMY_BIG, 1);
-			enemyPhase++;
-		}
-		else if (enemyPhase == 3) {
-			delete enemyMgr;
-			SceneMgr::nowStage++;
-			player->ResetPosition();
-			enemyMgr = new EnemyMgr(ENEMY_BOSS, 1);
-			enemyPhase++;
-		}
-		else if (enemyPhase == 4) {
-			mSceneChanger->ChangeScene(eScene_GameClear);	//シーンをクリア画面に変更
-		}
+	}
+	
+	bombMgr->DeleteBombAll();	//爆発した爆弾の処理
+
+	display->Update();		//HPバーの更新
+	ChangeEnemyPhase();		//敵の生成段階の変更
+}
+
+void Game::ChangeEnemyPhase() {
+	if (!enemyMgr->IsNoEnemy()) return;	//敵がまだ存在するなら
+
+	if (enemyPhase == 0) {
+		enemyMgr = new EnemyMgr(ENEMY_ZAKO, 15);
+		enemyPhase++;
+	}
+	else if (enemyPhase == 1) {
+		enemyMgr = new EnemyMgr(ENEMY_TALL, 10);
+		enemyPhase++;
+	}
+	else if (enemyPhase == 2) {
+		enemyMgr = new EnemyMgr(ENEMY_BIG, 8);
+		enemyPhase++;
+	}
+	else if (enemyPhase == 3) {
+		bossStage = new BossStage();
+		enemyMgr = new EnemyMgr(ENEMY_BOSS, 1);
+		player->ResetPosition();
+		enemyPhase++;
+	}
+	else if (enemyPhase == 4) {
+		mSceneChanger->ChangeScene(eScene_GameClear);	//シーンをクリア画面に変更
 	}
 }
 
 //描画
 void Game::Draw() {
-	map->Draw();
+	if (SceneMgr::nowStage == 2) {	//ボスステージの時
+		if (bossStage->StageStart()) {	//最初の3秒間のみ描画
+			return;
+		}
+	}
+	map->Draw(*player);
 	player->Draw();
 	bulletMgr->Draw(*player);
 	enemyMgr->Draw(*player);
+	if (SceneMgr::nowStage == 2) {	//ボスステージのみ
+		bossStage->Draw(*player);	//ボスの仲間の描画
+	}
 	bombMgr->Draw(*player);
 	display->Draw(*player);
-	if(mPush) manual->Draw();
+	if (mPush) manual->Draw();
 }

@@ -38,7 +38,7 @@ void Bullet::Update(const Player& player) {
 	}
 	HitWall();				//壁に当たった時の処理
 	totalMove += fabs(move.x);	//移動距離を足す
-	if (totalMove > CHIP_SIZE * 10) {	//総移動距離が10マス分になったら消える
+	if (totalMove > CHIP_SIZE * 8) {	//総移動距離が10マス分になったら消える
 		isExist = false;
 	}
 }

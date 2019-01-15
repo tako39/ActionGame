@@ -12,8 +12,6 @@ public:
 	void Update(const Player& player);
 	void Draw() {};
 	void Draw(const Player& player);
-
-	void Move(float moveY, float moveX);	//ˆÚ“®
 };
 
 #endif

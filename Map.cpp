@@ -9,6 +9,7 @@
 Map::Map() {
 	back_Graphic   = LoadGraph("image/back_Graphic.png");
 	ground_Graphic = LoadGraph("image/ground_Graphic.png");
+	cloud_Graphic = LoadGraph("image/cloud.png");
 
 	for (int i = 0; i <= 25; i++) {
 		std::string s = "image/image_";
@@ -16,9 +17,6 @@ Map::Map() {
 		s += ".png";
 		image_Alpha[i] = LoadGraph(s.c_str());
 	}
-
-	arrowGraphic_r = LoadGraph("image/arrow_r.png");
-	arrowGraphic_l = LoadGraph("image/arrow_l.png");
 }
 
 Map::~Map() {
@@ -26,30 +24,30 @@ Map::~Map() {
 }
 
 //更新
-void Map::Update(const Player& player) {
-	playerPos = player.GetPos();
+void Map::Update() {
+	
 }
 
 //描画
-void Map::Draw() {
+void Map::Draw(const Player& player) {
 	////スクロール処理(上限と下限)
 	int scroll_x, scroll_y;
 
-	if ((int)playerPos.x < SCREEN_HALF_W) {
+	if ((int)player.GetPos().x < SCREEN_HALF_W) {
 		scroll_x = 0;
 	}
-	else if ((int)playerPos.x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
-		scroll_x = (int)playerPos.x - SCREEN_HALF_W;
+	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
+		scroll_x = (int)player.GetPos().x - SCREEN_HALF_W;
 	}
 	else {
 		scroll_x = STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH;
 	}
 
-	if ((int)playerPos.y < SCREEN_HALF_H) {
+	if ((int)player.GetPos().y < SCREEN_HALF_H) {
 		scroll_y = 0;
 	}
-	else if ((int)playerPos.y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		scroll_y = (int)playerPos.y - SCREEN_HALF_H;
+	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		scroll_y = (int)player.GetPos().y - SCREEN_HALF_H;
 	}
 	else {
 		scroll_y = STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT;
@@ -70,16 +68,12 @@ void Map::Draw() {
 			if (chip == BACK) {
 				DrawGraph(chip_x, chip_y, back_Graphic, TRUE);
 			}
+			if (chip == CLOUD) {
+				DrawGraph(chip_x, chip_y, cloud_Graphic, TRUE);
+			}
 
 			if (20 <= chip && chip <= 45) {
 				DrawGraph(chip_x, chip_y, image_Alpha[chip - 20], TRUE);
-			}
-
-			if (chip == YR) {
-				DrawGraph(chip_x, chip_y, arrowGraphic_r, TRUE);
-			}
-			if (chip == YL) {
-				DrawGraph(chip_x, chip_y, arrowGraphic_l, TRUE);
 			}
 		}
 	}

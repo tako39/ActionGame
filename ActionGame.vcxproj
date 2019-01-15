@@ -161,6 +161,7 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombMgr.cpp" />
+    <ClCompile Include="BossStage.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMgr.cpp" />
     <ClCompile Include="Enemy_Big.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombMgr.h" />
+    <ClInclude Include="BossStage.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMgr.h" />
     <ClInclude Include="Enemy_Big.h" />

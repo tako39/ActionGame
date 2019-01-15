@@ -3,8 +3,10 @@
 
 #include "Task.h"
 #include "Define.h"
+#include "DxLib.h"
 
 class Player;
+class EnemyMgr;
 
 class Display : public Task {
 private:
@@ -13,14 +15,14 @@ private:
 	int hpRed;		//ÔF‚ÌHP‚Ì‰æ‘œ
 
 public:
-	static int Point[ENEMY_TYPE];	//“G‚ğ“|‚µ‚½”
-
 	Display();
 	~Display();
 
 	void Update();
 	void Draw() {};
 	void Draw(const Player& player);
+
+	void DrawHp(VECTOR hpPos, int hitPoint, int maxHp);	//HPƒo[‚Ì•`‰æ
 };
 
 #endif

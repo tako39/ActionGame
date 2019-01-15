@@ -33,10 +33,15 @@ public:
 	int randomDir();		//ランダムで向きを決める
 	float randomSpeed();	//ランダムで移動速度を決める
 
+	void Move(float moveY, float moveX);	//移動時の処理
+	void LookAhead();	//先を見て落ちないように向きを変える
+
+	void GroundCheck();	//接地判定
+
 	void Collision(const Player& player, BulletMgr& bulletMgr, BombMgr& bombMgr);	//当たり判定
 	bool CollisionPunch(const Player& player);	//当たり判定（パンチ）
 	bool CollisionBullet(BulletMgr& bulletMgr);	//当たり判定（弾）
-	bool CollisionBomb(BombMgr& bombMgr);	//当たり判定（爆弾）
+	bool CollisionBomb(BombMgr& bombMgr);		//当たり判定（爆弾）
 };
 
 #endif
