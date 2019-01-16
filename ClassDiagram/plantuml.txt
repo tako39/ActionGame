@@ -26,48 +26,48 @@ class Bullet
 class BombMgr
 class Bomb
 
-SceneMgr *-- BaseScene
+SceneMgr "1" *-- "1" BaseScene
 
 BaseScene <|-- Menu
 BaseScene <|-- Game
 BaseScene <|-- GameOver
 BaseScene <|-- GameClear
 
-ISceneChanger <|.. SceneMgr
-ISceneChanger <.. Game
-ISceneChanger <.. Menu
-ISceneChanger <.. GameOver
-ISceneChanger <.. GameClear
+ISceneChanger <|-- SceneMgr
+ISceneChanger <..  Game
+ISceneChanger <..  Menu
+ISceneChanger <..  GameOver
+ISceneChanger <..  GameClear
 
 Manual <.. Game
 Manual <.. Menu
 
 Object <|-- Player
 Object <|-- Enemy
-Enemy <|-- Enemy_Zako
-Enemy <|-- Enemy_Tall
-Enemy <|-- Enemy_Big
-Enemy <|-- Enemy_Boss
+Enemy  <|-- Enemy_Zako
+Enemy  <|-- Enemy_Tall
+Enemy  <|-- Enemy_Big
+Enemy  <|-- Enemy_Boss
 Object <|-- Bullet
 Object <|-- Bomb
 
-Menu *-- Player
-Menu *-- BulletMgr
-Menu *-- BombMgr
-Menu *-- Map
+Menu "1" *-- "1" Player
+Menu "1" *-- "1" BulletMgr
+Menu "1" *-- "1" BombMgr
+Menu "1" *-- "1" Map
 
-Game o-- BossStage
-Game *-- Player
-Game *-- EnemyMgr
-Game *-- BulletMgr
-Game *-- BombMgr
-Game *-- Map
-Game *-- Display
+Game "1" o-- "1" BossStage
+Game "1" *-- "1" Player
+Game "1" *-- "1" EnemyMgr
+Game "1" *-- "1" BulletMgr
+Game "1" *-- "1" BombMgr
+Game "1" *-- "1" Map
+Game "1" *-- "1" Display
 
 BulletMgr <.. Player
-BombMgr <.. Player
+BombMgr   <.. Player
 
-EnemyMgr *-- Enemy
-BulletMgr *-- Bullet
-BombMgr *-- Bomb
+EnemyMgr  "1" *-- "*" Enemy
+BulletMgr "1" *-- "*" Bullet
+BombMgr   "1" *-- "*" Bomb
 @enduml
