@@ -95,12 +95,12 @@ void Boss::Draw(const Player& player) {
 		if (direct == DIR_RIGHT) {
 			sandPos.x = screenPos.x - CHIP_SIZE * 2;
 			sandPos.y = screenPos.y + CHIP_SIZE * 1;
-			DrawGraph(sandPos.x, sandPos.y, sandGprahic_r, TRUE);
+			DrawGraph((int)sandPos.x, (int)sandPos.y, sandGprahic_r, TRUE);
 		}
 		else {
 			sandPos.x = screenPos.x + size.x;
 			sandPos.y = screenPos.y + CHIP_SIZE * 1;
-			DrawGraph(sandPos.x, sandPos.y, sandGraphic_l, TRUE);
+			DrawGraph((int)sandPos.x, (int)sandPos.y, sandGraphic_l, TRUE);
 		}
 	}
 }

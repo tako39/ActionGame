@@ -33,24 +33,24 @@ void Bomb::Update() {
 
 void Bomb::Draw(const Player& player) {
 
-	if ((int)player.GetPos().x < SCREEN_HALF_W) {
-		screenPos.x = (int)pos.x;
+	if (player.GetPos().x < SCREEN_HALF_W) {
+		screenPos.x = pos.x;
 	}
-	else if ((int)player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
-		screenPos.x = SCREEN_HALF_W + (int)pos.x - (int)player.GetPos().x;
+	else if (player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
+		screenPos.x = SCREEN_HALF_W + pos.x - player.GetPos().x;
 	}
 	else {
-		screenPos.x = (int)pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
+		screenPos.x = pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	if ((int)player.GetPos().y < SCREEN_HALF_H) {
-		screenPos.y = (int)pos.y;
+	if (player.GetPos().y < SCREEN_HALF_H) {
+		screenPos.y = pos.y;
 	}
-	else if ((int)player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
-		screenPos.y = SCREEN_HALF_H + (int)pos.y - (int)player.GetPos().y;
+	else if (player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
+		screenPos.y = SCREEN_HALF_H + pos.y - player.GetPos().y;
 	}
 	else {
-		screenPos.y = (int)pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
+		screenPos.y = pos.y - (STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HEIGHT);
 	}
 
 	//ƒJƒEƒ“ƒg‚É‚æ‚Á‚Ä‰æ‘œ‚ð•Ï‚¦‚é

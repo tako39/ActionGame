@@ -8,10 +8,11 @@
 #include <math.h>
 
 bool Player::isFirstPunch;
+float Player::xPos;
 
 Player::Player() {
 	SetHitPoint(MAX_HP);
-	size = VGet(CHIP_SIZE, CHIP_SIZE, 0.0f);	//大きさ
+	size = VGet(CHIP_SIZE * 1.0f, CHIP_SIZE * 1.0f, 0.0f);	//大きさ
 
 	jumpSound = LoadSoundMem("sound/jump.mp3");
 	damageSound = LoadSoundMem("sound/damage_player.mp3");
@@ -23,13 +24,14 @@ Player::Player() {
 	punchGraphic_L = LoadGraph("image/arrow_l.png");
 	hideGraphic = LoadGraph("image/player_hide.png");
 
-	pos = firstPos[SceneMgr::nowStage];
+	pos = firstPos[SceneMgr::nowStage];	//初期位置の設定
+	xPos = pos.x;
 	direct = DIR_RIGHT;	//始めは右向きとする
 	jump_Flag = false;	//ジャンプしていない状態
 	ver_Speed = 0.0f;
 
-	degree = 0.0f;
-	isPunch = false;	//パンチしていない状態
+	degree = 0.0f;		//パンチしていない状態
+	isPunch = false;
 	isFirstPunch = false;
 
 	damaged = false;	//ダメージを受けていない状態
@@ -43,6 +45,7 @@ Player::~Player() {
 }
 
 void Player::Update(BulletMgr& bulletMgr, BombMgr& bombMgr) {
+	xPos = pos.x;
 
 	if (GetHitPoint() <= 0) {	//体力が０以下の時
 		SetExist(false);
@@ -94,12 +97,12 @@ void Player::Update(BulletMgr& bulletMgr, BombMgr& bombMgr) {
 	}
 
 	//まだ攻撃していないなら、Sボタンで弾を発射
-	if (GetKey(KEY_INPUT_S) == 1 && !isAttack) {
+	if ((GetKey(KEY_INPUT_S) == 1) && !isAttack) {
 		isAttack = true;
 		bulletMgr.Shot(*this);
 	}
 	//まだ攻撃していないなら、Dボタンで爆弾を設置
-	if (GetKey(KEY_INPUT_D) == 1 & !isAttack) {
+	if ((GetKey(KEY_INPUT_D) == 1) && !isAttack) {
 		isAttack = true;
 		bombMgr.BombSet(*this);
 	}

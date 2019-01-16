@@ -42,6 +42,7 @@ private:
 
 public:
 	static bool isFirstPunch;		//最初のパンチ
+	static float xPos;				//プレイヤ―のpos.x
 
 	Player();
 	~Player();

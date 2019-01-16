@@ -1,59 +1,73 @@
 @startuml
-abstract class Task
-
 class SceneMgr
 
 abstract class ISceneChanger
 abstract class BaseScene
 class Menu
 class Game
+class GameOver
+class GameClear
+
 class Manual
+class Display
+class BossStage
 
 abstract class Object
 class Player
 class EnemyMgr
 abstract class Enemy
 class Enemy_Zako
+class Enemy_Tall
+class Enemy_Big
+class Enemy_Boss
 class Map
 class BulletMgr
 class Bullet
+class BombMgr
+class Bomb
 
-class Display
-
-Task <|-- SceneMgr
-Task <|-- BaseScene
 SceneMgr *-- BaseScene
 
 BaseScene <|-- Menu
 BaseScene <|-- Game
-BaseScene <|-- Manual
+BaseScene <|-- GameOver
+BaseScene <|-- GameClear
 
 ISceneChanger <|.. SceneMgr
-ISceneChanger <.. Menu
 ISceneChanger <.. Game
-ISceneChanger <.. Manual
+ISceneChanger <.. Menu
+ISceneChanger <.. GameOver
+ISceneChanger <.. GameClear
 
-Menu <.. Game
-Menu <.. Manual
+Manual <.. Game
+Manual <.. Menu
 
-Task <|-- Object
 Object <|-- Player
 Object <|-- Enemy
 Enemy <|-- Enemy_Zako
+Enemy <|-- Enemy_Tall
+Enemy <|-- Enemy_Big
+Enemy <|-- Enemy_Boss
 Object <|-- Bullet
-Game o-- Player
+Object <|-- Bomb
 
-Task <|-- EnemyMgr
+Menu *-- Player
+Menu *-- BulletMgr
+Menu *-- BombMgr
+Menu *-- Map
+
+Game o-- BossStage
+Game *-- Player
+Game *-- EnemyMgr
+Game *-- BulletMgr
+Game *-- BombMgr
+Game *-- Map
+Game *-- Display
+
+BulletMgr <.. Player
+BombMgr <.. Player
+
 EnemyMgr *-- Enemy
-Game o-- EnemyMgr
-
-Task <|-- BulletMgr
 BulletMgr *-- Bullet
-Game o-- BulletMgr
-
-Task <|-- Map
-Game o-- Map
-
-Task <|-- Display
-Game o-- Display
+BombMgr *-- Bomb
 @enduml
