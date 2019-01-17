@@ -13,8 +13,8 @@ public:
 	BaseScene(ISceneChanger* changer);
 	virtual ~BaseScene();
 
-	virtual void Update() override {}	//更新処理をオーバーライド。
-	virtual void Draw() override {};	//描画処理をオーバーライド。
+	virtual void Update() {};
+	virtual void Draw() {};
 };
 
 #endif

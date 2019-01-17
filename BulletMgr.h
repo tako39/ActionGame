@@ -9,11 +9,12 @@
 class Bullet;
 class Player;
 
+//’e‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class BulletMgr : public Task {
 private:
-	int bulletSound;	//’e‚ğ”­Ë‚µ‚½‚Æ‚«‚Ì‰¹
+	int bulletSound;			//’e‚ğ”­Ë‚µ‚½‚Æ‚«‚Ì‰¹
 
-	Bullet *bullet[BULLET_NUM];
+	Bullet *bullet[BULLET_NUM];	//’e
 	int deleteTime[BULLET_NUM];	//’e‚ğÁ”ï‚µ‚½ŠÔ
 
 public:
@@ -25,7 +26,7 @@ public:
 	void Draw() {};
 	void Draw(const Player& player);
 
-	bool IsExist(int num) const {	//‘¶İ‚·‚é‚©‚Ç‚¤‚©
+	bool IsExist(int num) const {			//‘¶İ‚·‚é‚©‚Ç‚¤‚©
 		if (bullet[num] != NULL) return true;
 		else return false;
 	}
@@ -33,13 +34,13 @@ public:
 		return bullet[num]->GetPos();
 	}
 
-	void DeleteBullet(int num) {	//bullet[num]‚ğíœ
+	void DeleteBullet(int num) {			//bullet[num]‚ğíœ
 		delete bullet[num];
 		bullet[num] = NULL;
 		deleteTime[num] = GetNowCount();
 	}
 
-	void Shot(const Player& player);	//’e‚ğ—LŒø‚É‚·‚é
+	void Shot(const Player& player);		//’e‚ğ—LŒø‚É‚·‚é
 };
 
 #endif

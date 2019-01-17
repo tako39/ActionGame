@@ -18,14 +18,14 @@ private:
 	BombMgr *bombMgr;
 	Manual *manual;
 
-	bool mPush;
+	bool mPush;		//Ｍキーが押された状態か
 
 public:
 	Menu(ISceneChanger* changer);
 	~Menu();
 
-	void Update()     override;  //更新処理をオーバーライド。
-	void Draw()       override;  //描画処理をオーバーライド。
+	void Update();
+	void Draw();
 };
 
 #endif

@@ -5,10 +5,9 @@
 #include "Map.h"
 
 Object::Object() {
-	//‰Šú‰»‚µ‚Ä‚¨‚­
-	jump_Flag = false;
-	ver_Speed = 0.0f;
 	isExist = true;
+	ver_Speed = 0.0f;
+	jump_Flag = false;
 }
 
 Object::~Object() {

@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 
+//Enemy_Big‚ğ¶¬‚·‚éƒNƒ‰ƒX
 class Big : public Enemy {
 public:
 	Big();

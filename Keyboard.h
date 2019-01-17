@@ -5,8 +5,9 @@
 #include "DxLib.h"
 #include "climits"
 
-void UpdateKey(); //キーの入力情報の更新
+//キーボードからの入力
 
-int GetKey(int keyCode); //キーの入力情報の取得
+void UpdateKey();			//キーの入力情報の更新
+int GetKey(int keyCode);	//キーの入力情報の取得
 
 #endif

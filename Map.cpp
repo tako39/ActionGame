@@ -9,7 +9,7 @@
 Map::Map() {
 	back_Graphic   = LoadGraph("image/back_Graphic.png");
 	ground_Graphic = LoadGraph("image/ground_Graphic.png");
-	cloud_Graphic = LoadGraph("image/cloud.png");
+	cloud_Graphic  = LoadGraph("image/cloud.png");
 
 	for (int i = 0; i <= 25; i++) {
 		std::string s = "image/image_";

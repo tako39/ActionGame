@@ -13,28 +13,23 @@ EnemyMgr::EnemyMgr() {
 	}
 }
 
+//typeÇÃìGÇenemyNumïCê∂ê¨
 EnemyMgr::EnemyMgr(int type, int enemyNum) {
 	for (int num = 0; num < MAX_ENEMY; num++) {
 		enemy[num] = NULL;
 	}
 
-	if (type == ENEMY_ZAKO) {
-		for (int num = 0; num < enemyNum; num++) {
+	for (int num = 0; num < enemyNum; num++) {
+		if (type == ENEMY_ZAKO) {
 			enemy[num] = new Zako();
 		}
-	}
-	else if (type == ENEMY_TALL) {
-		for (int num = 0; num < enemyNum; num++) {
+		else if (type == ENEMY_TALL) {
 			enemy[num] = new Tall();
 		}
-	}
-	else if (type == ENEMY_BIG) {
-		for (int num = 0; num < enemyNum; num++) {
+		else if (type == ENEMY_BIG) {
 			enemy[num] = new Big();
 		}
-	}
-	else if (type == ENEMY_BOSS) {
-		for (int num = 0; num < enemyNum; num++) {
+		else if (type == ENEMY_BOSS) {
 			enemy[num] = new Boss();
 		}
 	}
@@ -85,27 +80,27 @@ void EnemyMgr::Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 		if (enemy[num] != NULL) {
 			int type = enemy[num]->GetType();
 
-			enemy[num]->Update();		//çXêV
-			enemy[num]->Update(player);	//çXêV
+			enemy[num]->Update();					//çXêV
+			enemy[num]->Update(player);				//çXêV
 			enemy[num]->Collision(player, bulletMgr, bombMgr);	//ìñÇΩÇËîªíË
 
-			if (enemy[num]->GetHitPoint() <= 0) {	//ì|Ç≥ÇÍÇΩÇ∆Ç´
+			if (enemy[num]->GetHitPoint() <= 0) {	//HPÇ™0à»â∫ÇÃÇ∆Ç´
 				enemy[num]->SetExist(false);
 
-				if (type == ENEMY_ZAKO) {
+				if (type == ENEMY_ZAKO) {			//è¡Ç¶ÇÈ
 					enemy[num] = NULL;
 				}
-				else if (type == ENEMY_TALL) {
+				else if (type == ENEMY_TALL) {		//ZakoÇê∂ê¨
 					VECTOR tallPos = enemy[num]->GetPos();
 					enemy[num] = new Zako();
 					enemy[num]->SetPos(tallPos);
 				}
-				else if (type == ENEMY_BIG) {
+				else if (type == ENEMY_BIG) {		//TallÇê∂ê¨
 					VECTOR bigPos = enemy[num]->GetPos();
 					enemy[num] = new Tall();
 					enemy[num]->SetPos(bigPos);
 				}
-				else if (type == ENEMY_BOSS) {
+				else if (type == ENEMY_BOSS) {		//è¡Ç¶ÇÈ
 					enemy[num] = NULL;
 				}
 			}
@@ -116,8 +111,8 @@ void EnemyMgr::Update(const Player& player, BulletMgr& bulletMgr, BombMgr& bombM
 void EnemyMgr::Draw(const Player& player) {
 	for (int num = 0; num < MAX_ENEMY; num++) {
 		if (enemy[num] != NULL) {
-			enemy[num]->Draw();  //ï`âÊ
-			enemy[num]->Draw(player);
+			enemy[num]->Draw();			//ï`âÊ
+			enemy[num]->Draw(player);	//ï`âÊ
 		}
 	}
 }

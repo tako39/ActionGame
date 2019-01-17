@@ -6,6 +6,7 @@
 
 class Player;
 
+//’e‚ÌƒNƒ‰ƒX
 class Bullet : public Object {
 private:
 	int bulletGraphic;	//’e‚Ì‰æ‘œ

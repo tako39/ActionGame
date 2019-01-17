@@ -18,12 +18,12 @@ public:
 	Map();
 	~Map();
 
-	void Update();	//更新
-	void Draw() {}   //描画
+	void Update();		//更新
+	void Draw() {};		//描画
 	void Draw(const Player& player);
 
-	static int GetMap(int y, int x);  //map[y][x]の値の取得
-	static int GetMapChip(float y, float x);  //位置(x, y)に該当するマップチップの値の取得
+	static int GetMap(int y, int x);			//map[y][x]の値の取得
+	static int GetMapChip(float y, float x);	//位置(x, y)に該当するマップチップの値の取得
 };
 
 #endif

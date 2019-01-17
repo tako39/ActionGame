@@ -2,6 +2,7 @@
 
 static int key[KEY_NUM];
 
+//キーの状態の更新
 void UpdateKey() {
 	//現在のキー入力状態の格納
 	char tmpKey[KEY_NUM];
@@ -28,6 +29,7 @@ void UpdateKey() {
 	}
 }
 
+//キー入力の取得
 int GetKey(int keyCode) {
 	return key[keyCode];
 }

@@ -11,6 +11,7 @@ class Enemy;
 class BulletMgr;
 class BombMgr;
 
+//“G‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class EnemyMgr : public Task {
 private:
 	Enemy *enemy[MAX_ENEMY];	//“G

@@ -17,8 +17,8 @@ Enemy::~Enemy() {
 }
 
 void Enemy::EnemyDraw(const Player& player) {
-
-	if (player.GetPos().x < SCREEN_HALF_W) {
+	//スクロール処理
+	if (player.GetPos().x < SCREEN_HALF_W) {	//横
 		screenPos.x = pos.x;
 	}
 	else if (player.GetPos().x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
@@ -28,7 +28,7 @@ void Enemy::EnemyDraw(const Player& player) {
 		screenPos.x = pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	if (player.GetPos().y < SCREEN_HALF_H) {
+	if (player.GetPos().y < SCREEN_HALF_H) {	//縦
 		screenPos.y = pos.y;
 	}
 	else if (player.GetPos().y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
@@ -46,11 +46,11 @@ void Enemy::EnemyDraw(const Player& player) {
 		DrawGraph((int)screenPos.x, (int)screenPos.y, graphic_L, FALSE);
 	}
 
-	HpDraw();	//hpの描画
+	HpDraw();	//HPの描画
 }
 
 void Enemy::HpDraw() {
-	int maxHp;	//最大hp
+	int maxHp;	//最大HPをそれぞれ設定
 	if (enemyType == ENEMY_ZAKO) {
 		maxHp = HP_ZAKO;
 	}
@@ -64,7 +64,7 @@ void Enemy::HpDraw() {
 		maxHp = HP_BOSS;
 	}
 
-	SetFontSize(12);
+	SetFontSize(12);	//敵の頭上にHPを描く
 	DrawFormatString((int)screenPos.x, (int)screenPos.y - 12, GetColor(50, 50, 50), "%d/%d", hitPoint, maxHp);
 }
 
@@ -88,7 +88,7 @@ VECTOR Enemy::randomPos(int h, int w) {
 
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-				//敵がマップからはみ出るなら
+				//敵がマップからはみ出るなら配置しない
 				if (Map::GetMap(posY + CHIP_SIZE * y, posX + CHIP_SIZE * x) != BACK) {
 					canPut = false;
 					break;
@@ -96,7 +96,7 @@ VECTOR Enemy::randomPos(int h, int w) {
 			}
 		}
 
-		if (canPut) break;	//敵が配置できるときループを抜ける
+		if (canPut) break;		//敵が配置できるときループを抜ける
 	}
 	return VGet((float)posX * CHIP_SIZE, (float)posY * CHIP_SIZE, 0.0f);
 }
@@ -109,13 +109,14 @@ int Enemy::randomDir() {
 	else return DIR_RIGHT;
 }
 
-//スピードの決定
+//スピードの決定(2.0f~4.0f)
 float Enemy::randomSpeed() {
 	float speed = 2.0f;
 	float decimal = GetRand(20) / 10.0f;
 	return speed + decimal;
 }
 
+//移動
 void Enemy::Move(float moveY, float moveX) {
 	float dummy = 0.0f;
 	//上下成分の移動
@@ -131,12 +132,10 @@ void Enemy::Move(float moveY, float moveX) {
 		//左下
 		if (MapCollision(pos.y + size.y - EPS, pos.x + EPS, moveY, dummy) == UP) {
 			ver_Speed = 0.0f;
-			isGround = true;
 		}
 		//右下
 		if (MapCollision(pos.y + size.y - EPS, pos.x + size.x - EPS, moveY, dummy) == UP) {
 			ver_Speed = 0.0f;
-			isGround = true;
 		}
 
 		pos.y += moveY;
@@ -164,20 +163,21 @@ void Enemy::Move(float moveY, float moveX) {
 	}
 }
 
+//次の移動で落ちるとき,向きを変える
 void Enemy::LookAhead() {
-	//次の移動で落ちるとき、向きを変える
 	float nextMove = enemySpeed * direct;
 	//進む先に地面がないなら向きを変える
 	int leftEnd = Map::GetMapChip(pos.y + size.y - EPS + CHIP_SIZE / 4, pos.x + EPS + nextMove);
 	if ((leftEnd != GROUND) && (leftEnd != CLOUD)) {
-		direct = DIR_RIGHT;	//左端が当たったら右に
+		direct = DIR_RIGHT;		//左端が当たったら右に
 	}
 	int rightEnd = Map::GetMapChip(pos.y + size.y - EPS + CHIP_SIZE / 4, pos.x + size.x - EPS + nextMove);
 	if ((rightEnd != GROUND) && (rightEnd != CLOUD)) {
-		direct = DIR_LEFT;	//右端が当たったら左に
+		direct = DIR_LEFT;		//右端が当たったら左に
 	}
 }
 
+//接地判定
 void Enemy::GroundCheck() {
 	int leftGround = Map::GetMapChip(pos.y + size.y + EPS, pos.x + EPS);
 	int rightGround = Map::GetMapChip(pos.y + size.y + EPS, pos.x + size.x - EPS);
@@ -207,9 +207,9 @@ bool Enemy::CollisionPunch(const Player& player) {
 	if (Player::isFirstPunch &&
 		(fabs(pos.x + size.x / 2 - (player.GetPunchPos().x + PUNCH_WIDTH / 2)) < size.x / 2 + PUNCH_WIDTH / 2) &&
 		(fabs(pos.y + size.y / 2 - (player.GetPunchPos().y + PUNCH_HEIGHT / 2)) < size.y / 2 + PUNCH_HEIGHT / 2)) {
-		Damaged(DAMAGE_PUNCH);	//ダメージを受ける
-		PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
-		Player::isFirstPunch = false;
+		Damaged(DAMAGE_PUNCH);							//ダメージを受ける
+		PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音を鳴らす
+		Player::isFirstPunch = false;					//パンチが当たった
 		return true;
 	}
 	return false;
@@ -222,9 +222,9 @@ bool Enemy::CollisionBullet(BulletMgr& bulletMgr) {
 			VECTOR bulletPos = bulletMgr.GetBulletPos(bulletNum);
 			if ((fabs(pos.x + size.x / 2 - (bulletPos.x + BULLET_WIDTH / 2)) < size.x + BULLET_WIDTH / 2) &&
 				(fabs(pos.y + size.y / 2 - (bulletPos.y + BULLET_HEIGHT / 2)) < size.y + BULLET_HEIGHT / 2)) {
-				Damaged(DAMAGE_BULLET);		//ダメージを受ける
-				bulletMgr.DeleteBullet(bulletNum);	//弾の消滅
-				PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
+				Damaged(DAMAGE_BULLET);					//ダメージを受ける
+				bulletMgr.DeleteBullet(bulletNum);		//弾の消滅
+				PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音を鳴らす
 				return true;
 			}
 		}
@@ -240,8 +240,8 @@ bool Enemy::CollisionBomb(BombMgr& bombMgr) {
 			//爆弾の周囲２マス分の距離にいるなら当たる
 			if ((fabs(pos.x + size.x / 2 - (bombPos.x + BOMB_WIDTH  / 2)) < size.x / 2 + BOMB_WIDTH  / 2 + BOMB_RANGE) &&
 				(fabs(pos.y + size.y / 2 - (bombPos.y + BOMB_HEIGHT / 2)) < size.y / 2 + BOMB_HEIGHT / 2 + BOMB_RANGE)) {
-				Damaged(DAMAGE_BOMB);	//ダメージを受ける
-				PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音
+				Damaged(DAMAGE_BOMB);							//ダメージを受ける
+				PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージ音を鳴らす
 				return true;
 			}
 		}

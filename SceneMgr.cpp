@@ -8,9 +8,9 @@
 
 int SceneMgr::nowStage = 0;
 
-SceneMgr::SceneMgr() : mNextScene(eScene_None) //次のシーン管理変数
+SceneMgr::SceneMgr() : mNextScene(eScene_None)	//次のシーン管理変数
 {
-	mScene = (BaseScene*) new Menu(this);
+	mScene = (BaseScene*) new Menu(this);		//始めはMenu画面から
 	selectSound = LoadSoundMem("sound/select.mp3");
 }
 

@@ -1,5 +1,6 @@
 #ifndef ___Define
 #define ___Define
+//定義するクラス
 
 //スクリーン
 const int SCREEN_WIDTH = 640;	// 画面の横幅
@@ -105,12 +106,6 @@ const int RIGHT = 3;	//右
 
 //キーボード
 const int KEY_NUM = 256;	//入力
-
-//点数
-const int POINT_ENEMY_ZAKO = 10;	//Zakoで得られるポイント
-const int POINT_ENEMY_TALL = 10;	//Tallで得られるポイント
-const int POINT_ENEMY_BIG = 10;		//Big で得られるポイント
-const int POINT_ENEMY_BOSS = 10;	//Bossで得られるポイント
 
 //その他
 const int fps = 60;			//一秒間の描画数

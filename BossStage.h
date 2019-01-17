@@ -9,13 +9,14 @@ class Player;
 class BulletMgr;
 class BombMgr;
 
+//ボスステージのクラス
 class BossStage : public Task {
 private:
-	EnemyMgr *bossFriendMgr;
+	EnemyMgr *bossFriendMgr;	//ボスが生成する仲間
 
-	int bossStageGraphic;
-	int bossStageSound;
-	int frameCount;
+	int bossStageGraphic;		//ボスステージの開始画像
+	int bossStageSound;			//ボスステージの音楽
+	int frameCount;				//フレームのカウント
 
 public:
 	BossStage();
@@ -26,8 +27,8 @@ public:
 	void Draw() {};
 	void Draw(const Player& player);
 
-	bool StageStart();		//最初の描画用
-	bool FrameCheck() {		//最初の描画中であるか
+	bool StageStart();			//ボスステージ導入部分の描画用
+	bool FrameCheck() {			//ボスステージ導入部分の描画中であるか
 		if (frameCount > 180) return false;
 		return true;
 	}

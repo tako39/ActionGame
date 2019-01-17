@@ -11,8 +11,8 @@ bool Player::isFirstPunch;
 float Player::xPos;
 
 Player::Player() {
-	SetHitPoint(MAX_HP);
-	size = VGet(CHIP_SIZE * 1.0f, CHIP_SIZE * 1.0f, 0.0f);	//大きさ
+	SetHitPoint(MAX_HP);	//体力の設定
+	size = VGet(CHIP_SIZE * 1.0f, CHIP_SIZE * 1.0f, 0.0f);	//大きさの設定
 
 	jumpSound = LoadSoundMem("sound/jump.mp3");
 	damageSound = LoadSoundMem("sound/damage_player.mp3");
@@ -25,19 +25,19 @@ Player::Player() {
 	hideGraphic = LoadGraph("image/player_hide.png");
 
 	pos = firstPos[SceneMgr::nowStage];	//初期位置の設定
-	xPos = pos.x;
-	direct = DIR_RIGHT;	//始めは右向きとする
-	jump_Flag = false;	//ジャンプしていない状態
-	ver_Speed = 0.0f;
+	xPos = pos.x;			//xの位置
+	direct = DIR_RIGHT;		//始めは右向きとする
+	jump_Flag = false;		//ジャンプが可能な（ジャンプしていない）状態
+	ver_Speed = 0.0f;		//垂直方向の移動
 
-	degree = 0.0f;		//パンチしていない状態
-	isPunch = false;
-	isFirstPunch = false;
+	degree = 0.0f;			//パンチの周期0
+	isPunch = false;		//パンチしていない状態
+	isFirstPunch = false;	//敵に当たっていない状態
 
-	damaged = false;	//ダメージを受けていない状態
-	flashCount = 0;
+	damaged = false;		//ダメージを受けていない状態
+	flashCount = 0;			//フレームカウントの初期化
 
-	isHide = false;		//隠れていない状態
+	isHide = false;			//隠れていない状態
 }
 
 Player::~Player() {
@@ -45,7 +45,7 @@ Player::~Player() {
 }
 
 void Player::Update(BulletMgr& bulletMgr, BombMgr& bombMgr) {
-	xPos = pos.x;
+	xPos = pos.x;	//xの位置
 
 	if (GetHitPoint() <= 0) {	//体力が０以下の時
 		SetExist(false);
@@ -64,7 +64,7 @@ void Player::Update(BulletMgr& bulletMgr, BombMgr& bombMgr) {
 
 	//右への移動
 	if (GetKey(KEY_INPUT_RIGHT) > 0) {
-		move.x += jump_Flag ? AirSpeed : Speed;
+		move.x += jump_Flag ? AirSpeed : Speed;	//ジャンプ中は速度を変える
 		direct = DIR_RIGHT;
 	}
 
@@ -91,9 +91,9 @@ void Player::Update(BulletMgr& bulletMgr, BombMgr& bombMgr) {
 		punchDir = direct; //ボタンを押した時の向きに攻撃
 	}
 
-	if (isPunch) {
-		PlaySoundMem(punchSound, DX_PLAYTYPE_BACK);	//パンチしたときの音
-		Attack();
+	if (isPunch) {	//パンチしているとき
+		PlaySoundMem(punchSound, DX_PLAYTYPE_BACK);	//パンチ音を鳴らす
+		PunchAttack();
 	}
 
 	//まだ攻撃していないなら、Sボタンで弾を発射
@@ -117,17 +117,18 @@ void Player::Draw() {
 	//スクロール処理
 	screenPos = VGet((float)SCREEN_HALF_W, (float)SCREEN_HALF_H, 0.0f);
 
-	if ((int)pos.x < SCREEN_HALF_W) {	//画面の半分以下
+	//実際の位置によって描画位置を変える
+	if ((int)pos.x < SCREEN_HALF_W) {	//横
 		screenPos.x = pos.x;
 	}
-	else if ((int)pos.x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {	//画面の半分
+	else if ((int)pos.x < STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_W) {
 		screenPos.x = SCREEN_HALF_W;
 	}
-	else {	//画面の半分以上
+	else {
 		screenPos.x = pos.x - (STAGE_WIDTH[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_WIDTH);
 	}
 
-	if ((int)pos.y < SCREEN_HALF_H) {
+	if ((int)pos.y < SCREEN_HALF_H) {	//縦
 		screenPos.y = pos.y;
 	}
 	else if ((int)pos.y < STAGE_HEIGHT[SceneMgr::nowStage] * CHIP_SIZE - SCREEN_HALF_H) {
@@ -142,7 +143,7 @@ void Player::Draw() {
 	if (isHide) {	//隠れているとき
 		graphic = hideGraphic;
 	}
-	else {
+	else {			//隠れていないとき
 		if (direct == DIR_RIGHT) {
 			graphic = graphic_R;
 		}
@@ -151,7 +152,7 @@ void Player::Draw() {
 		}
 	}
 
-	if (damaged) {
+	if (damaged) {	//ダメージを受けているとき点滅させる
 		if (flashCount % 3 == 0) DrawGraph((int)screenPos.x, (int)screenPos.y, graphic, FALSE);
 		flashCount++;
 		if (flashCount >= 3) flashCount = 0;
@@ -160,14 +161,13 @@ void Player::Draw() {
 		DrawGraph((int)screenPos.x, (int)screenPos.y, graphic, FALSE);
 	}
 
-	punchPos = pos;
+	punchPos = pos;	//パンチの位置
 	punchMove = VGet((float)sin(degree / 180.0f * PI) * CHIP_SIZE * 2 * punchDir, 0.0f, 0.0f);  //パンチの移動量
-	HitWall();  //壁当たった時の処理
+	HitWall();		//壁当たった時の処理
 
 	//パンチの描画
 	if (isPunch) {
-		//画面上のパンチの位置
-		VECTOR pPos = VGet(screenPos.x + punchMove.x, screenPos.y, 0.0f);
+		VECTOR pPos = VGet(screenPos.x + punchMove.x, screenPos.y, 0.0f);	//画面上のパンチの位置
 		if (direct == DIR_RIGHT) {
 			DrawGraph((int)pPos.x, (int)pPos.y, punchGraphic_R, TRUE);
 		}
@@ -219,21 +219,21 @@ void Player::Move(float moveY, float moveX) {
 	{
 		int ground_R = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + EPS);
 		int ground_L = Map::GetMapChip(pos.y + CHIP_SIZE + EPS + CHIP_SIZE / 4, pos.x + CHIP_SIZE - EPS);
-		//左下と右下に地面があるかどうか
+		//左下と右下に地面があるなら
 		if (ground_R == GROUND || ground_R == CLOUD || (20 <= ground_R && ground_R <= 45) ||
 			ground_L == GROUND || ground_R == CLOUD || (20 <= ground_L && ground_L <= 45)) {
-			jump_Flag = false;
+			jump_Flag = false;	//ジャンプできる
 		}
 		else {
-			jump_Flag = true;
+			jump_Flag = true;	//ジャンプできない
 		}
 	}
 }
 
-//攻撃
-void Player::Attack() {
-	degree += 10.0f;
-	if (degree >= 180.f) {
+//パンチ攻撃の周期の変更
+void Player::PunchAttack() {
+	degree += 10.0f;		//周期を増やす
+	if (degree >= 180.f) {	//パンチ終了
 		isPunch = false;
 		degree = 0.0f;
 	}
@@ -241,8 +241,8 @@ void Player::Attack() {
 
 //パンチが壁に当たった時の処理
 void Player::HitWall() {
-	float dummy = 0.0f;
-	bool tauch = false;  //壁に触れたか
+	float dummy = 0.0f;		//ダミー
+	bool tauch = false;		//壁に触れたか
 
 	//左上
 	if (MapCollision(punchPos.y + EPS, punchPos.x + EPS, dummy, punchMove.x) > 0) {
@@ -263,7 +263,7 @@ void Player::HitWall() {
 
 	punchPos.x += punchMove.x;
 
-	if (tauch) {
+	if (tauch) {	//壁に当たったならパンチを戻す
 		isPunch = false;
 		degree = 0.0f;
 	}
@@ -272,13 +272,12 @@ void Player::HitWall() {
 //敵に当たった時の処理(無敵時間あり)
 void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 	if (damaged) {
-		//ダメージを受けてから2秒以上経った時
-		if (GetNowCount() - flashStartTime > 2000) {
-			damaged = false;
+		if (GetNowCount() - flashStartTime > 2000) {	//ダメージを受けてから2秒以上経ったとき
+			damaged = false;							//ダメージを受けていない状態にする
 		}
 	}
 
-	if (isHide) return;	//隠れているときはダメージを受けない
+	if (isHide) return;		//隠れているときはダメージを受けない
 
 	if (!damaged) {
 		for (int num = 0; num < MAX_ENEMY; num++) {
@@ -308,9 +307,9 @@ void Player::HitEnemy(const EnemyMgr& enemyMgr) {
 				if ((fabs(pos.x + size.x / 2 - (enemyPos.x + enemySizeX / 2)) < size.x / 2 + enemySizeX / 2) &&
 					(fabs(pos.y + size.y / 2 - (enemyPos.y + enemySizeY / 2)) < size.y / 2 + enemySizeY / 2)) {
 					PlaySoundMem(damageSound, DX_PLAYTYPE_BACK);	//ダメージを受けたときの音
-					damaged = true;
-					flashStartTime = GetNowCount();	//ダメージを受けた時間の記憶
-					Damaged(10);	//10ダメージ受ける
+					damaged = true;						//ダメージを受けている状態にする
+					Damaged(10);						//10ダメージ受ける
+					flashStartTime = GetNowCount();		//ダメージを受けた時間の記憶
 					return;
 				}
 			}

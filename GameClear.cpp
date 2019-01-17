@@ -4,7 +4,8 @@
 GameClear::GameClear(ISceneChanger* changer) : BaseScene(changer) {
 	gameclearGraphic = LoadGraph("image/gameclear.png");
 	gameclearSound = LoadSoundMem("sound/gameclear.mp3");
-	PlaySoundMem(gameclearSound, DX_PLAYTYPE_LOOP);
+
+	PlaySoundMem(gameclearSound, DX_PLAYTYPE_LOOP);	//BGM
 }
 
 GameClear::~GameClear() {
@@ -12,8 +13,8 @@ GameClear::~GameClear() {
 }
 
 void GameClear::Update() {
-	if (CheckHitKey(KEY_INPUT_SPACE) != 0) {  //スペースキーが押されていたら
-		mSceneChanger->ChangeScene(eScene_Menu);  //シーンをメニュー画面に変更
+	if (CheckHitKey(KEY_INPUT_SPACE) != 0) {  //スペースキーが押されsたらメニュー画面に変更
+		mSceneChanger->ChangeScene(eScene_Menu);
 	}
 }
 

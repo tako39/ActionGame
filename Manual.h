@@ -6,8 +6,8 @@
 class Manual : public Task {
 private:
 	int manualImage;	//‰æ‘œ
-	const int manualSize_x = 520;
-	const int manualSize_y = 360;
+	const int MANUAL_WIDTH = 520;	//‰¡•
+	const int MANUAL_HEIGHT = 360;	//c•
 
 public:
 	Manual();

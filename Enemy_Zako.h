@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 
+//Enemy_Zako‚ğ¶¬‚·‚éƒNƒ‰ƒX
 class Zako : public Enemy {
 public:
 	Zako();

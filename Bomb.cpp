@@ -19,9 +19,8 @@ Bomb::~Bomb() {
 }
 
 void Bomb::Update() {
-	//設置してから3秒経ったとき爆発
-	if (GetNowCount() - setTime > 3000) {
-		PlaySoundMem(bombSound, DX_PLAYTYPE_BACK);	//爆弾が爆発したときの音
+	if (GetNowCount() - setTime > 3000) {			//設置してから3秒経ったとき爆発
+		PlaySoundMem(bombSound, DX_PLAYTYPE_BACK);	//爆弾の爆発音を鳴らす
 		isExist = false;
 	}
 	
@@ -32,7 +31,7 @@ void Bomb::Update() {
 }
 
 void Bomb::Draw(const Player& player) {
-
+	//スクロール処理
 	if (player.GetPos().x < SCREEN_HALF_W) {
 		screenPos.x = pos.x;
 	}
@@ -77,7 +76,7 @@ void Bomb::Draw(const Player& player) {
 
 //移動
 void Bomb::Move(float moveY, float moveX) {
-	float dummy = 0.0f;
+	float dummy = 0.0f;		//ダミー
 
 	//上下成分の移動
 	{

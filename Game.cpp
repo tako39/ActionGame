@@ -12,7 +12,11 @@
 #include "BossStage.h"
 
 Game::Game(ISceneChanger* changer) : BaseScene(changer) {
-	SceneMgr::nowStage = 1;	//ステージ1から始める
+	SceneMgr::nowStage = 1;		//ステージ1から始める
+
+	gameSound = LoadSoundMem("sound/game.mp3");	//BGM
+	PlaySoundMem(gameSound, DX_PLAYTYPE_LOOP);
+
 	enemyPhase = 0;
 	mPush = false;
 	player = new Player();
@@ -25,6 +29,8 @@ Game::Game(ISceneChanger* changer) : BaseScene(changer) {
 }
 
 Game::~Game() {
+	StopSoundMem(gameSound);
+
 	delete player;
 	delete map;
 	delete enemyMgr;
@@ -37,21 +43,21 @@ Game::~Game() {
 
 //更新
 void Game::Update() {
-	if (!player->GetExist()) {	//プレイヤーが倒されたら
-		mSceneChanger->ChangeScene(eScene_GameOver);	//シーンをゲームオーバーに変更
+	if (GetKey(KEY_INPUT_ESCAPE) != 0) {	//Escキーが押されていたらメニュー画面に変更
+		mSceneChanger->ChangeScene(eScene_Menu);
 	}
-	if (GetKey(KEY_INPUT_ESCAPE) != 0) {	//Escキーが押されていたら
-		mSceneChanger->ChangeScene(eScene_Menu);	//シーンをメニューに変更
+	if (!player->GetExist()) {				//プレイヤーが倒されたらゲームオーバー画面に変更
+		mSceneChanger->ChangeScene(eScene_GameOver);
 	}
-	if (GetKey(KEY_INPUT_M) == 1) {	//mが押された状態ならManualを表示
+	if (GetKey(KEY_INPUT_M) == 1) {			//Mキーが押された状態ならManualを表示
 		mPush = !mPush;
 	}
-	if (mPush) {	//Manual表示中は何も出来ない
+	if (mPush) {							//Manual表示中は何も出来ない
 		manual->Update();
 		return;
 	}
-	if (SceneMgr::nowStage == 2) {	//ボスステージの時
-		if (bossStage->FrameCheck()) {	//最初の3秒間は何もできない
+	if (SceneMgr::nowStage == 2) {			//ボスステージの時
+		if (bossStage->FrameCheck()) {		//最初の3秒間は何もできない
 			return;	
 		}
 	}
@@ -59,23 +65,23 @@ void Game::Update() {
 	player->Update(*bulletMgr, *bombMgr);	//プレイヤーの更新
 	player->HitEnemy(*enemyMgr);			//プレイヤーの敵との接触
 
-	map->Update();	//マップの更新	
+	map->Update();							//マップの更新	
 
-	bulletMgr->Update(*player);		//弾の更新
-	bombMgr->Update();				//爆弾の更新
+	bulletMgr->Update(*player);				//弾の更新
+	bombMgr->Update();						//爆弾の更新
 	enemyMgr->Update(*player, *bulletMgr, *bombMgr);	//敵の更新	
 	
 	//ボスステージのみの更新
 	if (SceneMgr::nowStage == 2) {
-		if (enemyMgr->IsExist(0)) {	//ボスが生きているなら
-			bossStage->Update(*player, *bulletMgr, *bombMgr, enemyMgr->GetEnemyPos(0));	//ボスの仲間の更新
+		if (enemyMgr->IsExist(0)) {			//ボスが生きているならボスの仲間を更新
+			bossStage->Update(*player, *bulletMgr, *bombMgr, enemyMgr->GetEnemyPos(0));
 		}
 	}
 	
-	bombMgr->DeleteBombAll();	//爆発した爆弾の処理
+	bombMgr->DeleteBombAll();				//爆発した爆弾の処理
 
-	display->Update();		//HPバーの更新
-	ChangeEnemyPhase();		//敵の生成段階の変更
+	display->Update();						//HPバーの更新
+	ChangeEnemyPhase();						//敵の生成段階の変更
 }
 
 void Game::ChangeEnemyPhase() {
@@ -94,6 +100,7 @@ void Game::ChangeEnemyPhase() {
 		enemyPhase++;
 	}
 	else if (enemyPhase == 3) {
+		StopSoundMem(gameSound);		//BGMを止める
 		bossStage = new BossStage();
 		enemyMgr = new EnemyMgr(ENEMY_BOSS, 1);
 		player->ResetPosition();
@@ -106,7 +113,7 @@ void Game::ChangeEnemyPhase() {
 
 //描画
 void Game::Draw() {
-	if (SceneMgr::nowStage == 2) {	//ボスステージの時
+	if (SceneMgr::nowStage == 2) {		//ボスステージの時
 		if (bossStage->StageStart()) {	//最初の3秒間のみ描画
 			return;
 		}
@@ -115,8 +122,8 @@ void Game::Draw() {
 	player->Draw();
 	bulletMgr->Draw(*player);
 	enemyMgr->Draw(*player);
-	if (SceneMgr::nowStage == 2) {	//ボスステージのみ
-		bossStage->Draw(*player);	//ボスの仲間の描画
+	if (SceneMgr::nowStage == 2) {		//ボスステージのみボスの仲間を描画
+		bossStage->Draw(*player);
 	}
 	bombMgr->Draw(*player);
 	display->Draw(*player);

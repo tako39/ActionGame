@@ -17,5 +17,5 @@ void Manual::Update() {
 
 //•`‰æ
 void Manual::Draw() {
-	DrawGraph((SCREEN_WIDTH - manualSize_x) / 2, (SCREEN_HEIGHT - manualSize_y) / 2, manualImage, FALSE);
+	DrawGraph((SCREEN_WIDTH - MANUAL_WIDTH) / 2, (SCREEN_HEIGHT - MANUAL_HEIGHT) / 2, manualImage, FALSE);
 }

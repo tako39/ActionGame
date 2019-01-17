@@ -15,6 +15,8 @@ class BossStage;
 //ƒQ[ƒ€‰æ–ÊƒNƒ‰ƒX
 class Game : public BaseScene {
 private:
+	int gameSound;	//ƒQ[ƒ€‚ÌBGM
+
 	Player * player;
 	Map *map;
 	EnemyMgr *enemyMgr;
@@ -25,7 +27,7 @@ private:
 	BossStage * bossStage;
 
 	int enemyPhase;	//“G‚Ì¶¬’iŠK
-	bool mPush;	//m‚ª‰Ÿ‚³‚ê‚½ó‘Ô‚©
+	bool mPush;		//m‚ª‰Ÿ‚³‚ê‚½ó‘Ô‚©
 
 public:
 	Game(ISceneChanger* changer);
@@ -34,7 +36,7 @@ public:
 	void Update();
 	void Draw();
 
-	void ChangeEnemyPhase();	//“G‚Ì’iŠK‚Ì•ÏX
+	void ChangeEnemyPhase();	//“G‚Ì¶¬’iŠK‚Ì•ÏX
 };
 
 #endif

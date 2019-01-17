@@ -8,6 +8,7 @@
 class Player;
 class EnemyMgr;
 
+//‰æ–Ê‚É•`‰æ‚·‚éƒNƒ‰ƒX
 class Display : public Task {
 private:
 	int hpGreeen;	//—ÎF‚ÌHP‚Ì‰æ‘œ

@@ -14,9 +14,9 @@ Zako::Zako() {
 	graphic_R = LoadGraph("image/enemyZako_r.png");
 	graphic_L = LoadGraph("image/enemyZako_l.png");
 	isGround = false;
-	pos = randomPos(1, 1);		//ランダムに位置を設定
-	direct = randomDir();		//ランダムに向きを決定
-	enemySpeed = randomSpeed();	//ランダムに速さを決定
+	pos = randomPos(1, 1);			//ランダムに位置を設定
+	direct = randomDir();			//ランダムに向きを決定
+	enemySpeed = randomSpeed();		//ランダムに速さを決定
 }
 
 Zako::~Zako() {
@@ -24,17 +24,18 @@ Zako::~Zako() {
 }
 
 void Zako::Update(const Player& player) {
+	GroundCheck();					//接地判定
 	move = VGet(0.0f, 0.0f, 0.0f);	//初期化
 
 	if (isGround) move.x += enemySpeed * direct;	//横方向の移動
 
-	ver_Speed += Gravity;	//重力を加える
+	ver_Speed += Gravity;			//重力を加える
 	move.y = ver_Speed;
 
-	Move(move.y, move.x);	//移動
-	LookAhead();	//落ちるとき向きを変える
+	Move(move.y, move.x);			//移動
+	LookAhead();					//落ちるとき向きを変える
 }
 
 void Zako::Draw(const Player& player) {
-	EnemyDraw(player);	//敵の描画
+	EnemyDraw(player);				//敵の描画
 }

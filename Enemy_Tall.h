@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 
+//Enemy_Tall‚ğ¶¬‚·‚éƒNƒ‰ƒX
 class Tall : public Enemy {
 public:
 	Tall();

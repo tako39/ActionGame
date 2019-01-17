@@ -20,8 +20,8 @@ Bullet::Bullet(const Player& player) {
 				   player.GetPos().y + CHIP_SIZE / 2 - BULLET_HEIGHT / 2,
 				   0.0f);
 	}
-	init = true;
-	totalMove = 0.0f;
+	init = true;		//生成時である
+	totalMove = 0.0f;	//総飛距離
 }
 
 Bullet::~Bullet() {
@@ -30,21 +30,21 @@ Bullet::~Bullet() {
 
 void Bullet::Update(const Player& player) {
 	move = VGet(0.0f, 0.0f, 0.0f);
-	if (!init) {	//生成時は移動しない
+	if (!init) {						//生成時は移動しない
 		move.x += bulletSpeed * direct;
 	}
 	else {
 		init = false;
 	}
-	HitWall();	//壁に当たった時の処理
-	totalMove += fabsf(move.x);	//移動距離を足す
+	HitWall();							//壁に当たった時の処理
+	totalMove += fabsf(move.x);			//移動距離を足す
 	if (totalMove > CHIP_SIZE * 8) {	//総移動距離が10マス分になったら消える
 		isExist = false;
 	}
 }
 
 void Bullet::Draw(const Player& player) {
-
+	//スクロール処理
 	if (player.GetPos().x < SCREEN_HALF_W) {
 		screenPos.x = pos.x;
 	}
@@ -93,6 +93,6 @@ void Bullet::HitWall() {
 	pos.x += move.x;
 
 	if (tauch) {
-		isExist = false;
+		isExist = false;	//壁に当たったら消す
 	}
 }

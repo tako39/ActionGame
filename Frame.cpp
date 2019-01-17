@@ -26,7 +26,7 @@ void Frame::Update() {
 }
 
 void Frame::Wait() {
-	int requiredTime = GetNowCount() - startTime;  //Š—vŽžŠÔ
+	int requiredTime = GetNowCount() - startTime;		//Š—vŽžŠÔ
 	int waitTime = count * 1000 / FPS - requiredTime;  //‘Ò‚ÂŽžŠÔ
 	if (waitTime > 0) {
 		Sleep(waitTime);  //‘Ò‹@‚·‚é

@@ -3,10 +3,11 @@
 
 #include "BaseScene.h"
 
+//ゲームクリアの画面クラス
 class GameClear : public BaseScene {
 private:
 	int gameclearGraphic;	//ゲームクリア画面
-	int gameclearSound;
+	int gameclearSound;		//ゲームクリアの音
 
 public:
 	GameClear(ISceneChanger* changer);

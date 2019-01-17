@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "Define.h"
 
+//Enemy_Bossを生成するクラス
 class Boss : public Enemy {
 private:
 	int fallSound;		//落ちるときの音
@@ -26,7 +27,7 @@ private:
 		VGet(25 * CHIP_SIZE, 10 * CHIP_SIZE, 0.0f),
 	};
 	bool isAction_Jump;		//Action_Jump中か
-	bool firstAction;		//Action_Jump開始時か
+	bool firstAction_Jump;		//Action_Jump開始時か
 	float diff_x, diff_y;	//posからupPosまでの差
 	bool isRise;			//上昇中か
 	bool isFall;			//落下中か

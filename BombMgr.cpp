@@ -20,8 +20,8 @@ void BombMgr::Update() {
 	for (int num = 0; num < BOMB_NUM; num++) {
 		if (bomb[num] != NULL) {
 			bomb[num]->Update();
-			if (bomb[num]->GetExist() == false) {
-				explosion[num] = true;	//爆発
+			if (bomb[num]->GetExist() == false) {	//bomb[num]が存在しないなら
+				explosion[num] = true;				//爆発させる
 			}
 		}
 	}
@@ -39,8 +39,8 @@ void BombMgr::BombSet(const Player& player) {
 	for (int num = 0; num < BOMB_NUM; num++) {
 		//NULLかつ、消費した時間から2秒経ったものを使用
 		if (bomb[num] == NULL && (GetNowCount() - deleteTime[num] > 2000)) {
-			PlaySoundMem(putSound, DX_PLAYTYPE_BACK);	//爆弾を置いたときの音
-			bomb[num] = new Bomb(player);
+			PlaySoundMem(putSound, DX_PLAYTYPE_BACK);	//爆弾の設置音を鳴らす
+			bomb[num] = new Bomb(player);				//爆弾を生成する
 			break;
 		}
 	}

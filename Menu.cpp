@@ -10,8 +10,8 @@
 #include "Keyboard.h"
 
 Menu::Menu(ISceneChanger* changer) : BaseScene(changer) {
-	SceneMgr::nowStage = 0;	//ステージ0にする
-	mPush = false;
+	SceneMgr::nowStage = 0;	//ステージを0にする
+	mPush = false;			//Mキーは押されていない状態
 
 	player = new Player();
 	map = new Map();
@@ -31,13 +31,13 @@ Menu::~Menu() {
 
 //更新
 void Menu::Update() {
-	if (GetKey(KEY_INPUT_G) != 0) {	//Gキーが押されていたら
-		mSceneChanger->ChangeScene(eScene_Game);  //シーンをゲーム画面に変更
+	if (GetKey(KEY_INPUT_G) != 0) {	//Gキーが押されていたらシーンをゲーム画面に変更
+		mSceneChanger->ChangeScene(eScene_Game);
 	}
-	if (GetKey(KEY_INPUT_M) == 1) {	//Mキーを押したらManualを表示
+	if (GetKey(KEY_INPUT_M) == 1) {	//Mキーを押されていたらManual状態を変更
 		mPush = !mPush;
 	}
-	if (mPush) {
+	if (mPush) {					//Mキーが押されている状態のときのみManualを表示
 		manual->Update();
 		return;
 	}

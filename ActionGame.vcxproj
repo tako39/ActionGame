@@ -175,7 +175,6 @@
     <ClCompile Include="Enemy_Zako.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="ISceneChanger.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
